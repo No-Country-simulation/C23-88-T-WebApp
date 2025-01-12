@@ -38,12 +38,12 @@ namespace Service.Services
                 return "Password is required";
             }
 
-            //Cuenta? cuentaexiste = _context.Cuenta.FirstOrDefault(x => x.Email == cuenta.Email);
+            Cuenta? cuentaexiste = _context.Cuenta.FirstOrDefault(x => x.Email == cuenta.Email);
 
-            //if (cuenta != null)
-            //{
-            //    return "Email is already in use";
-            //}
+            if (cuentaexiste != null)
+            {
+                return "Email is already in use";
+            }
 
             var nuevaCuenta = new Cuenta()
             {
@@ -53,7 +53,7 @@ namespace Service.Services
 
             _context.Cuenta.Add(nuevaCuenta);
             _context.SaveChanges();
-
+            
             // Crea el usuario asociado con la cuenta
             var nuevoUsuario = new Usuario()
             {
@@ -80,6 +80,7 @@ namespace Service.Services
                     {
                         new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                         new Claim(ClaimTypes.Email, user.Email),
+                        new Claim(ClaimTypes.Role, "1"),
                     }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
