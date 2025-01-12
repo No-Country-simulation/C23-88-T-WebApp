@@ -18,7 +18,7 @@ namespace Model.Modelos.Configurations
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Contraseña)
                 .IsRequired()
-                .HasMaxLength(45)
+                .HasMaxLength(255)
                 .HasColumnName("contraseña");
             entity.Property(e => e.Email)
                 .IsRequired()
