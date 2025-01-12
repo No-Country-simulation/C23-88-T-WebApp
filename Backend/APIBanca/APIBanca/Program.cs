@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-
+using AutoMapper;
 using System.Text;
 using Modelo.Helper;
 using Model.Modelos;
@@ -11,13 +11,16 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Register AutoMapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<BancaDBContext>(options =>
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 33))));
 // Injeccion de dependencia
 builder.Services.AddScoped<IAuthService, AuthService>();
-
+builder.Services.AddScoped<ICuentaService, CuentaService>();
 //JWT Configuration
 var appSettingsSection = builder.Configuration.GetSection("AppSettings");
 
