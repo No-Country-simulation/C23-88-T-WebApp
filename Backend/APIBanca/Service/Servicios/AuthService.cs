@@ -48,25 +48,43 @@ namespace Service.Services
             var nuevaCuenta = new Cuenta()
             {
                 Email = cuenta.Email,
-                Contraseña = cuenta.Contraseña.GetSHA256()
+                Contraseña = cuenta.Contraseña.GetSHA256(),
+                Rol = cuenta.Rol
             };
 
             _context.Cuenta.Add(nuevaCuenta);
             _context.SaveChanges();
-            
-            // Crea el usuario asociado con la cuenta
-            var nuevoUsuario = new Usuario()
+
+            if (cuenta.Rol != "empresa") {
+                // Crea el usuario asociado con la cuenta
+                var nuevoUsuario = new Usuario()
+                {
+                    Dni = cuenta.Iden,
+                    IdCuenta = nuevaCuenta.Id,
+                };
+
+                _context.Usuario.Add(nuevoUsuario);
+                _context.SaveChanges();
+
+                string response = GetToken(_context.Cuenta.OrderBy(x => x.Id).Last());
+
+                return response;
+            } else
             {
-                Dni = cuenta.DNI,
-                IdCuenta = nuevaCuenta.Id,
-            };
+                var nuevaEmpresa = new Empresa()
+                {
+                    Cuit = cuenta.Iden,
+                    IdCuenta = nuevaCuenta.Id,
+                };
 
-            _context.Usuario.Add(nuevoUsuario);
-            _context.SaveChanges();
+                _context.Empresa.Add(nuevaEmpresa);
+                _context.SaveChanges();
 
-            string response = GetToken(_context.Cuenta.OrderBy(x => x.Id).Last());
+                string response = GetToken(_context.Cuenta.OrderBy(x => x.Id).Last());
 
-            return response;
+                return response;
+
+            }
         }
 
         private string GetToken(Cuenta user)

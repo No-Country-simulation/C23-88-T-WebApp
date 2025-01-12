@@ -13,6 +13,8 @@ public partial class Cuenta
 
     public string Email { get; set; }
 
+    public string Rol { get; set; }
+
     public virtual ICollection<Empresa> Empresa { get; set; } = new List<Empresa>();
 
     public virtual ICollection<Usuario> Usuario { get; set; } = new List<Usuario>();

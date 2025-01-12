@@ -10,6 +10,7 @@ namespace Model.ViewModels
     {
         public string Email { get; set; }
         public string Contraseña { get; set; }
-        public int DNI { get; set; }
+        public string Rol { get; set; }
+        public int Iden { get; set; }
     }
 }

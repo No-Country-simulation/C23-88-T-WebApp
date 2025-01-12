@@ -24,6 +24,10 @@ namespace Model.Modelos.Configurations
                 .IsRequired()
                 .HasMaxLength(45)
                 .HasColumnName("email");
+            entity.Property(e => e.Rol)
+                .IsRequired()
+                .HasMaxLength(45)
+                .HasColumnName("rol");
 
             OnConfigurePartial(entity);
         }
