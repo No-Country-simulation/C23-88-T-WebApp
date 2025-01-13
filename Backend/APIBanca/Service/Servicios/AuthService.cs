@@ -87,6 +87,18 @@ namespace Service.Services
             }
         }
 
+        public string Login(LoginViewModel Cuenta)
+        {
+            Cuenta? cuenta = _context.Cuenta.FirstOrDefault(x => x.Email == Cuenta.Email && x.Contraseña == Cuenta.Contraseña.GetSHA256());
+
+            if (cuenta == null)
+            {
+                return string.Empty;
+            }
+
+            return GetToken(cuenta);
+        }
+
         private string GetToken(Cuenta user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

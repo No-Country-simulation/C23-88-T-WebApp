@@ -16,7 +16,7 @@ namespace API_TrabajoPractico.Controllers
             _service = service;
         }
 
-        [HttpPost("SignIn")]
+        [HttpPost("Registro")]
         public ActionResult<string> Registro([FromBody] RegistroViewModel cuenta)
         {
             string response = string.Empty;
@@ -25,6 +25,24 @@ namespace API_TrabajoPractico.Controllers
                 response = _service.Registro(cuenta);
                 if (response == "Email is required" || response == "Password is required" || response == "Email is already in use")
                     return BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"{ex.Message}");
+            }
+
+            return Ok(response);
+        }
+
+        [HttpPost("Login")]
+        public ActionResult<string> Login([FromBody] LoginViewModel Cuenta)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = _service.Login(Cuenta);
+                if (string.IsNullOrEmpty(response))
+                    return NotFound("Incorrect email/password");
             }
             catch (Exception ex)
             {

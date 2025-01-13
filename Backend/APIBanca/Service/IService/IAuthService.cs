@@ -10,6 +10,6 @@ namespace Servicio.IServices
     public interface IAuthService
     {
         string Registro(RegistroViewModel User);
-        
+        string Login(LoginViewModel User);
     }
 }
