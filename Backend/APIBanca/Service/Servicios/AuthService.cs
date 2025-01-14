@@ -28,67 +28,77 @@ namespace Service.Services
 
         public string Registro(RegistroViewModel cuenta)
         {
+            // valida email
             if (string.IsNullOrEmpty(cuenta.Email))
             {
-                return "Email is required";
+                return "El email no debe ser vacio";
             }
 
+            // valida password
             if (string.IsNullOrEmpty(cuenta.Contraseña))
             {
-                return "Password is required";
+                return "La contraseña no cumple los requisitos minimos";
             }
 
+            // revisa la disponibilidad del email
             Cuenta? cuentaexiste = _context.Cuenta.FirstOrDefault(x => x.Email == cuenta.Email);
-
             if (cuentaexiste != null)
             {
-                return "Email is already in use";
+                return "El email ya se encuentra en uso";
             }
 
-            var nuevaCuenta = new Cuenta()
+            // asigna datos a usuario o empresa
+            if (cuenta.Rol == "usuario" || cuenta.Rol == "empresa")
             {
-                Email = cuenta.Email,
-                Contraseña = cuenta.Contraseña.GetSHA256(),
-                Rol = cuenta.Rol
-            };
-
-            _context.Cuenta.Add(nuevaCuenta);
-            _context.SaveChanges();
-
-            if (cuenta.Rol == "usuario") {
-                // Crea el usuario asociado con la cuenta
-                var nuevoUsuario = new Usuario()
+                // Create the account
+                var nuevaCuenta = new Cuenta()
                 {
-                    Dni = cuenta.Iden,
-                    Nombre = cuenta.Nombre,
-                    Apellido = cuenta.Apellido,
-                    Tel = cuenta.Tel,
-                    IdCuenta = nuevaCuenta.Id,
+                    Email = cuenta.Email,
+                    Contraseña = cuenta.Contraseña.GetSHA256(),
+                    Rol = cuenta.Rol
                 };
 
-                _context.Usuario.Add(nuevoUsuario);
+                _context.Cuenta.Add(nuevaCuenta);
                 _context.SaveChanges();
 
-                string response = GetToken(_context.Cuenta.OrderBy(x => x.Id).Last());
-
-                return response;
-            } else if (cuenta.Rol == "empresa")
-            {
-                var nuevaEmpresa = new Empresa()
+                if (cuenta.Rol == "usuario")
                 {
-                    Cuit = cuenta.Iden,
-                    IdCuenta = nuevaCuenta.Id,
-                };
+                    var nuevoUsuario = new Usuario()
+                    {
+                        Dni = cuenta.Iden,
+                        Nombre = cuenta.Nombre,
+                        Apellido = cuenta.Apellido,
+                        Tel = cuenta.Tel,
+                        IdCuenta = nuevaCuenta.Id,
+                    };
 
-                _context.Empresa.Add(nuevaEmpresa);
-                _context.SaveChanges();
+                    _context.Usuario.Add(nuevoUsuario);
+                    _context.SaveChanges();
 
-                string response = GetToken(_context.Cuenta.OrderBy(x => x.Id).Last());
+                    return "Registro completado";
+                }
+                else if (cuenta.Rol == "empresa")
+                {
+                    var nuevaEmpresa = new Empresa()
+                    {
+                        Cuit = cuenta.Iden,
+                        IdCuenta = nuevaCuenta.Id,
+                    };
 
-                return response;
+                    _context.Empresa.Add(nuevaEmpresa);
+                    _context.SaveChanges();
 
+                    return "Registro completado";
+                }
+
+                return "Ha ocurrido un error"; // Unlikely to reach here but safe fallback
+            }
+            else
+            {
+                return "No se puede crear la cuenta debido a un rol inválido";
             }
         }
+
 
         public string Login(LoginViewModel Cuenta)
         {
