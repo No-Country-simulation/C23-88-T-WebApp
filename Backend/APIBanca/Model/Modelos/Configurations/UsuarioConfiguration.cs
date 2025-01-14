@@ -13,14 +13,26 @@ namespace Model.Modelos.Configurations
         {
             entity.HasKey(e => e.Dni).HasName("PRIMARY");
 
-            entity.ToTable("usuario");
+            entity
+                .ToTable("usuario")
+                .HasCharSet("utf8mb4")
+                .UseCollation("utf8mb4_0900_ai_ci");
 
             entity.HasIndex(e => e.IdCuenta, "usuario_a_cuenta_idx");
 
             entity.Property(e => e.Dni)
                 .ValueGeneratedNever()
                 .HasColumnName("dni");
+            entity.Property(e => e.Apellido)
+                .IsRequired()
+                .HasMaxLength(45)
+                .HasColumnName("apellido");
             entity.Property(e => e.IdCuenta).HasColumnName("id_cuenta");
+            entity.Property(e => e.Nombre)
+                .IsRequired()
+                .HasMaxLength(45)
+                .HasColumnName("nombre");
+            entity.Property(e => e.Tel).HasColumnName("tel");
 
             entity.HasOne(d => d.IdCuentaNavigation).WithMany(p => p.Usuario)
                 .HasForeignKey(d => d.IdCuenta)

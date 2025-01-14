@@ -13,7 +13,10 @@ namespace Model.Modelos.Configurations
         {
             entity.HasKey(e => e.Cuit).HasName("PRIMARY");
 
-            entity.ToTable("empresa");
+            entity
+                .ToTable("empresa")
+                .HasCharSet("utf8mb4")
+                .UseCollation("utf8mb4_0900_ai_ci");
 
             entity.HasIndex(e => e.IdCuenta, "id_idx");
 

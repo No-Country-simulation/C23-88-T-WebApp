@@ -23,7 +23,7 @@ namespace API_TrabajoPractico.Controllers
             try
             {
                 response = _service.Registro(cuenta);
-                if (response == "Email is required" || response == "Password is required" || response == "Email is already in use")
+                if (response == "El email no puede ser vacio" || response == "La contraseña no cumple los requisitos minimos" || response == "El email ya se encuentra en uso")
                     return BadRequest(response);
             }
             catch (Exception ex)

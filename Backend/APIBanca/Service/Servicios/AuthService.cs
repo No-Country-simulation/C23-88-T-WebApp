@@ -55,11 +55,14 @@ namespace Service.Services
             _context.Cuenta.Add(nuevaCuenta);
             _context.SaveChanges();
 
-            if (cuenta.Rol != "empresa") {
+            if (cuenta.Rol == "usuario") {
                 // Crea el usuario asociado con la cuenta
                 var nuevoUsuario = new Usuario()
                 {
                     Dni = cuenta.Iden,
+                    Nombre = cuenta.Nombre,
+                    Apellido = cuenta.Apellido,
+                    Tel = cuenta.Tel,
                     IdCuenta = nuevaCuenta.Id,
                 };
 
@@ -69,7 +72,7 @@ namespace Service.Services
                 string response = GetToken(_context.Cuenta.OrderBy(x => x.Id).Last());
 
                 return response;
-            } else
+            } else if (cuenta.Rol == "empresa")
             {
                 var nuevaEmpresa = new Empresa()
                 {
@@ -99,7 +102,7 @@ namespace Service.Services
             return GetToken(cuenta);
         }
 
-        private string GetToken(Cuenta user)
+        private string GetToken(Cuenta cuenta)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Key);
@@ -108,9 +111,9 @@ namespace Service.Services
                 Subject = new ClaimsIdentity(
                     new Claim[]
                     {
-                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                        new Claim(ClaimTypes.Email, user.Email),
-                        new Claim(ClaimTypes.Role, "1"),
+                        new Claim(ClaimTypes.NameIdentifier, cuenta.Id.ToString()),
+                        new Claim(ClaimTypes.Email, cuenta.Email),
+                        new Claim(ClaimTypes.Role, cuenta.Rol),
                     }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

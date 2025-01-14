@@ -11,5 +11,11 @@ public partial class Usuario
 
     public int IdCuenta { get; set; }
 
+    public string Nombre { get; set; }
+
+    public string Apellido { get; set; }
+
+    public int Tel { get; set; }
+
     public virtual Cuenta IdCuentaNavigation { get; set; }
 }

@@ -23,8 +23,8 @@ public partial class BancaDBContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
-            .UseCollation("utf8mb4_0900_ai_ci")
-            .HasCharSet("utf8mb4");
+            .UseCollation("utf8_general_ci")
+            .HasCharSet("utf8");
 
         modelBuilder.ApplyConfiguration(new Configurations.CuentaConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.EmpresaConfiguration());

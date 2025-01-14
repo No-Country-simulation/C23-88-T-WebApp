@@ -13,7 +13,10 @@ namespace Model.Modelos.Configurations
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("cuenta");
+            entity
+                .ToTable("cuenta")
+                .HasCharSet("utf8mb4")
+                .UseCollation("utf8mb4_0900_ai_ci");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Contraseña)
