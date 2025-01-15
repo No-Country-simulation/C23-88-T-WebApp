@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Proyecto Banca Digital V 1.0
 
 ### Este proyecto tiene como objetivo desarrollar una aplicación de banca digital, la cual permita a los usuarios registrarse como empresas o persona.
@@ -15,3 +16,8 @@
 
 
 
+=======
+# C23-88-T-WebApp
+Banca digital con React y .Net C#
+Test
+>>>>>>> 89fe952bee40a5e815f9e47b5ae6c486a0ca9297
