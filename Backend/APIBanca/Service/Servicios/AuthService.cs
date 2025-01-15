@@ -44,7 +44,20 @@ namespace Service.Services
             Cuenta? cuentaexiste = _context.Cuenta.FirstOrDefault(x => x.Email == cuenta.Email);
             if (cuentaexiste != null)
             {
-                return "El email ya se encuentra en uso";
+                return "El email ya se encuentra registrado";
+            }
+
+            // revisa la disponibilidad del dni
+            Usuario? usuarioexiste = _context.Usuario.FirstOrDefault(x => x.Dni == cuenta.Iden);
+            if (usuarioexiste != null)
+            {
+                return "El DNI ya se encuentra registrado";
+            }
+            // revisa la disponibilidad del cuit
+            Empresa? empresaexiste = _context.Empresa.FirstOrDefault(x => x.Cuit == cuenta.Iden);
+            if (usuarioexiste != null)
+            {
+                return "El cuit ya se encuentra registrado";
             }
 
             // asigna datos a usuario o empresa
@@ -62,7 +75,8 @@ namespace Service.Services
                 _context.SaveChanges();
 
                 if (cuenta.Rol == "usuario")
-                {
+                {                   
+
                     var nuevoUsuario = new Usuario()
                     {
                         Dni = cuenta.Iden,

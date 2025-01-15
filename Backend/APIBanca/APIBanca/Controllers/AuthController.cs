@@ -19,19 +19,31 @@ namespace API_TrabajoPractico.Controllers
         [HttpPost("Registro")]
         public ActionResult<string> Registro([FromBody] RegistroViewModel cuenta)
         {
-            string response = string.Empty;
             try
             {
-                response = _service.Registro(cuenta);
-                if (response == "El email no debe ser vacio" || response == "La contraseña no cumple los requisitos minimos" || response == "El email ya se encuentra en uso" || response == "Rol invalido")
-                    return BadRequest(response);
+                string response = _service.Registro(cuenta);
+
+                // Lista de errores conocidos
+                var erroresConocidos = new List<string>
+        {
+            "El email no debe ser vacio",
+            "La contraseña no cumple los requisitos minimos",
+            "El email ya se encuentra registrado",
+            "El DNI ya se encuentra registrado",
+            "El cuit ya se encuentra registrado"
+        };
+
+                if (erroresConocidos.Contains(response))
+                {
+                    return BadRequest(response); // Error conocido
+                }
+
+                return Ok(response); // Registro exitoso
             }
             catch (Exception ex)
             {
-                return BadRequest($"{ex.Message}");
+                return StatusCode(500, $"Error interno del servidor: {ex.Message}");
             }
-
-            return Ok(response);
         }
 
         [HttpPost("Login")]
