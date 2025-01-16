@@ -7,7 +7,7 @@ namespace Model.Modelos;
 
 public partial class Usuario
 {
-    public int Dni { get; set; }
+    public string Dni { get; set; }
 
     public int IdCuenta { get; set; }
 
@@ -15,7 +15,7 @@ public partial class Usuario
 
     public string Apellido { get; set; }
 
-    public int Tel { get; set; }
+    public string Tel { get; set; }
 
     public virtual Cuenta IdCuentaNavigation { get; set; }
 }

@@ -7,7 +7,7 @@ namespace Model.Modelos;
 
 public partial class Empresa
 {
-    public int Cuit { get; set; }
+    public string Cuit { get; set; }
 
     public int IdCuenta { get; set; }
 
