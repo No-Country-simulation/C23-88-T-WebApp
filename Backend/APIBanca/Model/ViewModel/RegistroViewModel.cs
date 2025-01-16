@@ -18,7 +18,7 @@ namespace Model.ViewModels
 
         [Required(ErrorMessage = "Debes escribir una contraseña")]
         [StringLength(15, MinimumLength = 8, ErrorMessage = "La contraseña debe tener entre 8 y 16 caracteres")]
-        [RegularExpression(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,15}$", ErrorMessage = "La contraseña debe contener al menos una letra mayúscula, una letra minúscula, y un número.")]
+        [RegularExpression(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$", ErrorMessage = "La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.")]
         public string Contraseña { get; set; }
 
         [Required(ErrorMessage = "El Nombre es obligatorio")]
