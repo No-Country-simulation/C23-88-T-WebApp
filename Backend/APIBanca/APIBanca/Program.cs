@@ -21,7 +21,7 @@ builder.Services.AddDbContext<BancaDBContext>(options =>
 // Dependency Injection
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICuentaService, CuentaService>();
-
+builder.Services.AddScoped<IMailService, MailService>();
 //CORS
 builder.Services.AddCors(options =>
 {

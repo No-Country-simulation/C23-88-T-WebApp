@@ -39,7 +39,7 @@ namespace Model.ViewModels
         public string Rol { get; set; }
 
         [Required(ErrorMessage = "La identificación es obligatoria")]
-        [Range(1, 2147483647, ErrorMessage = "La identificación no es valida")]
+        [StringLength(30, MinimumLength = 3, ErrorMessage = "Identificacion no valida")]
         public string Iden { get; set; }
     }
 }

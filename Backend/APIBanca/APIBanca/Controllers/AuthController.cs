@@ -10,10 +10,11 @@ namespace API_TrabajoPractico.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _service;
-
-        public AuthController(IAuthService service)
+        private readonly IMailService _Mailrepository;
+        public AuthController(IAuthService service, IMailService mailService)
         {
             _service = service;
+            _Mailrepository = mailService;
         }
 
         [HttpPost("Registro")]
@@ -37,7 +38,7 @@ namespace API_TrabajoPractico.Controllers
                 {
                     return BadRequest(response); // Error conocido
                 }
-
+                _Mailrepository.Send_Welcome_Email(cuenta.Email);
                 return Ok(response); // Registro exitoso
             }
             catch (Exception ex)

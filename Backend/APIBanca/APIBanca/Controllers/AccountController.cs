@@ -12,14 +12,16 @@ namespace APIBanca.Controllers
     {
         private readonly ICuentaService _repository;
         private readonly IAuthService _Authrepository;
+        private readonly IMailService _Mailrepository;
         private readonly IMapper _mapper;
-        public AccountController(ICuentaService repository, IMapper mapper, IAuthService authrepository)
+        public AccountController(ICuentaService repository, IMapper mapper, IAuthService authrepository, IMailService mailService)
         {
             _repository = repository;
             _mapper = mapper;
             _Authrepository = authrepository;
+            _Mailrepository = mailService;
         }
-        [Authorize]
+        //[Authorize]
         [HttpGet("GetByEmail")]
         public ActionResult<Cuenta_Usuario_DTO> GetClientById(string email)
         {
@@ -33,7 +35,7 @@ namespace APIBanca.Controllers
                 // Map both Cuenta and Usuario to User_Account_DTO
                 var result = _mapper.Map<Cuenta_Usuario_DTO>(acc);
                 _mapper.Map(info, result); // This will map the User data to the result DTO
-
+                _Mailrepository.Send_Email_Test(email, "Test has gone well : )");
                 return Ok(result);
             }
             else if (acc.Rol == "empresa")
@@ -43,7 +45,7 @@ namespace APIBanca.Controllers
                 // Map both Cuenta and Usuario to User_Account_DTO
                 var result = _mapper.Map<Cuenta_Empresa_DTO>(acc);
                 _mapper.Map(info, result); // This will map the User data to the result DTO
-
+                _Mailrepository.Send_Email_Test(email, "Test has gone well : )");
                 return Ok(result);
 
             }
