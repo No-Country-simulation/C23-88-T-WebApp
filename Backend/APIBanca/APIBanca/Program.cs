@@ -22,6 +22,18 @@ builder.Services.AddDbContext<BancaDBContext>(options =>
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICuentaService, CuentaService>();
 
+//CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:5173") // URL del frontend
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
+
 // JWT Configuration
 var appSettingsSection = builder.Configuration.GetSection("AppSettings");
 builder.Services.Configure<AppSettings>(appSettingsSection);
@@ -85,10 +97,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("AllowFrontend");
 
 app.UseHttpsRedirection();
 
 // Add the authentication middleware
+
 app.UseAuthentication();
 app.UseAuthorization();
 
