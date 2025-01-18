@@ -1,13 +1,12 @@
-using Microsoft.EntityFrameworkCore;
-using AutoMapper;
-using System.Text;
-using Modelo.Helper;
-using Model.Modelos;
-using Service.Services;
-
-using Servicio.IServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Model.Modelos;
+using Modelo.Helper;
+using Service.Services;
+using Servicio.IServices;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,12 +17,25 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<BancaDBContext>(options =>
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 33))));
-// Injeccion de dependencia
+
+// Dependency Injection
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICuentaService, CuentaService>();
-//JWT Configuration
-var appSettingsSection = builder.Configuration.GetSection("AppSettings");
+builder.Services.AddScoped<IMailService, MailService>();
+//CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:5173") // URL del frontend
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 
+// JWT Configuration
+var appSettingsSection = builder.Configuration.GetSection("AppSettings");
 builder.Services.Configure<AppSettings>(appSettingsSection);
 
 var appSettings = appSettingsSection.Get<AppSettings>();
@@ -46,10 +58,36 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Register Controllers and Swagger services
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// Swagger configuration
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "Standard Authorization header using the Bearer scheme (\"bearer {token}\")",
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 
 var app = builder.Build();
 
@@ -59,9 +97,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("AllowFrontend");
 
 app.UseHttpsRedirection();
 
+// Add the authentication middleware
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

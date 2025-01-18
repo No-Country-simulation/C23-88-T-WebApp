@@ -13,5 +13,10 @@ namespace Servicio.IServices
     {
         public Cuenta GetAccountbyEmail(string email);
 
+        public Cuenta GetAccountbyId(int id);
+
+        public Usuario GetUserbyId(int id);
+        public Empresa GetEmpresabyId(int id);
+
     }
 }
