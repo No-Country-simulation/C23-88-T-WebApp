@@ -1,27 +1,29 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../assets/logobanco.webp";
 import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
 
 
-const api = "https://pokeapi.co/api/v2/pokemon/ditto";
+
+const api = "http://localhost:5101/";
 
 const Login = () => {
 
 	//estado para guardar los datos del formulario
   const [credentials, setCredentials] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
-
+  const navigate = useNavigate();
   //para llamar a la api del backend
 
-  useEffect(() => {
+/*   useEffect(() => {
     fetch(api)
       .then((response) => response.json())
       .then((json) => console.log(json));
   },[]);
-
+ */
 
   //Toma los valores de los inputs
   const handleChange = (e) => {
@@ -34,11 +36,11 @@ const Login = () => {
 
 
   const validateForm = () => {
-	if (credentials.username.trim() === "") {
+	if (credentials.email.trim() === "") {
 		toast.error("Ingresá los datos de tu usuario!");
 			return false;
 		}
-		if (credentials.username.length < 8 || credentials.password.length < 8) {
+		if (credentials.email.length < 8 || credentials.password.length < 8) {
 			toast.error("El nombre de usuario y la contraseña deben tener al menos 8 caracteres.");
 			return false;
 		}
@@ -51,6 +53,25 @@ const Login = () => {
   const handleSubmit = (e) => {
 	e.preventDefault();
 	if (validateForm()) {
+    fetch('http://localhost:44313/api/Auth/Login', {
+      method: 'POST',
+      body: JSON.stringify(credentials),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((json) => {
+      console.log('Datos enviados:', json);
+    })
+    .catch((error) => {
+      console.error('Error en la solicitud:', error);
+    });
 	  // Procesar el formulario si es válido
 	  console.log("Formulario enviado", credentials);
 	}
@@ -77,7 +98,7 @@ const Login = () => {
   //Enviar los datos al backend
 
   const sendCredentials = () => {
-	fetch('https://api.example.com/login', {
+	fetch('http://localhost:5101/api/Auth/Login', {
 		method: 'POST',
 		body: JSON.stringify(credentials),
 		headers: {
@@ -87,11 +108,14 @@ const Login = () => {
 	.then((response) => response.json())
 	.then((json) => console.log('datos enviados',json));
   }
+  const forgotPassword = () => {
+    navigate('/OlvideMiContrasena'); // Redirige correctamente
+  };
 
   return (
-    < div>
-      <div className="h-screen w-screen flex sm-custom:flex-row">
-        <div className="w-1/2 p-8 flex flex-col justify-center">
+    <div>
+      <div className="flex flex-col sm:flex-row h-screen w-screen">
+        <div className="sm:w-1/2 p-8 flex flex-col justify-center">
           <div className="flex flex-col items-center mb-6">
             <div className="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
               <svg
@@ -119,16 +143,16 @@ const Login = () => {
 		 >
             <div>
               <label
-                htmlFor="username"
+                htmlFor="email"
                 className="block text-sm font-medium text-gray-700"
               >
                 Nombre de Usuario
               </label>
               <input
                 type="text"
-                id="username"
-				name="username"
-				value={credentials.username}
+                id="email"
+				name="email"
+				value={credentials.email}
 				onChange={handleChange}
                 className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Ingresa tu usuario"
@@ -171,11 +195,20 @@ const Login = () => {
             >
               Inicio de Sesión
             </button>
+            <div className="flex items-center flex-col">
+              <button
+			        onClick={forgotPassword} //Cambiar 
+                id="forgot"
+                type="button"
+                className="border-gray-300 rounded focus:ring-blue-500 text-sm text-blue-500 "
+              >Olvidé Contraseña
+              </button>
+            </div>
           </form>
         </div>
         {/* Columna Derecha: Imagen */}
         <div
-          className=" w-1/2 bg-gray-900 flex flex-col justify-between"
+          className="hidden sm:flex sm:w-1/2 bg-gray-900 flex-col justify-between"
           style={{
             backgroundImage: "url('https://via.placeholder.com/500')",
             backgroundSize: "cover",

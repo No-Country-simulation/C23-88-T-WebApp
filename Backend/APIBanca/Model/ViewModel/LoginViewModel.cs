@@ -8,7 +8,7 @@ namespace Model.ViewModels
 {
     public class LoginViewModel
     {
-        public string Email { get; set; }
-        public string Contraseña { get; set; }
+        public required  string Email { get; set; }
+        public required  string Contraseña { get; set; }
     }
 }

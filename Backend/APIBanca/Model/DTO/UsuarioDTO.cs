@@ -10,8 +10,8 @@ namespace Model.DTO
     {
         public int dni { get; set; }
         public int id_cuenta { get; set; }
-        public string Nombre { get; set; }
-        public string Apellido { get; set; }
+        public  string Nombre { get; set; }
+        public  string Apellido { get; set; }
         public int Tel { get; set; }
     }
 }

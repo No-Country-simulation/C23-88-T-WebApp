@@ -9,7 +9,7 @@ namespace Model.DTO
     public class CuentaDTO
     {
         public int id { get; set; }
-        public string email { get; set; }
-        public string contraseña { get; set; }
+        public   string email { get; set; } = string.Empty; 
+        public  string contraseña { get; set; }= string.Empty; 
     }
 }

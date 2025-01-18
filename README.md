@@ -12,7 +12,13 @@
 - ![Tailwindcss] (https://img.shields.io/badge/TailwindCSS-v2.0-blue?logo=tailwindcss)
 - ![C#](https://img.shields.io/badge/C%23-v8.0-blue?logo=csharp)
 
-  
+  #Instancia Local
+  ##Ejecutar los siguiente comandos:
+   # install dependencies
+   1. npm install
+   # serve with hot reload at localhost:5173
+   2. npm run dev
+
 
 
 
