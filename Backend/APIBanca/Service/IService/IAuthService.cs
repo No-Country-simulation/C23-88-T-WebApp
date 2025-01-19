@@ -11,5 +11,7 @@ namespace Servicio.IServices
     {
         string Registro(RegistroViewModel User);
         string Login(LoginViewModel User);
+        string Autenticate(int id);
+        
     }
 }

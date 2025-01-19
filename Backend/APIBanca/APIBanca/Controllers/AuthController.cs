@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Servicio.IServices;
 using Model.ViewModels;
+using Model.Modelos;
 
 namespace API_TrabajoPractico.Controllers
 {
@@ -45,6 +46,26 @@ namespace API_TrabajoPractico.Controllers
             {
                 return StatusCode(500, $"Error interno del servidor: {ex.Message}");
             }
+        }
+
+        [HttpPut("Autenticate /{id}")]
+        public ActionResult<string> Autenticate_Account([FromRoute] int id)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = _service.Autenticate(id);
+                if (response == null)
+                {
+                    return NotFound($"No se encontro el usuario");
+                }
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"{ex.InnerException}");
+            }
+
         }
 
         [HttpPost("Login")]

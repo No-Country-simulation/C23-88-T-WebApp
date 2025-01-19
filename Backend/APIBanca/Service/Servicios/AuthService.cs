@@ -19,11 +19,13 @@ namespace Service.Services
     {
         private readonly BancaDBContext _context;
         private readonly AppSettings _appSettings;
+        private readonly IMailService _service;
 
-        public AuthService(BancaDBContext context, IOptions<AppSettings> appSettings)
+        public AuthService(BancaDBContext context, IOptions<AppSettings> appSettings, IMailService service)
         {
             _context = context;
             _appSettings = appSettings.Value;
+            _service = service;
         }
 
         public string Registro(RegistroViewModel account)
@@ -100,6 +102,7 @@ namespace Service.Services
 
                     _context.Account_Balance.Add(nuevoBanco);
                     _context.SaveChanges();
+                    _service.Send_Verification_Email(account.email, account.name, account.surname, nuevaaccount.id);
 
                     return "Registro completado";
                 }
@@ -126,6 +129,8 @@ namespace Service.Services
                     _context.Account_Balance.Add(nuevoBanco);
                     _context.SaveChanges();
 
+                    _service.Send_Verification_Email(account.email, account.name, account.surname, nuevaaccount.id);
+
                     return "Registro completado";
                 }
 
@@ -137,6 +142,20 @@ namespace Service.Services
             }
         }
 
+        public string Autenticate(int id)
+        {
+            Account? accountexiste = _context.Account.FirstOrDefault(x => x.id == id);
+
+            if (accountexiste == null)
+            {
+                return null;
+            }
+
+            accountexiste.active = 1;
+            _context.SaveChanges();
+
+            return "Cuenta activada con exito";
+        }
 
         public string Login(LoginViewModel account)
         {

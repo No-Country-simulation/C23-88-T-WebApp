@@ -57,6 +57,29 @@ namespace Service.Services
                 throw new Exception($"Failed to send email. Status Code: {response.StatusCode}");
             }
         }
+
+        public async Task Send_Verification_Email(string email,string name, string surname, int id )
+        {
+            var apiKey = APIKey;
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("ignacioff56@Gmail.com", "AppBanca");
+            var subject = "Verifica tu cuenta - AppBanca";
+            var to = new EmailAddress(email);
+            var plainTextContent = "Estimado " + surname + " " + name + ",\n" +
+                "Para confirmar su cuenta usted debe ingresar al siguiente link " + id + ".\n" +
+                "Lo esperamos"; 
+            var htmlContent = "Estimado " + surname + " " + name + ",\n" +
+                "Para confirmar su cuenta usted debe ingresar al siguiente link ACA VA EL LINK .\n" +
+                "Lo esperamos"; 
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
+            // Optional: Check the status of the response (e.g., log the status code)
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                // Log or handle unsuccessful email sending
+                throw new Exception($"Failed to send email. Status Code: {response.StatusCode}");
+            }
+        }
     }
 
 }
