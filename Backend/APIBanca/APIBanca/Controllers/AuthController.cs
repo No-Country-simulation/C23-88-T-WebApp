@@ -48,7 +48,7 @@ namespace API_TrabajoPractico.Controllers
             }
         }
 
-        [HttpPut("Autenticate /{id}")]
+        [HttpPut("Autenticate/{id}")]
         public ActionResult<string> Autenticate_Account([FromRoute] int id)
         {
             string response = string.Empty;
