@@ -26,80 +26,104 @@ namespace Service.Services
             _appSettings = appSettings.Value;
         }
 
-        public string Registro(RegistroViewModel cuenta)
+        public string Registro(RegistroViewModel account)
         {
             // valida email
-            if (string.IsNullOrEmpty(cuenta.Email))
+            if (string.IsNullOrEmpty(account.email))
             {
                 return "El email no debe ser vacio";
             }
 
             // valida password
-            if (string.IsNullOrEmpty(cuenta.Contraseña))
+            if (string.IsNullOrEmpty(account.password))
             {
                 return "La contraseña no cumple los requisitos minimos";
             }
 
             // revisa la disponibilidad del email
-            Cuenta? cuentaexiste = _context.Cuenta.FirstOrDefault(x => x.Email == cuenta.Email);
-            if (cuentaexiste != null)
+            Account? accountexiste = _context.Account.FirstOrDefault(x => x.email == account.email);
+            if (accountexiste != null)
             {
                 return "El email ya se encuentra registrado";
             }
 
             // revisa la disponibilidad del dni
-            Usuario? usuarioexiste = _context.Usuario.FirstOrDefault(x => x.Dni == cuenta.Iden);
+            User? usuarioexiste = _context.User.FirstOrDefault(x => x.dni == account.iden);
             if (usuarioexiste != null)
             {
                 return "El DNI ya se encuentra registrado";
             }
             // revisa la disponibilidad del cuit
-            Empresa? empresaexiste = _context.Empresa.FirstOrDefault(x => x.Cuit == cuenta.Iden);
+            Company? empresaexiste = _context.Company.FirstOrDefault(x => x.cuit == account.iden);
             if (usuarioexiste != null)
             {
                 return "El cuit ya se encuentra registrado";
             }
 
             // asigna datos a usuario o empresa
-            if (cuenta.Rol == "usuario" || cuenta.Rol == "empresa")
+            if (account.role == "usuario" || account.role == "empresa")
             {
                 // Create the account
-                var nuevaCuenta = new Cuenta()
+                var nuevaaccount = new Account()
                 {
-                    Email = cuenta.Email,
-                    Contraseña = cuenta.Contraseña.GetSHA256(),
-                    Rol = cuenta.Rol
+                    email = account.email,
+                    password = account.password.GetSHA256(),
+                    role = account.role,
+                    active = 0
                 };
 
-                _context.Cuenta.Add(nuevaCuenta);
+                _context.Account.Add(nuevaaccount);
                 _context.SaveChanges();
 
-                if (cuenta.Rol == "usuario")
+                if (account.role == "usuario")
                 {                   
 
-                    var nuevoUsuario = new Usuario()
+                    var nuevoUsuario = new User()
                     {
-                        Dni = cuenta.Iden,
-                        Nombre = cuenta.Nombre,
-                        Apellido = cuenta.Apellido,
-                        Tel = cuenta.Tel,
-                        IdCuenta = nuevaCuenta.Id,
+                        dni = account.iden,
+                        name = account.name,
+                        surname = account.surname,
+                        phone = account.phone,
+                        address = account.address,
+                        account_id = nuevaaccount.id,
                     };
 
-                    _context.Usuario.Add(nuevoUsuario);
+                    _context.User.Add(nuevoUsuario);
+                    _context.SaveChanges();
+
+                    var nuevoBanco = new Account_Balance()
+                    {
+                        balance = 0,
+                        max_balance = 2000000,
+                        account_id = nuevaaccount.id,
+                    };
+
+                    _context.Account_Balance.Add(nuevoBanco);
                     _context.SaveChanges();
 
                     return "Registro completado";
                 }
-                else if (cuenta.Rol == "empresa")
+                else if (account.role == "empresa")
                 {
-                    var nuevaEmpresa = new Empresa()
+                    var nuevaEmpresa = new Company()
                     {
-                        Cuit = cuenta.Iden,
-                        IdCuenta = nuevaCuenta.Id,
+                        cuit = account.iden,
+                        phone = account.phone,
+                        address = account.address,
+                        account_id = nuevaaccount.id,
                     };
 
-                    _context.Empresa.Add(nuevaEmpresa);
+                    _context.Company.Add(nuevaEmpresa);
+                    _context.SaveChanges();
+
+                    var nuevoBanco = new Account_Balance()
+                    {
+                        balance = 0,
+                        max_balance = 2000000,
+                        account_id = nuevaaccount.id,
+                    };
+
+                    _context.Account_Balance.Add(nuevoBanco);
                     _context.SaveChanges();
 
                     return "Registro completado";
@@ -109,24 +133,24 @@ namespace Service.Services
             }
             else
             {
-                return "No se puede crear la cuenta debido a un rol inválido";
+                return "No se puede crear la account debido a un rol inválido";
             }
         }
 
 
-        public string Login(LoginViewModel Cuenta)
+        public string Login(LoginViewModel account)
         {
-            Cuenta? cuenta = _context.Cuenta.FirstOrDefault(x => x.Email == Cuenta.Email && x.Contraseña == Cuenta.Contraseña.GetSHA256());
+            Account? vaccount = _context.Account.FirstOrDefault(x => x.email == account.email && x.password == account.password.GetSHA256());
 
-            if (cuenta == null)
+            if (vaccount == null)
             {
                 return string.Empty;
             }
 
-            return GetToken(cuenta);
+            return GetToken(vaccount);
         }
 
-        private string GetToken(Cuenta cuenta)
+        private string GetToken(Account account)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Key);
@@ -135,9 +159,9 @@ namespace Service.Services
                 Subject = new ClaimsIdentity(
                     new Claim[]
                     {
-                        new Claim(ClaimTypes.NameIdentifier, cuenta.Id.ToString()),
-                        new Claim(ClaimTypes.Email, cuenta.Email),
-                        new Claim(ClaimTypes.Role, cuenta.Rol),
+                        new Claim(ClaimTypes.NameIdentifier, account.id.ToString()),
+                        new Claim(ClaimTypes.Email, account.email),
+                        new Claim(ClaimTypes.Role, account.role),
                     }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

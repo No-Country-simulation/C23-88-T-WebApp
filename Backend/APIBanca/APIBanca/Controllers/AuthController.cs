@@ -18,11 +18,11 @@ namespace API_TrabajoPractico.Controllers
         }
 
         [HttpPost("Registro")]
-        public ActionResult<string> Registro([FromBody] RegistroViewModel cuenta)
+        public ActionResult<string> Registro([FromBody] RegistroViewModel account)
         {
             try
             {
-                string response = _service.Registro(cuenta);
+                string response = _service.Registro(account);
 
                 // Lista de errores conocidos
                 var erroresConocidos = new List<string>
@@ -38,7 +38,7 @@ namespace API_TrabajoPractico.Controllers
                 {
                     return BadRequest(response); // Error conocido
                 }
-                _Mailrepository.Send_Welcome_Email(cuenta.Email);
+                _Mailrepository.Send_Welcome_Email(account.email);
                 return Ok(response); // Registro exitoso
             }
             catch (Exception ex)
@@ -48,12 +48,12 @@ namespace API_TrabajoPractico.Controllers
         }
 
         [HttpPost("Login")]
-        public ActionResult<string> Login([FromBody] LoginViewModel Cuenta)
+        public ActionResult<string> Login([FromBody] LoginViewModel account)
         {
             string response = string.Empty;
             try
             {
-                response = _service.Login(Cuenta);
+                response = _service.Login(account);
                 if (string.IsNullOrEmpty(response))
                     return NotFound("Incorrect email/password");
             }

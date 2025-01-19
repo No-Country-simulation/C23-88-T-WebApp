@@ -5,7 +5,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using Model.Modelos;
-using Model.ViewModel.Cuenta;
+using Model.ViewModel.account;
 using Model.ViewModels;
 using MySqlX.XDevAPI;
 using MySqlX.XDevAPI.Common;
