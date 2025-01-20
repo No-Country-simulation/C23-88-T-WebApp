@@ -22,12 +22,12 @@ namespace Service.Services
 
         public async Task Send_Email_Test(string email, string message)
         {
-            var apiKey = APIKey;  
+            var apiKey = APIKey;
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("ignacioff56@Gmail.com", "AppBanca");
             var subject = "AppBanca Test";
             var to = new EmailAddress(email);
-            var plainTextContent = message;  
+            var plainTextContent = message;
             var htmlContent = message;
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);

@@ -9,17 +9,17 @@ namespace Model.ViewModels
 {
     public class RegistroViewModel
     {
-        [Required(ErrorMessage = "Email es obligatorio")]
-        [MinLength(3, ErrorMessage = "El Email debe tener al menos 3 caracteres")]
-        [MaxLength(250, ErrorMessage = "Email demasiado largo")]
+        [Required(ErrorMessage = "email es obligatorio")]
+        [MinLength(3, ErrorMessage = "El email debe tener al menos 3 caracteres")]
+        [MaxLength(250, ErrorMessage = "email demasiado largo")]
         [EmailAddress(ErrorMessage = "El formato del correo electrónico es inválido")]
 
-        public string Email { get; set; }
+        public string email { get; set; }
 
         [Required(ErrorMessage = "Debes escribir una contraseña")]
         [StringLength(15, MinimumLength = 8, ErrorMessage = "La contraseña debe tener entre 8 y 16 caracteres")]
         [RegularExpression(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$", ErrorMessage = "La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.")]
-        public string Contraseña { get; set; }
+        public string password { get; set; }
 
         [Required(ErrorMessage = "El Nombre es obligatorio")]
         [StringLength(20, MinimumLength = 3, ErrorMessage = "El nombre debe tener entre 3 y 16 caracteres")]

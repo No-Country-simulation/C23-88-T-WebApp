@@ -22,7 +22,7 @@ namespace Service.Services
 
         public Cuenta GetAccountbyEmail(string email)
         {
-            return _context.Cuenta.FirstOrDefault(p => p.Email == email);
+            return _context.Cuenta.FirstOrDefault(p => p.email == email);
         }
 
         public Cuenta GetAccountbyId(int id)

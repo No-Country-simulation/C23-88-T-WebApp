@@ -19,11 +19,11 @@ namespace Model.Modelos.Configurations
                 .UseCollation("utf8mb4_0900_ai_ci");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Contraseña)
+            entity.Property(e => e.password)
                 .IsRequired()
                 .HasMaxLength(255)
-                .HasColumnName("contraseña");
-            entity.Property(e => e.Email)
+                .HasColumnName("password");
+            entity.Property(e => e.email)
                 .IsRequired()
                 .HasMaxLength(45)
                 .HasColumnName("email");

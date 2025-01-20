@@ -29,19 +29,19 @@ namespace Service.Services
         public string Registro(RegistroViewModel cuenta)
         {
             // valida email
-            if (string.IsNullOrEmpty(cuenta.Email))
+            if (string.IsNullOrEmpty(cuenta.email))
             {
                 return "El email no debe ser vacio";
             }
 
             // valida password
-            if (string.IsNullOrEmpty(cuenta.Contraseña))
+            if (string.IsNullOrEmpty(cuenta.password))
             {
-                return "La contraseña no cumple los requisitos minimos";
+                return "La password no cumple los requisitos minimos";
             }
 
             // revisa la disponibilidad del email
-            Cuenta? cuentaexiste = _context.Cuenta.FirstOrDefault(x => x.Email == cuenta.Email);
+            Cuenta? cuentaexiste = _context.Cuenta.FirstOrDefault(x => x.email == cuenta.email);
             if (cuentaexiste != null)
             {
                 return "El email ya se encuentra registrado";
@@ -66,8 +66,8 @@ namespace Service.Services
                 // Create the account
                 var nuevaCuenta = new Cuenta()
                 {
-                    Email = cuenta.Email,
-                    Contraseña = cuenta.Contraseña.GetSHA256(),
+                    email = cuenta.email,
+                    password = cuenta.password.GetSHA256(),
                     Rol = cuenta.Rol
                 };
 
@@ -116,7 +116,7 @@ namespace Service.Services
 
         public string Login(LoginViewModel Cuenta)
         {
-            Cuenta? cuenta = _context.Cuenta.FirstOrDefault(x => x.Email == Cuenta.Email && x.Contraseña == Cuenta.Contraseña.GetSHA256());
+            Cuenta? cuenta = _context.Cuenta.FirstOrDefault(x => x.email == Cuenta.email && x.password == Cuenta.password.GetSHA256());
 
             if (cuenta == null)
             {
@@ -136,7 +136,7 @@ namespace Service.Services
                     new Claim[]
                     {
                         new Claim(ClaimTypes.NameIdentifier, cuenta.Id.ToString()),
-                        new Claim(ClaimTypes.Email, cuenta.Email),
+                        new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress", cuenta.email),
                         new Claim(ClaimTypes.Role, cuenta.Rol),
                     }),
                 Expires = DateTime.UtcNow.AddHours(1),

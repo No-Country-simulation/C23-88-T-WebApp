@@ -38,7 +38,7 @@ namespace API_TrabajoPractico.Controllers
                 {
                     return BadRequest(response); // Error conocido
                 }
-                _Mailrepository.Send_Welcome_email(cuenta.email);
+                _Mailrepository.Send_Welcome_Email(cuenta.email);
                 return Ok(response); // Registro exitoso
             }
             catch (Exception ex)

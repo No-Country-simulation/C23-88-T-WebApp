@@ -9,9 +9,9 @@ public partial class Cuenta
 {
     public int Id { get; set; }
 
-    public string Contraseña { get; set; }
+    public string password { get; set; }
 
-    public string Email { get; set; }
+    public string email { get; set; }
 
     public string Rol { get; set; }
 

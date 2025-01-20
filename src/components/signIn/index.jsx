@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import logo from "../../assets/logobanco.webp";
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
-
-
+import { routess} from "../../utils/routess.jsx";
 
 const api = "http://localhost:5101/";
 
@@ -14,8 +13,10 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = useState('');
 
   const navigate = useNavigate();
+  const routes = routess();
   //para llamar a la api del backend
 
 /*   useEffect(() => {
@@ -51,31 +52,39 @@ const Login = () => {
   //Envia los datos del formulario
 
   const handleSubmit = (e) => {
+    console.log(credentials);
+
 	e.preventDefault();
 	if (validateForm()) {
-    fetch('http://localhost:44313/api/Auth/Login', {
+    fetch('http://localhost:5101/api/Auth/login', {
       method: 'POST',
-      body: JSON.stringify(credentials),
       headers: {
         'Content-Type': 'application/json',
+      //  'Authorization': `Bearer ${token}`, // Si aplica
       },
+      mode: 'cors',
+      body: JSON.stringify(credentials),
     })
     .then((response) => {
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+          return response.json().then((errorData) => {
+              throw new Error(errorData.errors?.password?.[0] || 'Error desconocido');
+          });
       }
       return response.json();
-    })
-    .then((json) => {
+  })
+  .then((json) => {
       console.log('Datos enviados:', json);
-    })
-    .catch((error) => {
-      console.error('Error en la solicitud:', error);
-    });
-	  // Procesar el formulario si es válido
-	  console.log("Formulario enviado", credentials);
-	}
-  };
+  })
+  .catch((error) => {
+      console.error('Error en la solicitud:', error.message);
+      setErrorMessage(error.message);  // Aquí actualizamos el estado de error
+  });
+
+  console.log("Formulario enviado", credentials); 
+    
+  }
+}
   //guarda los datos en caché
 
   const saveCredentials = () => {
@@ -109,7 +118,9 @@ const Login = () => {
 	.then((json) => console.log('datos enviados',json));
   }
   const forgotPassword = () => {
-    navigate('/OlvideMiContrasena'); // Redirige correctamente
+    navigate(routes.FORGOTPASSWORD); // Redirige correctamente
+
+console.log('Rutas importadas:', routes);
   };
 
   return (
@@ -195,7 +206,7 @@ const Login = () => {
             >
               Inicio de Sesión
             </button>
-            <div className="flex items-center flex-col">
+            <div className=" hidden sm:flex items-center flex-col">
               <button
 			        onClick={forgotPassword} //Cambiar 
                 id="forgot"
@@ -208,7 +219,7 @@ const Login = () => {
         </div>
         {/* Columna Derecha: Imagen */}
         <div
-          className="hidden sm:flex sm:w-1/2 bg-gray-900 flex-col justify-between"
+          className="sm:flex sm:w-1/2 bg-gray-900 flex-col justify-between"
           style={{
             backgroundImage: "url('https://via.placeholder.com/500')",
             backgroundSize: "cover",
