@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Proyecto Banca Digital V 1.0
 
 ### Este proyecto tiene como objetivo desarrollar una aplicación de banca digital, la cual permita a los usuarios registrarse como empresas o persona.
