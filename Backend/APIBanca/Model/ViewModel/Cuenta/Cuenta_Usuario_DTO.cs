@@ -6,23 +6,24 @@ using System.Threading.Tasks;
 using Model.DTO;
 using Model.Modelos;
 
-namespace Model.ViewModel.Cuenta
+namespace Model.ViewModel.account
 {
-    public class Cuenta_Usuario_DTO
+    public class account_Usuario_DTO
     {
-        // Esto esta en cuenta
+        // Esto esta en account
         public string email { get; set; }
 
         // El resto en el usuario 
-        public string Dni { get; set; }
+        public string dni { get; set; }
 
-        public int IdCuenta { get; set; }
+        public int account_id { get; set; }
 
-        public string Nombre { get; set; }
+        public string name { get; set; }
 
-        public string Apellido { get; set; }
+        public string surname { get; set; }
 
-        public string Tel { get; set; }
+        public string phone { get; set; }
+        public string address { get; set; }
 
     }
 }

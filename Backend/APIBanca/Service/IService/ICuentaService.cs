@@ -9,14 +9,14 @@ using Model.Modelos;
 
 namespace Servicio.IServices
 {
-    public interface ICuentaService
+    public interface IAccountService
     {
-        public Cuenta GetAccountbyEmail(string email);
+        public Account GetAccountbyEmail(string email);
 
-        public Cuenta GetAccountbyId(int id);
+        public Account GetAccountbyId(int id);
 
-        public Usuario GetUserbyId(int id);
-        public Empresa GetEmpresabyId(int id);
+        public User GetUserbyId(int id);
+        public Company GetEmpresabyId(int id);
 
     }
 }

@@ -11,5 +11,7 @@ namespace Servicio.IServices
     {
         public Task Send_Email_Test(string email, string message);
         public Task Send_Welcome_Email(string email);
+
+        public Task Send_Verification_Email(string email, string name, string surname, int id);
     }
 }

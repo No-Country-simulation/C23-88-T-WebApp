@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Model.DTO
 {
-    public class CuentaDTO
+    public class accountDTO
     {
         public int id { get; set; }
-        public string email { get; set; } = string.Empty;
-        public string password { get; set; } = string.Empty;
+        public string email { get; set; }
+        public string password { get; set; }
+        public string role { get; set; }
     }
 }

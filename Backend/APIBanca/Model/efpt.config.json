@@ -15,15 +15,19 @@
    "T4TemplatePath": null,
    "Tables": [
       {
-         "Name": "cuenta",
+         "Name": "Account",
          "ObjectType": 0
       },
       {
-         "Name": "empresa",
+         "Name": "Account_Balance",
          "ObjectType": 0
       },
       {
-         "Name": "usuario",
+         "Name": "Company",
+         "ObjectType": 0
+      },
+      {
+         "Name": "User",
          "ObjectType": 0
       }
    ],
@@ -31,7 +35,7 @@
    "UncountableWords": null,
    "UseAsyncStoredProcedureCalls": true,
    "UseBoolPropertiesWithoutDefaultSql": false,
-   "UseDatabaseNames": false,
+   "UseDatabaseNames": true,
    "UseDatabaseNamesForRoutines": true,
    "UseDateOnlyTimeOnly": true,
    "UseDbContextSplitting": true,
@@ -40,6 +44,7 @@
    "UseHandleBars": false,
    "UseHierarchyId": false,
    "UseInflector": false,
+   "UseInternalAccessModifiersForSprocsAndFunctions": false,
    "UseLegacyPluralizer": false,
    "UseManyToManyEntity": false,
    "UseNoDefaultConstructor": false,

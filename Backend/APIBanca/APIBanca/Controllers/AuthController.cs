@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Servicio.IServices;
 using Model.ViewModels;
+using Model.Modelos;
 
 namespace API_TrabajoPractico.Controllers
 {
@@ -18,11 +19,11 @@ namespace API_TrabajoPractico.Controllers
         }
 
         [HttpPost("Registro")]
-        public ActionResult<string> Registro([FromBody] RegistroViewModel cuenta)
+        public ActionResult<string> Registro([FromBody] RegistroViewModel account)
         {
             try
             {
-                string response = _service.Registro(cuenta);
+                string response = _service.Registro(account);
 
                 // Lista de errores conocidos
                 var erroresConocidos = new List<string>
@@ -38,7 +39,11 @@ namespace API_TrabajoPractico.Controllers
                 {
                     return BadRequest(response); // Error conocido
                 }
+
                 _Mailrepository.Send_Welcome_Email(cuenta.email);
+
+                _Mailrepository.Send_Welcome_Email(account.email);
+
                 return Ok(response); // Registro exitoso
             }
             catch (Exception ex)
@@ -47,13 +52,33 @@ namespace API_TrabajoPractico.Controllers
             }
         }
 
-        [HttpPost("Login")]
-        public ActionResult<string> Login([FromBody] LoginViewModel Cuenta)
+        [HttpPut("Autenticate/{id}")]
+        public ActionResult<string> Autenticate_Account([FromRoute] int id)
         {
             string response = string.Empty;
             try
             {
-                response = _service.Login(Cuenta);
+                response = _service.Autenticate(id);
+                if (response == null)
+                {
+                    return NotFound($"No se encontro el usuario");
+                }
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"{ex.InnerException}");
+            }
+
+        }
+
+        [HttpPost("Login")]
+        public ActionResult<string> Login([FromBody] LoginViewModel account)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = _service.Login(account);
                 if (string.IsNullOrEmpty(response))
                     return NotFound("Incorrect email/password");
             }

@@ -38,3 +38,4 @@ namespace Model.Modelos.Configurations
         partial void OnConfigurePartial(EntityTypeBuilder<Cuenta> entity);
     }
 }
+

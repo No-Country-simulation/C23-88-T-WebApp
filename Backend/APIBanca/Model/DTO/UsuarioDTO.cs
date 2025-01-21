@@ -9,9 +9,10 @@ namespace Model.DTO
     public class UsuarioDTO
     {
         public string dni { get; set; }
-        public int id_cuenta { get; set; }
-        public string Nombre { get; set; }
-        public string Apellido { get; set; }
-        public string Tel { get; set; }
+        public int id_account { get; set; }
+        public string name { get; set; }
+        public string surname { get; set; }
+        public string phone { get; set; }
+        public string address { get; set; }
     }
 }

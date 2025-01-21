@@ -14,11 +14,13 @@ public partial class BancaDBContext : DbContext
     {
     }
 
-    public virtual DbSet<Cuenta> Cuenta { get; set; }
+    public virtual DbSet<Account> Account { get; set; }
 
-    public virtual DbSet<Empresa> Empresa { get; set; }
+    public virtual DbSet<Account_Balance> Account_Balance { get; set; }
 
-    public virtual DbSet<Usuario> Usuario { get; set; }
+    public virtual DbSet<Company> Company { get; set; }
+
+    public virtual DbSet<User> User { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -26,9 +28,10 @@ public partial class BancaDBContext : DbContext
             .UseCollation("utf8_general_ci")
             .HasCharSet("utf8");
 
-        modelBuilder.ApplyConfiguration(new Configurations.CuentaConfiguration());
-        modelBuilder.ApplyConfiguration(new Configurations.EmpresaConfiguration());
-        modelBuilder.ApplyConfiguration(new Configurations.UsuarioConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.AccountConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.Account_BalanceConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.CompanyConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.UserConfiguration());
         OnModelCreatingPartial(modelBuilder);
     }
 

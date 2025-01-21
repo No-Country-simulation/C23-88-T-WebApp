@@ -23,23 +23,26 @@ namespace Model.ViewModels
 
         [Required(ErrorMessage = "El Nombre es obligatorio")]
         [StringLength(20, MinimumLength = 3, ErrorMessage = "El nombre debe tener entre 3 y 16 caracteres")]
-        public string Nombre { get; set; }
+        public string name { get; set; }
 
         [Required(ErrorMessage = "El Apellido es obligatorio")]
         [StringLength(20, MinimumLength = 3, ErrorMessage = "El apellido debe tener entre 3 y 16 caracteres")]
-        public string Apellido { get; set; }
+        public string surname { get; set; }
 
         [Required(ErrorMessage = "El teléfono es obligatorio")]
         [StringLength(15, MinimumLength = 3, ErrorMessage = "El teléfono debe tener entre 3 y 15 caracteres")]
         [RegularExpression(@"^\+?[0-9\s\-]{3,15}$", ErrorMessage = "El teléfono debe contener solo números, espacios o guiones y puede comenzar con un '+'")]
-        public string Tel { get; set; }
+        public string phone { get; set; }
 
         [Required(ErrorMessage = "El rol es obligatorio")]
-        [RegularExpression(@"^(usuario|empresa)$", ErrorMessage = "Rol invalido")]
-        public string Rol { get; set; }
+        [RegularExpression(@"^(usuario|empresa)$", ErrorMessage = "role invalido")]
+        public string role { get; set; }
+
+        [Required(ErrorMessage = "La direccion es obligatoria")]
+        public string address { get; set; }
 
         [Required(ErrorMessage = "La identificación es obligatoria")]
         [StringLength(30, MinimumLength = 3, ErrorMessage = "Identificacion no valida")]
-        public string Iden { get; set; }
+        public string iden { get; set; }
     }
 }
