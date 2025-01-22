@@ -13,6 +13,7 @@ namespace API_TrabajoPractico.Controllers
     {
         private readonly IAuthService _service;
         private readonly IMailService _Mailrepository;
+
         public AuthController(IAuthService service, IMailService mailService)
         {
             _service = service;
@@ -20,7 +21,7 @@ namespace API_TrabajoPractico.Controllers
         }
 
         [HttpPost("Registro")]
-        public ActionResult<string> Registro([FromBody] RegistroViewModel account)
+        public ActionResult Registro([FromBody] RegistroViewModel account)
         {
             try
             {
@@ -28,63 +29,76 @@ namespace API_TrabajoPractico.Controllers
 
                 // Lista de errores conocidos
                 var erroresConocidos = new List<string>
-        {
-            "El email no debe ser vacio",
-            "La contraseña no cumple los requisitos minimos",
-            "El email ya se encuentra registrado",
-            "El DNI ya se encuentra registrado",
-            "El cuit ya se encuentra registrado"
-        };
+                {
+                    "El email no debe ser vacio",
+                    "La contraseña no cumple los requisitos minimos",
+                    "El email ya se encuentra registrado",
+                    "El DNI ya se encuentra registrado",
+                    "El cuit ya se encuentra registrado"
+                };
 
                 if (erroresConocidos.Contains(response))
                 {
-                    return BadRequest(response); // Error conocido
+                    // Devuelve un error conocido en formato JSON
+                    return BadRequest(new { error = response });
                 }
+
                 _Mailrepository.Send_Welcome_Email(account.email);
-                return Ok(response); // Registro exitoso
+
+                // Respuesta de registro exitoso
+                return Ok(new { message = response });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error interno del servidor: {ex.Message}");
+                // Error interno del servidor
+                return StatusCode(500, new { error = $"Error interno del servidor: {ex.Message}" });
             }
         }
 
         [HttpPut("Authenticate")]
-        public ActionResult<string> Autenticate_Account([FromBody] AuthenticationViewModel userRequest)
+        public ActionResult Autenticate_Account([FromBody] AuthenticationViewModel userRequest)
         {
-            string response = string.Empty;
             try
             {
-                response = _service.Authenticate(userRequest);
-                if (response == null)
+                string response = _service.Authenticate(userRequest);
+
+                if (string.IsNullOrEmpty(response))
                 {
-                    return NotFound($"No se encontro el usuario");
+                    // Usuario no encontrado
+                    return NotFound(new { message = "No se encontró el usuario" });
                 }
-                return Ok(response);
+
+                // Usuario autenticado con éxito
+                return Ok(new { token = response });
             }
             catch (Exception ex)
             {
-                return BadRequest($"{ex.InnerException}");
+                // Error de autenticación
+                return BadRequest(new { error = ex.InnerException?.Message ?? ex.Message });
             }
-
         }
 
         [HttpPost("Login")]
-        public ActionResult<string> Login([FromBody] LoginViewModel account)
+        public ActionResult Login([FromBody] LoginViewModel account)
         {
-            string response = string.Empty;
             try
             {
-                response = _service.Login(account);
-                if (string.IsNullOrEmpty(response))
-                    return NotFound("Incorrect email/password");
+                string token = _service.Login(account);
+
+                if (string.IsNullOrEmpty(token))
+                {
+                    // Login fallido
+                    return NotFound(new { message = "Incorrect email/password" });
+                }
+
+                // Login exitoso
+                return Ok(new { token });
             }
             catch (Exception ex)
             {
-                return BadRequest($"{ex.Message}");
+                // Error interno
+                return BadRequest(new { error = ex.Message });
             }
-
-            return Ok(response);
         }
     }
 }
