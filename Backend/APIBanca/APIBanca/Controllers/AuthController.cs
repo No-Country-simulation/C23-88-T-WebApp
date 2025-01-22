@@ -4,6 +4,7 @@ using Servicio.IServices;
 using Model.ViewModels;
 using Model.Modelos;
 using Model.ViewModel;
+using Model.DTO;
 
 namespace API_TrabajoPractico.Controllers
 {
@@ -99,6 +100,20 @@ namespace API_TrabajoPractico.Controllers
                 // Error interno
                 return BadRequest(new { error = ex.Message });
             }
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] EmailRequestDTO request)
+        {
+            var result = await _service.InitiatePasswordResetAsync(request.email);
+            return Ok(result);
+        }
+
+        [HttpPost("password-reset/complete")]
+        public async Task<IActionResult> ResetPasswordComplete([FromBody] ResetPasswordRequest request)
+        {
+            var result = await _service.ResetPasswordAsync(request.email, request.code, request.newpassword);
+            return Ok(result);
         }
     }
 }

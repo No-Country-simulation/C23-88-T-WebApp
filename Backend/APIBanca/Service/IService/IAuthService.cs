@@ -13,6 +13,9 @@ namespace Servicio.IServices
         string Registro(RegistroViewModel User);
         string Login(LoginViewModel User);
         string Authenticate(AuthenticationViewModel userRequest);
-        
+        Task<string> ResetPasswordAsync(string email, string code, string newPassword);
+        Task<string> InitiatePasswordResetAsync(string email);
+
+
     }
 }

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Model.Modelos;
@@ -181,6 +183,47 @@ namespace Service.Services
 
             return GetToken(vaccount);
         }
+
+        public async Task<string> InitiatePasswordResetAsync(string email)
+        {
+            // Verificar si el email existe
+            var account = await _context.Account.FirstOrDefaultAsync(a => a.email == email);
+            if (account == null)
+            {
+                return "El email no está registrado.";
+            }
+
+            // Generar un código de verificación aleatorio
+            var verificationCode = new Random().Next(100000, 999999).ToString();
+
+            // Guardar el código en la base de datos (sobreescribiendo `ver_code`)
+            account.ver_code = verificationCode;
+            await _context.SaveChangesAsync();
+
+            
+            await _service.Send_Reset_Pass_Email(email, verificationCode);
+
+            return "Código de verificación enviado al email.";
+        }
+
+        public async Task<string> ResetPasswordAsync(string email, string code, string newPassword)
+        {
+            // Buscar la cuenta que coincida con el email y el código
+            var account = await _context.Account.FirstOrDefaultAsync(a => a.email == email && a.ver_code == code);
+            if (account == null)
+            {
+                return "Email o código de verificación incorrecto.";
+            }
+
+            // Actualizar la contraseña y limpiar el código de verificación
+            account.password = newPassword.GetSHA256(); // Usa un método de hash seguro
+            account.ver_code = null; // Limpiar el código después de usarlo
+
+            await _context.SaveChangesAsync();
+
+            return "Contraseña actualizada con éxito.";
+        }
+
 
         private string GetToken(Account account)
         {

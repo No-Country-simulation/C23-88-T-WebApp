@@ -80,6 +80,22 @@ namespace Service.Services
                 throw new Exception($"Failed to send email. Status Code: {response.StatusCode}");
             }
         }
+
+        public async Task Send_Reset_Pass_Email(string email, string code)
+        {
+            var apiKey = APIKey;
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("ignacioff56@Gmail.com", "AppBanca");
+            var subject = "Verifica tu cuenta - AppBanca";
+            var to = new EmailAddress(email);
+            var plainTextContent = "Estimado,\n" +
+                "Su código para autorizar el cambio de contraseña es: " + code + ".\n";
+            var htmlContent = "Estimado,\n" +
+                "Su código para autorizar el cambio de contraseña es: " + code + ".\n";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
+            
+        }
     }
 
 }
