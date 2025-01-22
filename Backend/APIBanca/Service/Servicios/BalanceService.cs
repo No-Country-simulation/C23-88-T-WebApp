@@ -32,6 +32,11 @@ namespace Service.Services
 
             var to_account_balance = _context.Account_Balance.FirstOrDefault(p => p.account_id == Id_to);
 
+            if (Id_from == Id_to)
+            {
+                return "Error: La cuenta remitente y destinataria son iguales";
+            }
+
             if (from_account_balance == null)
             {
                 // Handle the case where the 'from' account does not exist
@@ -76,7 +81,6 @@ namespace Service.Services
 
             if (Account_balance == null)
             {
-                // Handle the case where the 'from' account does not exist
                 return "La cuenta no existe.";
             }
 
@@ -84,7 +88,11 @@ namespace Service.Services
                 return "Numero de fondos a agregar invalido";
             }
 
-            // Add to 'to' account
+            if (Account_balance.balance + Amount > Account_balance.max_balance)
+            {
+                return "La cuenta esta al maximo.";
+            }
+
             Account_balance.balance += Amount;
 
             _context.Account_Balance.Update(Account_balance);
