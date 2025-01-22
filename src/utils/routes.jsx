@@ -2,8 +2,10 @@
 
 
 export const routess =()=>({
+	LOGIN:'/',
+	REGISTER:'/registrarse',
+	HOME : '/dashboard',
 	FORGOTPASSWORD: '/OlvideMiContrasena',
-	HOME : '/home',
 
 });
 

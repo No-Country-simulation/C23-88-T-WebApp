@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import logo from '../../assets/logobanco.webp'
 import usuario from "../../assets/usuario.png"
+import { useNavigate } from "react-router-dom";
+import { routess } from "../../utils/routes";
 
 const NavBar =()=>{
 
 	//Menu de usuario
 	const [isMenuOpen, setIsMenuOpen]=useState(false);
+
+	const navigate = useNavigate();
+	const routes = routess();
 
 	const toggleMenu =()=>{
 		setIsMenuOpen((prev) => !prev);
@@ -14,14 +19,16 @@ const NavBar =()=>{
 
 	//cerrar menu
 
-	const closeMenu = () => {
+	const handleLogout = () => {
 		setIsMenuOpen(false);
+		localStorage.removeItem('authToken'),
+		navigate(routes.LOGIN)
 	  };
 
 	return(
 		<>
 			<nav className="bg-blue-950">
-				<div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+				<div className="mx-auto max-w-7xl px-2 md:px-6 lg:px-8">
 					<div className="relative flex h-16 items-center justify-between">
 						<div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
 							<button type="button" className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
@@ -85,7 +92,7 @@ const NavBar =()=>{
     								>
       									<button
       									  className="block px-4 py-2 text-sm text-gray-700"
-      									  onClick={closeMenu}
+      									  onClick={handleLogout}
       									>
        										 Salir
       									</button>
