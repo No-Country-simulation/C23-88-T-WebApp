@@ -22,6 +22,7 @@ builder.Services.AddDbContext<BancaDBContext>(options =>
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IMailService, MailService>();
+builder.Services.AddScoped<IBalanceService, BalanceService>();
 //CORS
 builder.Services.AddCors(options =>
 {

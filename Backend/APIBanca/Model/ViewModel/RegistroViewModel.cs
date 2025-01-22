@@ -39,6 +39,7 @@ namespace Model.ViewModels
         public string role { get; set; }
 
         [Required(ErrorMessage = "La direccion es obligatoria")]
+        [StringLength(15, MinimumLength = 3, ErrorMessage = "La direccion debe tener entre 3 y 15 caracteres")]
         public string address { get; set; }
 
         [Required(ErrorMessage = "La identificación es obligatoria")]

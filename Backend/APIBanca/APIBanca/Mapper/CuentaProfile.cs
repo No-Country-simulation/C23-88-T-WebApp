@@ -9,11 +9,14 @@ namespace TP_Programación_III.Mapper
     {
         public accountProfile()
         {
-            // Mapping from account to accountDTO (existing mapping)
             CreateMap<Account, accountDTO>();
-            // Mapping from Usuario to UsuarioDTO (existing mapping)
             CreateMap<User, UsuarioDTO>();
 
+            CreateMap<Account_Balance, Balance_Get_DTO>()
+                .ForMember(dest => dest.balance, opt => opt.MapFrom(src => src.balance));
+
+
+            // Mapeo de cuenta y usuario a un DTO
             CreateMap<Account, account_Usuario_DTO>()
                 .ForMember(dest => dest.email, opt => opt.MapFrom(src => src.email))
                 .ForMember(dest => dest.account_id, opt => opt.MapFrom(src => src.id));
@@ -24,6 +27,7 @@ namespace TP_Programación_III.Mapper
                 .ForMember(dest => dest.surname, opt => opt.MapFrom(src => src.surname))
                 .ForMember(dest => dest.phone, opt => opt.MapFrom(src => src.phone))
                 .ForMember(dest => dest.address, opt => opt.MapFrom(src => src.address));
+            // Mapeo de cuenta y empresa a un DTO
 
             CreateMap<Account, account_Empresa_DTO>()
                 .ForMember(dest => dest.email, opt => opt.MapFrom(src => src.email))
