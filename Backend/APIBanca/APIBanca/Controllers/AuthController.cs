@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Servicio.IServices;
 using Model.ViewModels;
 using Model.Modelos;
+using Model.ViewModel;
 
 namespace API_TrabajoPractico.Controllers
 {
@@ -48,13 +49,13 @@ namespace API_TrabajoPractico.Controllers
             }
         }
 
-        [HttpPut("Autenticate/{id}")]
-        public ActionResult<string> Autenticate_Account([FromRoute] int id)
+        [HttpPut("Authenticate")]
+        public ActionResult<string> Autenticate_Account([FromBody] AuthenticationViewModel userRequest)
         {
             string response = string.Empty;
             try
             {
-                response = _service.Autenticate(id);
+                response = _service.Authenticate(userRequest);
                 if (response == null)
                 {
                     return NotFound($"No se encontro el usuario");

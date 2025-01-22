@@ -26,6 +26,9 @@ namespace Model.Modelos.Configurations
             entity.Property(e => e.role)
                 .IsRequired()
                 .HasMaxLength(45);
+            entity.Property(e => e.ver_code)
+                .IsRequired()
+                .HasMaxLength(45);
 
             OnConfigurePartial(entity);
         }

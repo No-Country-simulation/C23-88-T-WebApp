@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Model.Modelos;
+using Model.ViewModel;
 using Model.ViewModels;
 using Modelo.Helper;
 using Service.Helper;
@@ -71,6 +73,7 @@ namespace Service.Services
                     email = account.email,
                     password = account.password.GetSHA256(),
                     role = account.role,
+                    ver_code = new Random().Next(100000, 999999).ToString(),
                     active = 0
                 };
 
@@ -102,7 +105,7 @@ namespace Service.Services
 
                     _context.Account_Balance.Add(nuevoBanco);
                     _context.SaveChanges();
-                    _service.Send_Verification_Email(account.email, account.name, account.surname, nuevaaccount.id);
+                    _service.Send_Verification_Email(account.email, account.name, account.surname, nuevaaccount.ver_code);
 
                     return "Registro completado";
                 }
@@ -129,7 +132,7 @@ namespace Service.Services
                     _context.Account_Balance.Add(nuevoBanco);
                     _context.SaveChanges();
 
-                    _service.Send_Verification_Email(account.email, account.name, account.surname, nuevaaccount.id);
+                    _service.Send_Verification_Email(account.email, account.name, account.surname, nuevaaccount.ver_code);
 
                     return "Registro completado";
                 }
@@ -142,20 +145,30 @@ namespace Service.Services
             }
         }
 
-        public string Autenticate(int id)
+        public string Authenticate(AuthenticationViewModel userRequest)
         {
-            Account? accountexiste = _context.Account.FirstOrDefault(x => x.id == id);
+            // Buscar la cuenta que coincida con el email y el código
+            var account = _context.Account.FirstOrDefault(a => a.email == userRequest.email && a.ver_code == userRequest.ver_code);
 
-            if (accountexiste == null)
+            // Verificar si no se encontró ninguna cuenta
+            if (account == null)
             {
-                return null;
+                return "Email o código de verificación incorrecto.";
             }
 
-            accountexiste.active = 1;
+            // Verificar si ya está activada
+            if (account.active == 1)
+            {
+                return "La cuenta ya está activada.";
+            }
+
+            // Activar la cuenta
+            account.active = 1;
             _context.SaveChanges();
 
-            return "Cuenta activada con exito";
+            return "Cuenta activada con éxito.";
         }
+
 
         public string Login(LoginViewModel account)
         {

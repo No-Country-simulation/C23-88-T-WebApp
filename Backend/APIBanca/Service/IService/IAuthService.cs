@@ -1,4 +1,5 @@
-﻿using Model.ViewModels;
+﻿using Model.ViewModel;
+using Model.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Servicio.IServices
     {
         string Registro(RegistroViewModel User);
         string Login(LoginViewModel User);
-        string Autenticate(int id);
+        string Authenticate(AuthenticationViewModel userRequest);
         
     }
 }

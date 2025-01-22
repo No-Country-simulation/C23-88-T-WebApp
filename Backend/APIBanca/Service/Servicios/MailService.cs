@@ -58,7 +58,7 @@ namespace Service.Services
             }
         }
 
-        public async Task Send_Verification_Email(string email,string name, string surname, int id )
+        public async Task Send_Verification_Email(string email,string name, string surname, string code )
         {
             var apiKey = APIKey;
             var client = new SendGridClient(apiKey);
@@ -66,10 +66,10 @@ namespace Service.Services
             var subject = "Verifica tu cuenta - AppBanca";
             var to = new EmailAddress(email);
             var plainTextContent = "Estimado " + surname + " " + name + ",\n" +
-                "Para confirmar su cuenta usted debe ingresar al siguiente link " + id + ".\n" +
+                "Su código para activar su cuenta es: " + code + ".\n" +
                 "Lo esperamos"; 
-            var htmlContent = "Estimado " + surname + " " + name + ",\n" +
-                "Para confirmar su cuenta usted debe ingresar al siguiente link ACA VA EL LINK .\n" +
+            var htmlContent = "Estimado " + surname + " " + name + "\n" +
+                "Su código para activar su cuenta es: " + code + ".\n" +
                 "Lo esperamos"; 
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
