@@ -23,15 +23,11 @@
          "ObjectType": 0
       },
       {
-         "Name": "Account_history",
-         "ObjectType": 0
-      },
-      {
          "Name": "Company",
          "ObjectType": 0
       },
       {
-         "Name": "history_object",
+         "Name": "History_object",
          "ObjectType": 0
       },
       {
@@ -52,7 +48,6 @@
    "UseHandleBars": false,
    "UseHierarchyId": false,
    "UseInflector": false,
-   "UseInternalAccessModifiersForSprocsAndFunctions": false,
    "UseLegacyPluralizer": false,
    "UseManyToManyEntity": false,
    "UseNoDefaultConstructor": false,

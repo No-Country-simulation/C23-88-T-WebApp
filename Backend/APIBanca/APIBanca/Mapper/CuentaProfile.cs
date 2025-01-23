@@ -11,7 +11,7 @@ namespace TP_Programación_III.Mapper
         {
             CreateMap<Account, accountDTO>();
             CreateMap<User, UsuarioDTO>();
-
+            CreateMap<History_object, History_object_DTO>();
             CreateMap<Account_Balance, Balance_Get_DTO>()
                 .ForMember(dest => dest.balance, opt => opt.MapFrom(src => src.balance));
 

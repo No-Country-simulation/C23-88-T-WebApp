@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Model.DTO;
 using Servicio.IServices;
 using Model.ViewModel.account;
+using Model.Modelos;
 namespace APIBanca.Controllers
 {
     [ApiController]
@@ -49,6 +50,15 @@ namespace APIBanca.Controllers
             var result = _repository.Add_Balance(Account, Balance);
 
             // Return the result of the transaction
+            return Ok(result);
+        }
+
+        [HttpGet("GetHistory")]
+        public ActionResult<History_object_DTO> GetHistory(int Id)
+        {
+            var history = _repository.Get_history_By_Id(Id);
+            if (history == null) return NotFound("Account missing");
+            var result = _mapper.Map<IEnumerable<History_object_DTO>>(history);
             return Ok(result);
         }
 

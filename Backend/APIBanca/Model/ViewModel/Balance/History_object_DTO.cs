@@ -5,13 +5,16 @@ using System.Collections.Generic;
 
 namespace Model.Modelos;
 
-public partial class Account_history
+public partial class History_object_DTO
 {
-    public int id_history { get; set; }
-
     public int account_id { get; set; }
 
-    public virtual Account account { get; set; }
+    public string type { get; set; }
 
-    public virtual ICollection<history_object> history_object { get; set; } = new List<history_object>();
+    public int value { get; set; }
+
+    public DateTime Date { get; set; }
+
+    public int? other_account_id { get; set; }
+
 }

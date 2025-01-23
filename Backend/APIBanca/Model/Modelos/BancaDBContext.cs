@@ -18,13 +18,11 @@ public partial class BancaDBContext : DbContext
 
     public virtual DbSet<Account_Balance> Account_Balance { get; set; }
 
-    public virtual DbSet<Account_history> Account_history { get; set; }
-
     public virtual DbSet<Company> Company { get; set; }
 
-    public virtual DbSet<User> User { get; set; }
+    public virtual DbSet<History_object> History_object { get; set; }
 
-    public virtual DbSet<history_object> history_object { get; set; }
+    public virtual DbSet<User> User { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -34,10 +32,9 @@ public partial class BancaDBContext : DbContext
 
         modelBuilder.ApplyConfiguration(new Configurations.AccountConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.Account_BalanceConfiguration());
-        modelBuilder.ApplyConfiguration(new Configurations.Account_historyConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.CompanyConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.History_objectConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.UserConfiguration());
-        modelBuilder.ApplyConfiguration(new Configurations.history_objectConfiguration());
         OnModelCreatingPartial(modelBuilder);
     }
 

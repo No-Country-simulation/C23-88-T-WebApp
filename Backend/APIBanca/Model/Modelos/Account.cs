@@ -21,9 +21,11 @@ public partial class Account
 
     public virtual ICollection<Account_Balance> Account_Balance { get; set; } = new List<Account_Balance>();
 
-    public virtual ICollection<Account_history> Account_history { get; set; } = new List<Account_history>();
-
     public virtual ICollection<Company> Company { get; set; } = new List<Company>();
+
+    public virtual ICollection<History_object> History_objectaccount { get; set; } = new List<History_object>();
+
+    public virtual ICollection<History_object> History_objectother_account { get; set; } = new List<History_object>();
 
     public virtual ICollection<User> User { get; set; } = new List<User>();
 }

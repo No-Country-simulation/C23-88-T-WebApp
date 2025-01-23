@@ -7,26 +7,33 @@ using System.Collections.Generic;
 
 namespace Model.Modelos.Configurations
 {
-    public partial class history_objectConfiguration : IEntityTypeConfiguration<history_object>
+    public partial class History_objectConfiguration : IEntityTypeConfiguration<History_object>
     {
-        public void Configure(EntityTypeBuilder<history_object> entity)
+        public void Configure(EntityTypeBuilder<History_object> entity)
         {
             entity.HasKey(e => e.history_obj_id).HasName("PRIMARY");
 
-            entity.HasIndex(e => e.account_history_id, "history_object_to_history_idx");
+            entity.HasIndex(e => e.account_id, "history_object_to_history_idx");
 
+            entity.HasIndex(e => e.other_account_id, "history_object_to_other_account_idx");
+
+            entity.Property(e => e.date).HasColumnType("datetime");
             entity.Property(e => e.type)
                 .IsRequired()
                 .HasMaxLength(45);
 
-            entity.HasOne(d => d.account_history).WithMany(p => p.history_object)
-                .HasForeignKey(d => d.account_history_id)
+            entity.HasOne(d => d.account).WithMany(p => p.History_objectaccount)
+                .HasForeignKey(d => d.account_id)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("history_object_to_history");
+                .HasConstraintName("history_object_to_account");
+
+            entity.HasOne(d => d.other_account).WithMany(p => p.History_objectother_account)
+                .HasForeignKey(d => d.other_account_id)
+                .HasConstraintName("history_object_to_other_account");
 
             OnConfigurePartial(entity);
         }
 
-        partial void OnConfigurePartial(EntityTypeBuilder<history_object> entity);
+        partial void OnConfigurePartial(EntityTypeBuilder<History_object> entity);
     }
 }
