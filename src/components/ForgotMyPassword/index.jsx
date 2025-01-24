@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import logo from "../../assets/logobanco.webp";
+import { toast } from "react-toastify";
 
 const ForgotMyPassword = () => {
   const [email, setemail] = useState("");
@@ -15,7 +16,21 @@ const ForgotMyPassword = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("email enviado", email);
+    const emailExist = checkEmailExists(email);
+    if(!emailExist){
+      toast.error("El email es invalido!")
+    }
   };
+
+  const checkEmailExists =async(email)=>{
+
+    try {
+      
+      const response = await fetch('http://localhost:5101')
+    } catch (error) {
+      
+    }
+  }
 
   return (
     <>

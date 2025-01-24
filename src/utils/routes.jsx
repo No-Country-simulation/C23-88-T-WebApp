@@ -5,7 +5,8 @@ export const routess =()=>({
 	LOGIN:'/',
 	REGISTER:'/registrarse',
 	HOME : '/dashboard',
-	FORGOTPASSWORD: '/OlvideMiContrasena',
+	FORGOTPASSWORD: '/olvideMiContrasena',
+	LATESTMOVEMENTS:'/ultimosMovimientos'
 
 });
 
