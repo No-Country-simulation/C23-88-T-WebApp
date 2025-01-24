@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 
 const ForgotMyPassword = () => {
   const [email, setemail] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
 
   //tomando los datos del campo de texto
   const handleemailChange = (e) => {
@@ -13,22 +14,46 @@ const ForgotMyPassword = () => {
 
   //Enviando los datos al correo ingresado
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("email enviado", email);
-    const emailExist = checkEmailExists(email);
-    if(!emailExist){
-      toast.error("El email es invalido!")
+    const emailExist = await checkEmailExists(email); 
+    if (!emailExist) {
+      toast.error("El email es inválido o no existe!");
+    } else {
+      toast.success("Email válido, se inició el proceso de recuperación");
     }
   };
 
   const checkEmailExists =async(email)=>{
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    console.error('El formato del correo electrónico no es válido');
+    return false;
+  }
 
     try {
       
-      const response = await fetch('http://localhost:5101')
+      const response = await fetch('http://localhost:5101/api/Auth/reset-password',{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',
+        },
+        mode:'cors',
+        body: JSON.stringify({ email }),
+      });
+      if(response.ok){
+        const valideData = await response.text(); //CAMBIAR A JSON
+        console.log('correo existe',valideData)
+        return true; // Correo existe
+      }else {
+       // toast.error("UEmail no existe");
+       console.warn('El correo no existe');
+       return false; // Correo no existe
+      }
     } catch (error) {
-      
+      console.error('Error en la solicitud:', error.message);
+      setErrorMessage(error.message); 
     }
   }
 
