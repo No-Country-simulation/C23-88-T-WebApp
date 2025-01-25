@@ -23,7 +23,7 @@ const SideBar = () => {
 			<>
 			<div className="hidden lg:block g-white bg-white h-screen sm:w-64 px-4 py-2 lg:py-4 border-r-2 border-gray-100
 			">
-				<div className="max-w-7xl mx-4 lg:mx-auto px-2 m sm:px-4 md:px-2 lg:px-4 xl:px-8">
+				<div className="max-w-7xl mx-4 lg:mx-auto px-2 m sm:px-4 md:px-2 lg:px-4 xl:px-6">
 					<div className="relative flex items-center justify-between h-16">
 						<aside className="flex flex-row lg:flex-col">
 							<div className="space-y-1 lg:space-y-4 lg:justify-between justify-start">
@@ -35,7 +35,7 @@ const SideBar = () => {
 								</button>
 								<FontAwesomeIcon icon={faMoneyBill} className="mr-1"/>
 								<button id="btn-transferir" 
-								className="text-blue-950 text-lg font-semibold hover:text-gray-500  ml-3 sm:ml-4 "
+								className="text-blue-950 text-lg font-semibold hover:text-gray-500  ml-1 sm:ml-4 "
 								onClick={MovHistory}>Historial</button>
 							</div>
 						</aside>

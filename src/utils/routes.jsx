@@ -4,8 +4,9 @@
 export const routess =()=>({
 	LOGIN:'/',
 	REGISTER:'/registrarse',
-	HOME : '/dashboard',
 	FORGOTPASSWORD: '/olvideMiContrasena',
+	RESETMYPASSWORD:'/reiniciarContrasena',
+	HOME : '/dashboard',
 	LATESTMOVEMENTS:'/ultimosMovimientos'
 
 });

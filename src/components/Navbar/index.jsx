@@ -22,6 +22,7 @@ const NavBar =()=>{
 	const handleLogout = () => {
 		setIsMenuOpen(false);
 		localStorage.removeItem('authToken'),
+		localStorage.removeItem('credentials')
 		navigate(routes.LOGIN)
 	  };
 

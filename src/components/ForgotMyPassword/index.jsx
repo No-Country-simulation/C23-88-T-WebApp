@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../assets/logobanco.webp";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { routess } from "../../utils/routes";
 
 const ForgotMyPassword = () => {
-  const [email, setemail] = useState("");
+  const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
+  const [redirect, setRedirect] = useState(false);
+
+  const navigate =useNavigate();
+  const routes = routess();
 
   //tomando los datos del campo de texto
-  const handleemailChange = (e) => {
+  const handleEmailChange = (e) => {
     e.preventDefault();
-    setemail(e.target.value);
+    setEmail(e.target.value);
   };
 
   //Enviando los datos al correo ingresado
@@ -22,8 +28,22 @@ const ForgotMyPassword = () => {
       toast.error("El email es inválido o no existe!");
     } else {
       toast.success("Email válido, se inició el proceso de recuperación");
+      setRedirect(true);
+    }      
     }
-  };
+
+  useEffect(() => {
+    if (redirect) {
+      // redirigir después de 2 segundos
+      const timer = setTimeout(() => {
+        navigate(routes.RESETMYPASSWORD); 
+      }, 2000);
+
+      return () => clearTimeout(timer); // Limpiar temporizador
+    }
+  }, [redirect, navigate]);
+
+    
 
   const checkEmailExists =async(email)=>{
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -43,11 +63,10 @@ const ForgotMyPassword = () => {
         body: JSON.stringify({ email }),
       });
       if(response.ok){
-        const valideData = await response.text(); //CAMBIAR A JSON
+        const valideData = await response.json(); //CAMBIAR A JSON
         console.log('correo existe',valideData)
         return true; // Correo existe
       }else {
-       // toast.error("UEmail no existe");
        console.warn('El correo no existe');
        return false; // Correo no existe
       }
@@ -61,6 +80,7 @@ const ForgotMyPassword = () => {
     <>
       <div className="flex flex-col sm:flex-row h-screen w-screen">
         <div className="sm:w-1/2 p-8 flex flex-col justify-center">
+          <ToastContainer/>
           <form onSubmit={handleSubmit} className="space-y-4">
             <h2 className="flex flex-col items-center text-2xl font-bold text-gray-800 mt-4">
               Recuperar Contraseña
@@ -73,7 +93,7 @@ const ForgotMyPassword = () => {
                 type="email"
                 id="email"
                 value={email}
-                onChange={handleemailChange}
+                onChange={handleEmailChange}
                 className="border rounded px-4 py-2 mt-2 w-full sm:w-72 h-12"
                 placeholder="tuemail@example.com"
                 required

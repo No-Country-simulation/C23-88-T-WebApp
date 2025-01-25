@@ -61,8 +61,7 @@ const Login = () => {
       }); 
       if(Response.ok){
         const data = await response.json();
-  
-        return data.exists; //validar si existe o no? o si falta del lado del backend
+        return data.exists; 
 
       }else {
         toast.error("Usuario no encontrado");
@@ -101,10 +100,9 @@ const Login = () => {
       }
     const token = response.json();
       console.log('Token recibido:', token);
-
       // Guardar el token en localStorage
     localStorage.setItem('authToken', token);
-
+    localStorage.setItem('credentials', JSON.stringify(credentials));
       // Redirigir a la página principal
     navigate(routes.HOME);
   })
@@ -215,9 +213,9 @@ const Login = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
-				name="password"
-				value={credentials.password}
-				onChange={handleChange}
+				        name="password"
+				        value={credentials.password}
+				        onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 pr-10"
                 placeholder="********"
               />
