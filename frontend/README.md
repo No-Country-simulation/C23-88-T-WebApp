@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-# C23-88-T-WebApp
->>>>>>> 898f8dd (agregando la carpeta frontend)
 
 # Proyecto Banca Digital V 1.0
 
