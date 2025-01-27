@@ -7,7 +7,10 @@ export const routess =()=>({
 	FORGOTPASSWORD: '/olvideMiContrasena',
 	RESETMYPASSWORD:'/reiniciarContrasena',
 	HOME : '/dashboard',
-	LATESTMOVEMENTS:'/ultimosMovimientos'
+	LATESTMOVEMENTS:'/ultimosMovimientos',
+	RELOAD:'/recargas',
+	TRANSFER:'/transferencias',
+
 
 });
 

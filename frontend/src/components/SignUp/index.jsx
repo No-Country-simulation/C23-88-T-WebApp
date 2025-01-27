@@ -3,6 +3,9 @@ import logo from "../../assets/logobanco.webp";
 import { toast, ToastContainer} from "react-toastify";
 import registro from '../../assets/registro.png';
 import registro2 from '../../assets/registro2.jpg';
+import { routess } from "../../utils/routes";
+import { useNavigate } from "react-router-dom";
+
 const Register =()=>{
 
 const [datos,setDatos]=useState(
@@ -23,6 +26,10 @@ const [roles] = useState(["empresa", "usuario"]); // Opciones disponibles
 const [selectedRole, setSelectedRole] = useState(""); // Rol seleccionado
 const [errorMessages, setErrorMessages] = useState([]);
 const [successMessage, setSuccessMessage] = useState("");
+
+const navigate = useNavigate();
+const routes = routess();
+
   //Toma los valores de los inputs
   const handleChangeData = (e) => {
 	e.preventDefault();
@@ -83,10 +90,15 @@ const [successMessage, setSuccessMessage] = useState("");
 
 	} catch (error) {
 		console.error('Error en la solicitud:', error.message);
-      setErrorMessage(error.message);  // Aquí actualizamos el estado de error
+		setErrorMessages(error.message);  // Aquí actualizamos el estado de error
 	}
 
   };
+  
+  const closed = () => {
+    navigate(routes.LOGIN);
+  };
+
 
 
 	return(
@@ -230,6 +242,14 @@ const [successMessage, setSuccessMessage] = useState("");
             			>
               				Registrase
            				</button>
+						   <button
+              				type="button"
+							onClick={closed}
+              				className="bg-gray-400 text-white mx-3 py-2 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500  sm:w-ful mx-50 sm:px-20"
+            			>
+              				Volver
+           				</button>
+
 						   <ToastContainer />
             			</div>
 					</form>
