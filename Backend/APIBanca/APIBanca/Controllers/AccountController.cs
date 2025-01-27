@@ -35,7 +35,6 @@ namespace APIBanca.Controllers
                 // Map both account and Usuario to User_Account_DTO
                 var result = _mapper.Map<account_Usuario_DTO>(acc);
                 _mapper.Map(info, result); // This will map the User data to the result DTO
-                _Mailrepository.Send_Email_Test(email, "Test has gone well : )");
                 return Ok(result);
             }
             else if (acc.role == "empresa")
@@ -45,7 +44,6 @@ namespace APIBanca.Controllers
                 // Map both account and Usuario to User_Account_DTO
                 var result = _mapper.Map<account_Empresa_DTO>(acc);
                 _mapper.Map(info, result); // This will map the User data to the result DTO
-                _Mailrepository.Send_Email_Test(email, "Test has gone well : )");
                 return Ok(result);
 
             }
