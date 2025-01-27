@@ -76,6 +76,10 @@ const ForgotMyPassword = () => {
     }
   }
 
+  const closed = () => {
+    navigate(routes.LOGIN);
+  };
+
   return (
     <>
       <div className="flex flex-col sm:flex-row h-screen w-screen">
@@ -105,6 +109,13 @@ const ForgotMyPassword = () => {
                 className="bg-blue-500 text-white py-2 px-4 rounded justify-center items-center"
               >
                 Enviar
+              </button>
+              <button
+                type="button"
+                className="bg-gray-400 text-white py-2 px-4 rounded justify-center items-center mx-4"
+                onClick={closed}
+              >
+                Cerrar
               </button>
             </div>
           </form>

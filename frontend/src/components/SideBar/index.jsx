@@ -11,12 +11,16 @@ const SideBar = () => {
   const routes = routess();
 
   const Transfer = () => {
-    navigate("/balance");
+    navigate(routes.TRANSFER);
   };
 
   const MovHistory = () => {
     navigate(routes.LATESTMOVEMENTS);
   };
+
+  const Reload = () => {
+    navigate(routes.RELOAD);
+  }
 
   return (
     <>
@@ -38,8 +42,16 @@ const SideBar = () => {
                 </button>
                 <FontAwesomeIcon icon={faMoneyBill} className="mr-1" />
                 <button
+                  id="btn-transfer"
+                  className="text-blue-950 text-lg font-semibold hover:text-gray-500 ml-6 md:ml-4"
+                  onClick={Reload}
+                >
+                  Recargas
+                </button>
+                <FontAwesomeIcon icon={faMoneyBill} className="mx-3" />
+                <button
                   id="btn-transferir"
-                  className="text-blue-950 text-lg font-semibold hover:text-gray-500  ml-1 sm:ml-4 "
+                  className="text-blue-950 text-lg font-semibold hover:text-gray-500  ml-4 md:ml-2 "
                   onClick={MovHistory}
                 >
                   Historial
