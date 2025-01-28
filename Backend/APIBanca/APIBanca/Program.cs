@@ -4,7 +4,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Model.Modelos;
 using Modelo.Helper;
+using Service.IService;
 using Service.Services;
+using Service.Servicios;
 using Servicio.IServices;
 using System.Text;
 
@@ -23,6 +25,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IMailService, MailService>();
 builder.Services.AddScoped<IBalanceService, BalanceService>();
+builder.Services.AddScoped<IContactService, ContactService>();
 //CORS
 builder.Services.AddCors(options =>
 {

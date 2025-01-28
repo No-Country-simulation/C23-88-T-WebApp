@@ -23,6 +23,10 @@ public partial class Account
 
     public virtual ICollection<Company> Company { get; set; } = new List<Company>();
 
+    public virtual ICollection<Contacts> ContactsContactAccount { get; set; } = new List<Contacts>();
+
+    public virtual ICollection<Contacts> ContactsUser { get; set; } = new List<Contacts>();
+
     public virtual ICollection<History_object> History_objectaccount { get; set; } = new List<History_object>();
 
     public virtual ICollection<History_object> History_objectother_account { get; set; } = new List<History_object>();

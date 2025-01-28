@@ -27,6 +27,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "Contacts",
+         "ObjectType": 0
+      },
+      {
          "Name": "History_object",
          "ObjectType": 0
       },
@@ -48,6 +52,7 @@
    "UseHandleBars": false,
    "UseHierarchyId": false,
    "UseInflector": false,
+   "UseInternalAccessModifiersForSprocsAndFunctions": false,
    "UseLegacyPluralizer": false,
    "UseManyToManyEntity": false,
    "UseNoDefaultConstructor": false,

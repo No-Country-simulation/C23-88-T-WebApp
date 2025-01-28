@@ -20,6 +20,8 @@ public partial class BancaDBContext : DbContext
 
     public virtual DbSet<Company> Company { get; set; }
 
+    public virtual DbSet<Contacts> Contacts { get; set; }
+
     public virtual DbSet<History_object> History_object { get; set; }
 
     public virtual DbSet<User> User { get; set; }
@@ -33,6 +35,7 @@ public partial class BancaDBContext : DbContext
         modelBuilder.ApplyConfiguration(new Configurations.AccountConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.Account_BalanceConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.CompanyConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.ContactsConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.History_objectConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.UserConfiguration());
         OnModelCreatingPartial(modelBuilder);
