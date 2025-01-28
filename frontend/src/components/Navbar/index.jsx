@@ -34,14 +34,12 @@ const NavBar = () => {
     navigate(routes.LATESTMOVEMENTS);
   };
 
-
   const Reload = () => {
     navigate(routes.RELOAD);
   };
   const Transfer = () => {
     navigate(routes.TRANSFER);
   };
-
   return (
     <>
       <nav className="bg-blue-950">
@@ -100,11 +98,6 @@ const NavBar = () => {
                   >
                     Inicio
                   </button>
-
-                  <button className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
-                    Transferencias
-                  </button>
-
                   <button className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                   onClick={Transfer}>
                     Transferencias
@@ -113,7 +106,6 @@ const NavBar = () => {
                   onClick={Reload}>
                     Recargas
                   </button>
-
                   <button
                     className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                     onClick={Move}

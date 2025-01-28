@@ -45,10 +45,8 @@ const Login = () => {
 
     const userExist = checkUserExists(credentials.email);
     if(!userExist){
-
       toast.error("El usuario no fue encontrado!!");
       return false
-
     }
 		return true;
 	}

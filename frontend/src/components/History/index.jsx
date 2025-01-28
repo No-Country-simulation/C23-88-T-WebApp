@@ -1,12 +1,10 @@
 import React, { useState,useEffect } from "react";
-
 import NavBar from "../Navbar";
 import SideBar from "../SideBar";
 
 const MoveHistory =()=>{
 
-
-	const [history,setHistory]=useState('');
+	const [history,setHistory]=useState([]);
 	const [userData, setUserData] = useState(null);
 	const [accountId, setAccountId] = useState(null); 
 	const [isLoading, setIsLoading] = useState(true);
@@ -93,7 +91,6 @@ const getUser = async (email) => {
 		<>
 		<NavBar/>
 		<div className="h-screen flex justify-around bg-gray-100 sm:flex-row md:justify-between sm:bg-gray-100">
-
 			<SideBar/>
 			<div className="w-5/6 lg:w-full flex flex-col bg-gray-100">
 				<div className="py-4 mx-4 font-semibold">

@@ -11,6 +11,5 @@ export const routess =()=>({
 	RELOAD:'/recargas',
 	TRANSFER:'/transferencias',
 
-
 });
 

@@ -9,7 +9,6 @@ const Home = ()=> {
 	const [userName, setUserName] = useState("");
 	const [errorMessage, setErrorMessage] = useState(null);
 	const [loading, setIsLoading] = useState(true);
-
 	const [accountId, setAccountId] = useState(null); 
 
 
@@ -42,13 +41,14 @@ const Home = ()=> {
 		  setUserName(data.name);
 		  setUserData(data);
 		  setAccountId(data.account_id);
-
+		  setIsLoading(false); 
 		  console.log('esta es la variable de account',accountId) //Asumimos que 'data.name' es el nombre del usuario
 		} catch (err) {
-			setLoading(false);
 		  setErrorMessage(err.message);
+		  setLoading(false);
+		} 
 	  };
-	  }
+	
 	
 	  const fetchBalance = async () => {
 		console.log('pasamos la cuenta', accountId);  // Verificamos que accountId sea el correcto
@@ -68,24 +68,26 @@ const Home = ()=> {
 		  console.log('Datos de saldo:', data);  // Verificamos los datos del saldo
 	
 		  setBalance(data.balance);  // Asumimos que 'data.balance' es el saldo
-
+		  setIsLoading(false); 
 		} catch (err) {
 		  setErrorMessage(err.message);
-		  setIsLoading(false);  // Dejamos de mostrar el estado de carga
+		  setLoading(false);  // Desactivamos el estado de carga al finalizar
+		}
 	  };
 	
 	  // useEffect para obtener el balance cuando el accountId cambia
 	  useEffect(() => {
-
-		console.log('El accountId es:', accountId);  // Log de accountId
+		console.log('El accountId es:', accountId); 
 		if (accountId !== null) {
-		  console.log('Llamando a fetchBalance con accountId:', accountId);  // Verificamos que accountId haya cambiado
+		  console.log('Llamando a fetchBalance con accountId:', accountId);  
 		  fetchBalance();  // Llamamos a fetchBalance
 		} else {
 		  console.log('Aún no hay accountId');
-		  setLoading(false);  // Si no hay accountId, dejamos de mostrar el estado de carga
+		  setIsLoading(false);  
 		}
-	  }, [accountId]);  // Dependencia de 'accountId'
+	  }, [accountId]); 
+
+
 	
 	return(
 		<>
@@ -119,10 +121,8 @@ const Home = ()=> {
       		    </div>
       		  )}
       		</div>
-
 		</>
 	)
-}
 }
 
 export default Home;

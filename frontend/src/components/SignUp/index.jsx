@@ -5,7 +5,6 @@ import registro from '../../assets/registro.png';
 import registro2 from '../../assets/registro2.jpg';
 import { routess } from "../../utils/routes";
 import { useNavigate } from "react-router-dom";
-
 const Register =()=>{
 
 const [datos,setDatos]=useState(
@@ -29,7 +28,6 @@ const [successMessage, setSuccessMessage] = useState("");
 
 const navigate = useNavigate();
 const routes = routess();
-
   //Toma los valores de los inputs
   const handleChangeData = (e) => {
 	e.preventDefault();
@@ -90,7 +88,7 @@ const routes = routess();
 
 	} catch (error) {
 		console.error('Error en la solicitud:', error.message);
-		setErrorMessages(error.message);  // Aquí actualizamos el estado de error
+      setErrorMessage(error.message);  // Aquí actualizamos el estado de error
 	}
 
   };
@@ -98,7 +96,6 @@ const routes = routess();
   const closed = () => {
     navigate(routes.LOGIN);
   };
-
 
 
 	return(
@@ -249,7 +246,6 @@ const routes = routess();
             			>
               				Volver
            				</button>
-
 						   <ToastContainer />
             			</div>
 					</form>
