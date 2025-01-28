@@ -248,7 +248,7 @@ namespace Service.Services
                         new Claim(ClaimTypes.Email, account.email),
                         new Claim(ClaimTypes.Role, account.role),
                     }),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.UtcNow.AddMinutes(15),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
