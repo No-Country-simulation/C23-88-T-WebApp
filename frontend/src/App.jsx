@@ -5,10 +5,11 @@ import { routess } from './utils/routes';
 import ProtectedRoute from './components/ProtectedRoute';
 import ForgotMyPassword from './components/ForgotMyPassword';
 import Home from './components/Home';
-import Login from './components/signIn';
+import Login from './components/SignIn';
 import Register from './components/SignUp';
 import MoveHistory from './components/History';
 import ResetPassword from './components/ResetPassword';
+import TopUpBalance from './components/TopUpBalance';
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
                           {/* Rutas protegidas */}
                 <Route path={rutas.HOME} element={<ProtectedRoute><Home/></ProtectedRoute>}/>
                 <Route path={rutas.LATESTMOVEMENTS} element={<ProtectedRoute><MoveHistory/></ProtectedRoute>}/>
+                <Route path={rutas.TOPUPBALANCE} element={<ProtectedRoute><TopUpBalance/></ProtectedRoute>}/>
             </Routes>
       </BrowserRouter>
     </>

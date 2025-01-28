@@ -7,7 +7,6 @@ import { routess} from "../../utils/routes.jsx";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const api = "http://localhost:5101/";
 
 const Login = () => {
 

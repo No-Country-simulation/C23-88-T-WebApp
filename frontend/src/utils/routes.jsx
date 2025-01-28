@@ -8,7 +8,7 @@ export const routess =()=>({
 	RESETMYPASSWORD:'/reiniciarContrasena',
 	HOME : '/dashboard',
 	LATESTMOVEMENTS:'/ultimosMovimientos',
-	RELOAD:'/recargas',
+	TOPUPBALANCE:'/recargas',
 	TRANSFER:'/transferencias',
 
 });
