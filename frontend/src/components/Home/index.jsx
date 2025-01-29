@@ -44,6 +44,7 @@ const Home = ()=> {
 		  setIsLoading(false); 
 		  console.log('esta es la variable de account',accountId) //Asumimos que 'data.name' es el nombre del usuario
 		} catch (err) {
+			setLoading(false);
 		  setErrorMessage(err.message);
 		  setLoading(false);
 		} 
@@ -71,7 +72,7 @@ const Home = ()=> {
 		  setIsLoading(false); 
 		} catch (err) {
 		  setErrorMessage(err.message);
-		  setLoading(false);  // Desactivamos el estado de carga al finalizar
+		  setIsLoading(false);  // Desactivamos el estado de carga al finalizar
 		}
 	  };
 	
@@ -83,7 +84,7 @@ const Home = ()=> {
 		  fetchBalance();  // Llamamos a fetchBalance
 		} else {
 		  console.log('Aún no hay accountId');
-		  setIsLoading(false);  
+		  setLoading(false);  // Si no hay accountId, dejamos de mostrar el estado de carga
 		}
 	  }, [accountId]); 
 
