@@ -150,7 +150,7 @@ namespace Service.Services
             return _context.History_object
                            .Where(p => p.account_id == Id)  // Filter by account_id
                            .OrderByDescending(p => p.date)  // Sort by Date in descending order (most recent first)
-                           .Take(10)  // Take the top 10 records
+                           .Take(10)  // Take the top 10 records/*  */
                            .ToList();
         }
 

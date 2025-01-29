@@ -43,7 +43,7 @@ const Home = ()=> {
 		  setAccountId(data.account_id);
 		  setIsLoading(false); 
 		} catch (err) {
-			setLoading(false);
+			setIsLoading(false);
 		  setErrorMessage(err.message);
 		  setIsLoading(false);
 		} 
