@@ -21,7 +21,7 @@ namespace Servicio.IServices
 
         public String Add_history_object(History_object New_history);
 
-        public IEnumerable<History_object> Get_history_By_Id(long Id);
+        public IEnumerable<History_object> Get_history_By_Id(long Id, int limit, int offset);
 
         //public void Create_Recharge_history(int Id_account, int Value);
 

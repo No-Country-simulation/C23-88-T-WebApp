@@ -145,14 +145,16 @@ namespace Service.Services
             Add_history_object(historyObject);
         }
 
-        public IEnumerable<History_object> Get_history_By_Id(long Id)
+        public IEnumerable<History_object> Get_history_By_Id(long Id, int limit, int offset)
         {
             return _context.History_object
-                           .Where(p => p.account_id == Id)  // Filter by account_id
-                           .OrderByDescending(p => p.date)  // Sort by Date in descending order (most recent first)
-                           .Take(10)  // Take the top 10 records/*  */
+             .Where(p => p.account_id == Id)  // Filtrar por account_id
+                           .OrderByDescending(p => p.date)  // Ordenar por fecha descendente
+                           .Skip(offset)  // Omitir los primeros 'offset' registros
+                           .Take(limit)   // Tomar solo 'limit' registros
                            .ToList();
         }
+
 
 
 
