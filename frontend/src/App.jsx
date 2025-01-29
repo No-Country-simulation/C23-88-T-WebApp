@@ -10,6 +10,7 @@ import Register from './components/SignUp';
 import MoveHistory from './components/History';
 import ResetPassword from './components/ResetPassword';
 import TopUpBalance from './components/TopUpBalance';
+import Transfer from './components/Transfer';
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
                 <Route path={rutas.HOME} element={<ProtectedRoute><Home/></ProtectedRoute>}/>
                 <Route path={rutas.LATESTMOVEMENTS} element={<ProtectedRoute><MoveHistory/></ProtectedRoute>}/>
                 <Route path={rutas.TOPUPBALANCE} element={<ProtectedRoute><TopUpBalance/></ProtectedRoute>}/>
+                <Route path={rutas.TRANSFER} element={<ProtectedRoute><Transfer/></ProtectedRoute>}/>
             </Routes>
       </BrowserRouter>
     </>

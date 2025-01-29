@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from "react"; 
-import NavBar from "../NavBar";
+import NavBar from "../Navbar/index.jsx"; // Ensure the casing matches the actual file name
 import SideBar from "../SideBar";
 import { routess } from "../../utils/routes";
 import { useNavigate } from "react-router-dom";
