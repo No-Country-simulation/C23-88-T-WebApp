@@ -120,7 +120,7 @@ const routes = routess();
 			</div>
 				<div className="flex flex-col items-center mb-6 border rounded-xl border-gray-600 py-1 mx-3 shadow-lg shadow-gray-700 bg-gradient-to-r from-gray-100 to-gray-300">
 					<form onSubmit={handleSubmit} className="w-full sm:w-96">
-					<div className="flex flex-col lg:flex-row items-center mx-3">
+						<div className="flex flex-col lg:flex-row items-center mx-3">
 						<label className="block text-sm font-medium text-gray-700 px-4">Tipo de cuenta:</label>
 						<select
                 			id="role"
@@ -139,7 +139,7 @@ const routes = routess();
       ))}
 						</select>
 						</div>
-					<div className="flex flex-col lg:flex-row items-center mx-3">
+						<div className="flex flex-col lg:flex-row items-center mx-3">
 						<label className="block text-sm font-medium text-gray-700 px-2">Correo electrónico:</label>
 						<input
                 			type="email"

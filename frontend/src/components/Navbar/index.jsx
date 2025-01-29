@@ -34,8 +34,8 @@ const NavBar = () => {
     navigate(routes.LATESTMOVEMENTS);
   };
 
-  const Reload = () => {
-    navigate(routes.RELOAD);
+  const TopUp = () => {
+    navigate(routes.TOPUPBALANCE);
   };
   const Transfer = () => {
     navigate(routes.TRANSFER);
@@ -103,7 +103,7 @@ const NavBar = () => {
                     Transferencias
                   </button>
                   <button className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                  onClick={Reload}>
+                  onClick={TopUp}>
                     Recargas
                   </button>
                   <button
