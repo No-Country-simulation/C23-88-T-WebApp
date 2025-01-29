@@ -62,13 +62,17 @@ namespace APIBanca.Controllers
 
 
         [HttpGet("GetHistory")]
-        public ActionResult<History_object_DTO> GetHistory(long Id)
+        public ActionResult<IEnumerable<History_object_DTO>> GetHistory(long Id, int limit = 10, int offset = 0)
         {
-            var history = _repository.Get_history_By_Id(Id);
-            if (history == null) return NotFound("Account missing");
+            var history = _repository.Get_history_By_Id(Id, limit, offset);
+
+            if (history == null || !history.Any())
+                return NotFound("Not Found");
+
             var result = _mapper.Map<IEnumerable<History_object_DTO>>(history);
             return Ok(result);
         }
+
 
     }
 }
