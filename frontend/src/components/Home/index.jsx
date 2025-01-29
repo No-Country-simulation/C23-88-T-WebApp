@@ -56,7 +56,7 @@ const Home = ()=> {
 					setIsLoading(true); // Activamos el estado de carga
 					fetchBalance(); // Llamamos a la función que obtiene el balance
 				} else {
-				  console.log('Aún no hay accountId');
+				
 				  setIsLoading(false);  
 				}
 			  }, [accountId]); 
@@ -81,9 +81,9 @@ const Home = ()=> {
 		  const data = await response.json();
 		  setBalance(data.balance);  // Asumimos que 'data.balance' es el saldo
 		  setIsLoading(false); 
-		} catch (err) {
-		  setErrorMessage(err.message);
-		  setIsLoading(false);  // Desactivamos el estado de carga al finalizar
+		} catch (error) {
+			throw new Error("Error al obtener los movimientos");
+		  
 		}
 	  };
 	

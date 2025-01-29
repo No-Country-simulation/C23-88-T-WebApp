@@ -27,7 +27,7 @@ const NavBar = () => {
 
   const Home = () => {
     navigate(routes.HOME);
-    console.log("redirige a home", navigate);
+    
   };
 
   const Move = () => {

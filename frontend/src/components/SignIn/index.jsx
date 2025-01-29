@@ -67,8 +67,8 @@ const Login = () => {
         toast.error("Usuario no encontrado");
       }
     } catch (error) {
-      console.error('Error en la solicitud:', error.message);
-      setErrorMessage(error.message);  // Aquí actualizamos el estado de error
+      throw new Error("Error al obtener los movimientos");
+      
     }
  
   };
@@ -99,7 +99,7 @@ const Login = () => {
           });
       }
     const token = response.json();
-      console.log('Token recibido:', token);
+   
       // Guardar el token en localStorage
     localStorage.setItem('authToken', token);
     localStorage.setItem('credentials', JSON.stringify(credentials));
@@ -111,7 +111,7 @@ const Login = () => {
         console.error('Error en la solicitud:', error.message);
         setErrorMessage(error.message);  
     });
-      console.log("Formulario enviado", credentials); 
+      toast.success("Formulario enviado", credentials); 
     }
   }
   //guarda los datos en el local storage
@@ -124,7 +124,7 @@ const Login = () => {
     //Obtiene las credenciales del localStorage
   const getCredentials = () => {
     const credentials = localStorage.getItem('credentials');
-  console.log('credenciales',credentials)
+
 	if(credentials){
 	  setCredentials(JSON.parse(credentials)); // Si existen, carga las credenciales en el estado
       setRememberMe(true); // Marca el checkbox de recuerdame
