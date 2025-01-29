@@ -77,6 +77,7 @@ namespace Service.Services
                 // Create the account
                 var nuevaaccount = new Account()
                 {
+                    id = Hash_ID(account.email),
                     email = account.email,
                     password = account.password.GetSHA256(),
                     role = account.role,
@@ -282,26 +283,22 @@ namespace Service.Services
             public string Country { get; set; }
         }
 
-        private async void Hash_ID(string email)
+        private long Hash_ID(string email)
         {
-            var Account = getAccount(email);
+            //var Account = getAccount(email);
 
-            var hash = TransformIdToHashedNumber(Account.id);
+            var hash = TransformIdToHashedNumber(email);
 
-             Account.id = hash;
-
-            _context.Account.Update(Account);
-            _context.SaveChanges();
-
+            return hash;
         }
 
-        private long TransformIdToHashedNumber(long id)
+        private long TransformIdToHashedNumber(string email)
         {
             // Get the key from the _appSettings object
             var key = Encoding.ASCII.GetBytes(_appSettings.Key);
 
             // Concatenate the ID and key to create the input string for hashing
-            string input = id.ToString() + key;
+            string input = email.ToString() + key;
 
             // Compute the SHA-256 hash of the input string
             using (SHA256 sha256 = SHA256.Create())
@@ -314,11 +311,6 @@ namespace Service.Services
                 // Make sure the result is positive by taking the absolute value
                 return Math.Abs(hashNumber);
             }
-        }
-
-        private Account getAccount(string email)
-        {
-            return (_context.Account.FirstOrDefault(p => p.email == email));
         }
 
     }
