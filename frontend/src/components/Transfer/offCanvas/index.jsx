@@ -1,23 +1,91 @@
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import { toast, ToastContainer } from "react-toastify";
 const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 
 	const [newUserAccount,setNewUserAccount]=useState('');
+	const [isAmount,setIsAmount]=useState(0);
+	const [accountId, setAccountId] = useState(null);
+		const [userData, setUserData] = useState(null);
 
+
+	const storedCredentials = localStorage.getItem('credentials');
+			
+				useEffect(() => {
+					// Si las credenciales existen, obtenemos el email
+					if (storedCredentials) {
+					  const credentials = JSON.parse(storedCredentials);
+					//  setAccountId(credentials.account_id);	  
+					  const { email } = credentials; // Extraemos el email			
+					  // función que obtiene los datos del usuario
+					  getUser(email);
+			
+					}
+				  }, [storedCredentials]);
+		
+
+	const getUser= async (email)=>{
+		try {
+			const response = await fetch(`http://localhost:5101/Account/GetByEmail?email=${email}`);
+			if (!response.ok) {
+				throw new Error("Error al obtener los datos del usuario. Cuenta no encontrada.");
+			}
+			const data = await response.json();
+			setUserData(data);
+			setAccountId(data.account_id);
+			console.log('datos', data.email)
+
+		
+		} catch (err) {
+			console.error(err.message);
+		}
+	
+	}
 	const handleData =(e)=>{
 		e.preventDefault();
 		const value = Number(e.target.value);
-		console.log('tomando los datos',value)
+		console.log('tomando el CBU',value)
 		setNewUserAccount();
 	};
 
-	const handleSaveData =()=>{
-		console.log('clic')
+	const handleinputAmount = (e)=>{
+		e.preventDefault();
+		const value =e.target.value
+		console.log("tomando el monto",value)
+		setIsAmount();
+
 	}
 
-
+	
+	const AddnNewUserAccount= async(e)=>{
+		e.preventDefault()
+				// Validar que el monto sea mayor a 0
+				
+				const response = await fetch(`http://localhost:5101/Balance/AddBalance`, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					mode: 'cors',
+					body: JSON.stringify({
+						account_id: accountId,
+						value: isAmount,
+					}),
+				
+				})
+		
+				if (response.ok) {
+					const data = await response.json();
+				toast.success("Tranferencia exitosa!");
+		
+					// Limpia el monto después de una recarga exitosa
+					setIsAmount(0);
+				} else {
+					// Mostrar mensaje de error
+					toast.error('error en la transferencia', response);
+				}
+	}
 
 	return(
 		<>
@@ -28,6 +96,7 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 	   			role="dialog"
 	   			aria-labelledby="hs-offcanvas-right-label"
 	 		>
+				<ToastContainer/>
         		<div className="flex justify-between items-center py-3 px-4 border-b dark:border-neutral-700">
         		  <h3 id="hs-offcanvas-right-label" className="font-bold text-gray-800 dark:text-white">
         		    Datos del Beneficiario
@@ -51,7 +120,7 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
         		  	CBU/CVU:
         		  </p>
         		</div>
-				<div className="flex flex-col justify-center items-center m-12">
+				<div className="flex flex-col justify-center items-center m-5">
 					<p>Ingrese el número de CBU:</p>
 					<input  
 					className="w-full p-2 mr-4 border border-gray-300 rounded mt-1 pl-30"
@@ -62,10 +131,21 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 					onChange={handleData}
 					/>
 				</div>
+				<div className="flex flex-col justify-center items-center m-5">
+					<p>Ingrese el Monto:</p>
+					<input  
+					className="w-full p-2 mr-4 border border-gray-300 rounded mt-1 pl-30"
+					type="number"
+					id="amount"
+					name="amount"
+					value={isAmount}
+					onChange={handleinputAmount}
+					/>
+				</div>
 				<div className="flex flex-col flex-1 justify-center items-center">
 					<button type="button"
 					 className="bg-blue-600 border rounded-xl p-4 m-4 text-white font-semibold items-end"
-					 onClick={handleSaveData}>Guardar</button>
+					 onClick={AddnNewUserAccount}>Guardar</button>
 				</div>
         	</div>
 			)}					

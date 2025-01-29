@@ -29,19 +29,9 @@ const Transfer =()=>{
 		setIsOffCanvas(false);
 	}
 
-	useEffect(()=>{
-		console.log('mostrar estado', isOffCanvas)
-	},[isOffCanvas])
-
 	const StateSButtonsEnable =()=>{
 		OpenOffCanvas();
 		setStateButton("btn2");
-	}
-
-
-	const AddnNewUserAccount=(e)=>{
-		e.preventDefault();
-		console.log('haciendo clic en agregar nuevo cbu')
 	}
 
 	return(
