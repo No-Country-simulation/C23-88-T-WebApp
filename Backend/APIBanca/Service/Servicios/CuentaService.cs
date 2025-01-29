@@ -25,17 +25,17 @@ namespace Service.Services
             return _context.Account.FirstOrDefault(p => p.email == email);
         }
 
-        public Account GetAccountbyId(int id)
+        public Account GetAccountbyId(long id)
         {
             return _context.Account.FirstOrDefault(p => p.id == id);
         }
 
-        public User GetUserbyId(int id)
+        public User GetUserbyId(long id)
         {
             return _context.User.FirstOrDefault(p => p.account_id == id);
         }
 
-        public Company GetEmpresabyId(int id)
+        public Company GetEmpresabyId(long id)
         {
             return _context.Company.FirstOrDefault(p => p.account_id == id);
         }

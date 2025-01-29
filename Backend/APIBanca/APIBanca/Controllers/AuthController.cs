@@ -92,6 +92,7 @@ namespace API_TrabajoPractico.Controllers
                     return NotFound(new { message = "Incorrect email/password" });
                 }
 
+
                 // Login exitoso
                 return Ok(new { token });
             }

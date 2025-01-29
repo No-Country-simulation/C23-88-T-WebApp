@@ -28,6 +28,7 @@ namespace APIBanca.Controllers
             var acc = _repository.GetAccountbyEmail(email);
             if (acc == null) return NotFound("Account missing");
 
+
             if (acc.role == "usuario")
             {
                 var info = _repository.GetUserbyId(acc.id);

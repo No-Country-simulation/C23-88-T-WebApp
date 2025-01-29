@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using Model.DTO;
 using Model.Modelos;
 using Model.ViewModel;
 using Model.ViewModels;
 using Modelo.Helper;
+using Newtonsoft.Json;
 using Service.Helper;
 using Servicio.IServices;
 using System;
@@ -15,6 +18,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -134,6 +138,8 @@ namespace Service.Services
 
                     _context.Account_Balance.Add(nuevoBanco);
                     _context.SaveChanges();
+
+                    //Hash_ID(account.email); Not working
 
                     _service.Send_Verification_Email(account.email, account.name, account.surname, nuevaaccount.ver_code);
 
@@ -258,5 +264,64 @@ namespace Service.Services
 
 
         }
+
+        public async Task<string> CheckLocation(string ipAddress)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.GetStringAsync($"http://ip-api.com/json/{ipAddress}");
+                var locationInfo = JsonConvert.DeserializeObject<LocationResponse>(response);
+
+                return $"{locationInfo.City}, {locationInfo.Country}";
+            }
+        }
+
+        public class LocationResponse
+        {
+            public string City { get; set; }
+            public string Country { get; set; }
+        }
+
+        private async void Hash_ID(string email)
+        {
+            var Account = getAccount(email);
+
+            var hash = TransformIdToHashedNumber(Account.id);
+
+             Account.id = hash;
+
+            _context.Account.Update(Account);
+            _context.SaveChanges();
+
+        }
+
+        private long TransformIdToHashedNumber(long id)
+        {
+            // Get the key from the _appSettings object
+            var key = Encoding.ASCII.GetBytes(_appSettings.Key);
+
+            // Concatenate the ID and key to create the input string for hashing
+            string input = id.ToString() + key;
+
+            // Compute the SHA-256 hash of the input string
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+                // Convert the hash into a numeric value. For simplicity, we'll take the first 8 bytes and convert them to a long.
+                long hashNumber = BitConverter.ToInt64(hashBytes, 0);
+
+                // Make sure the result is positive by taking the absolute value
+                return Math.Abs(hashNumber);
+            }
+        }
+
+        private Account getAccount(string email)
+        {
+            return (_context.Account.FirstOrDefault(p => p.email == email));
+        }
+
     }
+
+    
 }

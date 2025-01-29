@@ -23,12 +23,12 @@ namespace Service.Services
             _context = context;
         }
 
-        public Account_Balance GetBalancebyAccountId(int Id)
+        public Account_Balance GetBalancebyAccountId(long Id)
         {
             return _context.Account_Balance.FirstOrDefault(p => p.account_id == Id);
         }
 
-        public ResponseModel Transaction(int Id_from, int Id_to, int Amount)
+        public ResponseModel Transaction(long Id_from, long Id_to, int Amount)
         {
             var from_account_balance = _context.Account_Balance.FirstOrDefault(p => p.account_id == Id_from);
             var to_account_balance = _context.Account_Balance.FirstOrDefault(p => p.account_id == Id_to);
@@ -74,8 +74,10 @@ namespace Service.Services
 
 
 
-        public ResponseModel Add_Balance(int Id_account, int Amount)
+        public ResponseModel Add_Balance(Recharge_DTO values)
         {
+            var Id_account = values.Account_id;
+            var Amount = values.Value;
             var Account_balance = _context.Account_Balance.FirstOrDefault(p => p.account_id == Id_account);
 
             if (Account_balance == null)
@@ -121,7 +123,7 @@ namespace Service.Services
             return "Created history object";
         }
 
-        private void Create_Recharge_history(int Id_account, int Value) {
+        private void Create_Recharge_history(long Id_account, int Value) {
             var historyObject = new History_object();
             historyObject.account_id = Id_account;
             historyObject.date = DateTime.Now;
@@ -131,7 +133,7 @@ namespace Service.Services
             Add_history_object(historyObject);
         }
 
-        private void Create_Transaction_history(int Id_account, string Type, int Value, int Other_id)
+        private void Create_Transaction_history(long Id_account, string Type, int Value, long Other_id)
         {
             var historyObject = new History_object();
             historyObject.account_id = Id_account;
@@ -143,12 +145,15 @@ namespace Service.Services
             Add_history_object(historyObject);
         }
 
-        public IEnumerable<History_object> Get_history_By_Id(int Id)
+        public IEnumerable<History_object> Get_history_By_Id(long Id)
         {
             return _context.History_object
-                           .Where(p => p.account_id == Id)  // Filtrar
+                           .Where(p => p.account_id == Id)  // Filter by account_id
+                           .OrderByDescending(p => p.date)  // Sort by Date in descending order (most recent first)
+                           .Take(10)  // Take the top 10 records
                            .ToList();
         }
+
 
 
 

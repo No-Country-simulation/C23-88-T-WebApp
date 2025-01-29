@@ -13,7 +13,7 @@ public partial class Account_Balance
 
     public int max_balance { get; set; }
 
-    public int account_id { get; set; }
+    public long account_id { get; set; }
 
     public virtual Account account { get; set; }
 }

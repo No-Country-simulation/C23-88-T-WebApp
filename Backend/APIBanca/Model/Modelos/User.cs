@@ -9,7 +9,7 @@ public partial class User
 {
     public string dni { get; set; }
 
-    public int account_id { get; set; }
+    public long account_id { get; set; }
 
     public string name { get; set; }
 

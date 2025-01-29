@@ -9,7 +9,7 @@ public partial class History_object
 {
     public int history_obj_id { get; set; }
 
-    public int account_id { get; set; }
+    public long account_id { get; set; }
 
     public string type { get; set; }
 
@@ -17,7 +17,7 @@ public partial class History_object
 
     public DateTime date { get; set; }
 
-    public int? other_account_id { get; set; }
+    public long? other_account_id { get; set; }
 
     public virtual Account account { get; set; }
 

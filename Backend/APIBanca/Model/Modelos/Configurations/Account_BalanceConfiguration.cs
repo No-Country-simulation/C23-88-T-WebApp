@@ -13,12 +13,12 @@ namespace Model.Modelos.Configurations
         {
             entity.HasKey(e => e.balance_id).HasName("PRIMARY");
 
-            entity.HasIndex(e => e.account_id, "account_id_idx");
+            entity.HasIndex(e => e.account_id, "Account_to_balance_idx");
 
             entity.HasOne(d => d.account).WithMany(p => p.Account_Balance)
                 .HasForeignKey(d => d.account_id)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("account_id");
+                .HasConstraintName("Account_to_balance");
 
             OnConfigurePartial(entity);
         }

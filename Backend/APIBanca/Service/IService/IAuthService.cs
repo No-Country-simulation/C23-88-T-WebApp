@@ -17,6 +17,8 @@ namespace Servicio.IServices
         Task<ResponseModel> ResetPasswordAsync(string email, string code, string newPassword);
         Task<ResponseModel> InitiatePasswordResetAsync(string email);
 
+         Task<string> CheckLocation(string ipAddress);
+
 
     }
 }

@@ -17,7 +17,7 @@ namespace APIBanca.Controllers
         }
 
         [HttpPost("AddContact")]
-        public IActionResult AddContact([FromQuery] int currentUserId, string identifier )
+        public IActionResult AddContact([FromQuery] long currentUserId, string identifier )
         {
             // Obtener el usuario actual (supongamos que viene del token JWT)           
 
@@ -32,7 +32,7 @@ namespace APIBanca.Controllers
         }
 
         [HttpGet("GetContactList")]
-        public IActionResult GetContactList(int id)
+        public IActionResult GetContactList(long id)
         {
             // Obtener el usuario actual (supongamos que viene del token JWT)
             
@@ -41,10 +41,10 @@ namespace APIBanca.Controllers
             return Ok(response);
         }
 
-        private int GetCurrentUserId()
+        private long GetCurrentUserId()
         {
             // Aquí obtendrías el ID del usuario actual, por ejemplo, desde un token JWT
-            return int.Parse(User.Claims.First(c => c.Type == "id").Value);
+            return long.Parse(User.Claims.First(c => c.Type == "id").Value);
         }
     }
 }

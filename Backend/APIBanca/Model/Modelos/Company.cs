@@ -9,7 +9,7 @@ public partial class Company
 {
     public string cuit { get; set; }
 
-    public int account_id { get; set; }
+    public long account_id { get; set; }
 
     public string phone { get; set; }
 

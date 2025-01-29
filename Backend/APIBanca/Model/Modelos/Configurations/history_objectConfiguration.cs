@@ -13,9 +13,9 @@ namespace Model.Modelos.Configurations
         {
             entity.HasKey(e => e.history_obj_id).HasName("PRIMARY");
 
-            entity.HasIndex(e => e.account_id, "history_object_to_history_idx");
+            entity.HasIndex(e => e.account_id, "History_To_Account_idx");
 
-            entity.HasIndex(e => e.other_account_id, "history_object_to_other_account_idx");
+            entity.HasIndex(e => e.other_account_id, "History_To_OtherAccount_idx");
 
             entity.Property(e => e.date).HasColumnType("datetime");
             entity.Property(e => e.type)
@@ -25,11 +25,11 @@ namespace Model.Modelos.Configurations
             entity.HasOne(d => d.account).WithMany(p => p.History_objectaccount)
                 .HasForeignKey(d => d.account_id)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("history_object_to_account");
+                .HasConstraintName("History_To_Account");
 
             entity.HasOne(d => d.other_account).WithMany(p => p.History_objectother_account)
                 .HasForeignKey(d => d.other_account_id)
-                .HasConstraintName("history_object_to_other_account");
+                .HasConstraintName("History_To_OtherAccount");
 
             OnConfigurePartial(entity);
         }

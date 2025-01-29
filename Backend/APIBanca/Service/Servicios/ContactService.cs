@@ -27,7 +27,7 @@ namespace Service.Servicios
             _service = service;
         }         
 
-            public ResponseModel AddContact(int currentUserId, string identifier)
+            public ResponseModel AddContact(long currentUserId, string identifier)
             {
                 // Verificar si el identificador es un email o un ID
                 bool isEmail = identifier.Contains("@");
@@ -75,7 +75,7 @@ namespace Service.Servicios
                 };
             }
 
-        public ResponseModel GetContactList(int currentUserId)
+        public ResponseModel GetContactList(long currentUserId)
         {
             // Obtén los contactos del usuario actual
             var contacts = _context.Contacts

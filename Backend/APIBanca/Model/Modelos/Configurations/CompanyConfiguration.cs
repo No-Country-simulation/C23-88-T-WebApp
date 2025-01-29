@@ -17,7 +17,7 @@ namespace Model.Modelos.Configurations
                 .HasCharSet("utf8mb4")
                 .UseCollation("utf8mb4_0900_ai_ci");
 
-            entity.HasIndex(e => e.account_id, "id_idx");
+            entity.HasIndex(e => e.account_id, "Company_to_account_idx");
 
             entity.Property(e => e.cuit).HasMaxLength(250);
             entity.Property(e => e.address)
@@ -30,7 +30,7 @@ namespace Model.Modelos.Configurations
             entity.HasOne(d => d.account).WithMany(p => p.Company)
                 .HasForeignKey(d => d.account_id)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("cuenta_a_empresa");
+                .HasConstraintName("Company_to_account");
 
             OnConfigurePartial(entity);
         }

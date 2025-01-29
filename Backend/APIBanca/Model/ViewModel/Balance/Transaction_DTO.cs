@@ -16,12 +16,12 @@ namespace Model.ViewModel.account
         public int send_balance { get; set; }
 
         [Required(ErrorMessage = "From ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "From ID must be a positive number.")]
-        public int from_id { get; set; }
+        [Range(1, long.MaxValue, ErrorMessage = "From ID must be a positive number.")]
+        public long from_id { get; set; }
 
         [Required(ErrorMessage = "To ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "To ID must be a positive number.")]
-        public int to_id { get; set; }
+        [Range(1, long.MaxValue, ErrorMessage = "To ID must be a positive number.")]
+        public long to_id { get; set; }
 
     }   
 }

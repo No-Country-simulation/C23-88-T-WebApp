@@ -23,7 +23,7 @@ namespace APIBanca.Controllers
         }
         //[Authorize]
         [HttpGet("GetBalancebyAccountId")]
-        public ActionResult<Balance_Get_DTO> GetBalanceByAccountId(int Id)
+        public ActionResult<Balance_Get_DTO> GetBalanceByAccountId(long Id)
         {
             var balance = _repository.GetBalancebyAccountId(Id);
             if (balance == null) return NotFound("Account missing");
@@ -47,9 +47,9 @@ namespace APIBanca.Controllers
 
 
         [HttpPut("AddBalance")]
-        public IActionResult Add_Balance(int Account, int Balance)
+        public IActionResult Add_Balance([FromBody] Recharge_DTO transactionDTO)
         {
-            var result = _repository.Add_Balance(Account, Balance);
+            var result = _repository.Add_Balance(transactionDTO);
 
             if (!result.success)
             {
@@ -62,7 +62,7 @@ namespace APIBanca.Controllers
 
 
         [HttpGet("GetHistory")]
-        public ActionResult<History_object_DTO> GetHistory(int Id)
+        public ActionResult<History_object_DTO> GetHistory(long Id)
         {
             var history = _repository.Get_history_By_Id(Id);
             if (history == null) return NotFound("Account missing");
