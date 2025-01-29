@@ -56,14 +56,19 @@ const TopUpBalance = () => {
 		e.preventDefault()
 		// Validar que el monto sea mayor a 0
 		
-		const response = await fetch(`http://localhost:5101/Balance/AddBalance?Account=${accountId}&Balance=${amount}`, {
+		const response = await fetch(`http://localhost:5101/Balance/AddBalance`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			mode: 'cors',
-			
+			body: JSON.stringify({
+				account_id: accountId,
+				value: amount,
+			}),
+		
 		})
+
 		if (response.ok) {
 			const data = await response.json();
 		toast.success("Recarga exitosa!");
