@@ -23,7 +23,13 @@ namespace Model.Modelos.Configurations
             entity.Property(e => e.address)
                 .IsRequired()
                 .HasMaxLength(45);
+            entity.Property(e => e.name)
+                .IsRequired()
+                .HasMaxLength(45);
             entity.Property(e => e.phone)
+                .IsRequired()
+                .HasMaxLength(45);
+            entity.Property(e => e.surname)
                 .IsRequired()
                 .HasMaxLength(45);
 

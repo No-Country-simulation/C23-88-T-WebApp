@@ -155,6 +155,29 @@ namespace Service.Services
                            .ToList();
         }
 
+        public int CountHistoryById(long Id)
+        {
+            return _context.History_object.Count(p => p.account_id == Id);
+        }
+
+        public object GetUserOrCompanyById(long id)
+        {
+            var user = _context.Set<User>()
+                .Where(u => u.account_id == id)
+                .Select(u => new { u.account_id, u.name, u.surname })
+                .FirstOrDefault();
+
+            if (user != null)
+                return user;
+
+            var company = _context.Set<Company>()
+                .Where(c => c.account_id == id)
+                .Select(c => new { c.account_id, c.name, c.surname })
+                .FirstOrDefault();
+
+            return company;
+        }
+
 
 
 

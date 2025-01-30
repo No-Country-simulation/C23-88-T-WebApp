@@ -64,12 +64,26 @@ namespace APIBanca.Controllers
         [HttpGet("GetHistory")]
         public ActionResult<IEnumerable<History_object_DTO>> GetHistory(long Id, int limit = 10, int offset = 0)
         {
+            var totalRecords = _repository.CountHistoryById(Id); // Nuevo método para contar los registros totales
             var history = _repository.Get_history_By_Id(Id, limit, offset);
 
             if (history == null || !history.Any())
                 return NotFound("Not Found");
 
             var result = _mapper.Map<IEnumerable<History_object_DTO>>(history);
+
+            Response.Headers.Add("X-Total-Count", totalRecords.ToString()); // Agregar total de registros en el header
+
+            return Ok(result);
+        }
+
+        [HttpGet("GetById")]
+        public IActionResult GetById(long id)
+        {
+            var result = _repository.GetUserOrCompanyById(id);
+            if (result == null)
+                return NotFound("User or Company not found");
+
             return Ok(result);
         }
 

@@ -23,6 +23,10 @@ namespace Servicio.IServices
 
         public IEnumerable<History_object> Get_history_By_Id(long Id, int limit, int offset);
 
+        public int CountHistoryById(long Id);
+
+        public object GetUserOrCompanyById(long id);
+
         //public void Create_Recharge_history(int Id_account, int Value);
 
         //public void Create_Transaction_history(int Id_account, string Type, int Value, int Other_id);

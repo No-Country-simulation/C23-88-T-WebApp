@@ -123,6 +123,8 @@ namespace Service.Services
                     {
                         cuit = account.iden,
                         phone = account.phone,
+                        name = account.name,
+                        surname = account.surname,
                         address = account.address,
                         account_id = nuevaaccount.id,
                     };
