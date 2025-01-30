@@ -12,13 +12,10 @@ const ForgotMyPassword = () => {
   const navigate =useNavigate();
   const routes = routess();
 
-  //tomando los datos del campo de texto
   const handleEmailChange = (e) => {
     e.preventDefault();
     setEmail(e.target.value);
   };
-
-  //Enviando los datos al correo ingresado
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,12 +31,11 @@ const ForgotMyPassword = () => {
 
   useEffect(() => {
     if (redirect) {
-      // redirigir después de 2 segundos
       const timer = setTimeout(() => {
         navigate(routes.RESETMYPASSWORD); 
       }, 2000);
 
-      return () => clearTimeout(timer); // Limpiar temporizador
+      return () => clearTimeout(timer); 
     }
   }, [redirect, navigate]);
 
@@ -63,12 +59,12 @@ const ForgotMyPassword = () => {
         body: JSON.stringify({ email }),
       });
       if(response.ok){
-        const valideData = await response.json(); //CAMBIAR A JSON
+        const valideData = await response.json(); 
         console.log('correo existe',valideData)
-        return true; // Correo existe
+        return true; 
       }else {
        console.warn('El correo no existe');
-       return false; // Correo no existe
+       return false; 
       }
     } catch (error) {
       console.error('Error en la solicitud:', error.message);

@@ -69,7 +69,7 @@ const getUser = async (email) => {
 			}
 			const datosHistory = await response.json();
 			 if (!datosHistory || datosHistory.length === 0) {
-				setHistory([]); // Guarda un array vacío si no hay movimientos
+				setHistory([]); 
                 setTotalPages(1)
 				return;
 			}

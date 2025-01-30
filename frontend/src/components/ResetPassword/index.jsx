@@ -49,26 +49,24 @@ const ResetPassword =()=>{
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 	
-		// Validar email
+
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!emailRegex.test(email)) {
 			toast.error("El formato del correo electrónico no es válido");
 			return;
 		}
 	
-		// Validar código
+
 		if (!code || code.length === 0) {
 			toast.error("El código de recuperación es obligatorio");
 			return;
 		}
 	
-		// Validar nueva contraseña
+
 		if (!newPassword || newPassword.length < 8) {
 			toast.error("La nueva contraseña debe tener al menos 8 caracteres");
 			return;
 		}
-	
-		// Realizar solicitud al backend
 		try {
 			const response = await fetch("http://localhost:5101/api/Auth/password-reset/complete", {
 				method: "POST",
@@ -81,18 +79,14 @@ const ResetPassword =()=>{
 			if (response.ok) {
 				const result = await response.json();
 				console.log("Resultado:", result);
-	
-				// Notificar éxito y redirigir
 				toast.success("Contraseña restablecida exitosamente");
 				setTimeout(() => {
-					//window.location.href = "/"; // Cambiar a la pantalla de inicio de sesión
+
 					navigate(routes.LOGIN);
 				}, 2000);
 			} else {
 				const errorData = await response.json();
 				console.warn("Error:", errorData);
-	
-				// Notificar el error devuelto por el backend
 				toast.error(errorData.message || "Ocurrió un error al restablecer la contraseña");
 			}
 		} catch (error) {
@@ -168,10 +162,10 @@ const ResetPassword =()=>{
             	/>
 			  	<button
 					type="button"
-					onClick={() => setShowPassword(!showPassword)} // Cambiar visibilidad
+					onClick={() => setShowPassword(!showPassword)}
 					className="absolute inset-y-0 right-0 w-16 text-gray-500 hover:text-gray-700 focus:outline-none"
 					>
-					{showPassword ?<FontAwesomeIcon icon={faEye}/> : <FontAwesomeIcon icon={faEyeSlash}/> } {/* Cambiar ícono "🙈" : "👁️"*/}
+					{showPassword ?<FontAwesomeIcon icon={faEye}/> : <FontAwesomeIcon icon={faEyeSlash}/> } 
 				</button>
             </div>
             <div className="flex justify-center px-3 mx-3">

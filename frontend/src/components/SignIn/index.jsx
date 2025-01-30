@@ -9,24 +9,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 const Login = () => {
-
-	//estado para guardar los datos del formulario
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
   const [errorMessage, setErrorMessage] = useState(null);
-  const [rememberMe, setRememberMe] = useState(false); // Estado para el select
+  const [rememberMe, setRememberMe] = useState(false); 
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
   const routes = routess();
 
-  //Toma los valores de los inputs
   const handleChange = (e) => {
 	const {name, value}=e.target;
     setCredentials({
-      ...credentials, //se mantiene el estado anterior
+      ...credentials, 
       [name]: value,
     });
   };
@@ -74,13 +71,11 @@ const Login = () => {
   };
 
 
-  //Envia los datos del formulario
-
   const handleSubmit = (e) => {
     console.log(credentials);
 	  e.preventDefault();
     if (rememberMe) {
-      saveCredentials(); // Guarda las credenciales en el localStorage si "Recordar credenciales" está marcado
+      saveCredentials(); 
     }
 	  if (validateForm()) {
     fetch('http://localhost:5101/api/Auth/login', {
@@ -99,11 +94,9 @@ const Login = () => {
           });
       }
     const token = response.json();
-   
-      // Guardar el token en localStorage
     localStorage.setItem('authToken', token);
     localStorage.setItem('credentials', JSON.stringify(credentials));
-      // Redirigir a la página principal
+    
     navigate(routes.HOME);
   })
   
@@ -114,24 +107,22 @@ const Login = () => {
    
     }
   }
-  //guarda los datos en el local storage
 
   const saveCredentials = () => {
 	localStorage
 	.setItem('credentials', JSON.stringify(credentials));
   }
 
-    //Obtiene las credenciales del localStorage
+
   const getCredentials = () => {
     const credentials = localStorage.getItem('credentials');
 
 	if(credentials){
-	  setCredentials(JSON.parse(credentials)); // Si existen, carga las credenciales en el estado
+	  setCredentials(JSON.parse(credentials));
       setRememberMe(true); // Marca el checkbox de recuerdame
 	}
 	  };
 
-    //checkbox para guardar los datos.
   const  handleRememberCredentials =(e)=>{
       e.preventDefault();
       setRememberMe(e.target.checked);
@@ -146,12 +137,11 @@ const Login = () => {
     },[]);
 
 
-    //olvide contraseña
+
   const forgotPassword = () => {
     navigate(routes.FORGOTPASSWORD); 
   };
 
-  //redirige a la pagina de registro
   const signUp =()=>{
     navigate(routes.REGISTER)
   }

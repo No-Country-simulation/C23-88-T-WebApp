@@ -72,7 +72,7 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 			{isOffCanvas && (
        		<div
 	   			className={`fixed top-0 right-0 transform h-full max-w-xs w-full z-[80] bg-gray-100 border-s dark:bg-neutral-800 dark:border-neutral-700 
-							   transition-all duration-300 ease-in-out ${isOffCanvas ? 'translate-x-0' : 'translate-x-full'}`}
+				transition-all duration-300 ease-in-out ${isOffCanvas ? 'translate-x-0' : 'translate-x-full'}`}
 	   			role="dialog"
 	   			aria-labelledby="hs-offcanvas-right-label"
 	 		>

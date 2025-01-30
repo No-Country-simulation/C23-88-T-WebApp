@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from "react"; 
-import NavBar from "../Navbar/index.jsx"; // Ensure the casing matches the actual file name
+import NavBar from "../Navbar/index.jsx";
 import SideBar from "../SideBar";
 import { routess } from "../../utils/routes";
 import { useNavigate } from "react-router-dom";
@@ -17,12 +17,9 @@ const TopUpBalance = () => {
 	const storedCredentials = localStorage.getItem('credentials');
 		
 			useEffect(() => {
-				// Si las credenciales existen, obtenemos el email
 				if (storedCredentials) {
 				  const credentials = JSON.parse(storedCredentials);
-				//  setAccountId(credentials.account_id);	  
-				  const { email } = credentials; // Extraemos el email			
-				  // función que obtiene los datos del usuario
+				  const { email } = credentials;
 				  getUser(email);
 		
 				}
@@ -50,12 +47,8 @@ const TopUpBalance = () => {
     	setAmount(value);
 	}
 
-
-	// Función para manejar la recarga de dinero
 	const handleSubmit = async (e) => {
-		e.preventDefault()
-		// Validar que el monto sea mayor a 0
-		
+		e.preventDefault()	
 		const response = await fetch(`http://localhost:5101/Balance/AddBalance`, {
 			method: 'PUT',
 			headers: {
@@ -72,19 +65,14 @@ const TopUpBalance = () => {
 		if (response.ok) {
 			const data = await response.json();
 		toast.success("Recarga exitosa!");
-
-			// Limpia el monto después de una recarga exitosa
 			setAmount(0);
 		} else {
-			// Mostrar mensaje de error
 			toast.error('error en la carga', response);
 		}
 
 
 	}
 
-
-	//volver a pantalla principal
 	const handleback = () => {
 		navigate(routes.HOME);
 	}
