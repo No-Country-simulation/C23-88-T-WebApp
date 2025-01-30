@@ -33,8 +33,8 @@ namespace Service.Servicios
                 bool isEmail = identifier.Contains("@");
 
                 var account = isEmail
-                    ? _context.Account.FirstOrDefault(a => a.email == identifier && a.active == 1)
-                    : _context.Account.FirstOrDefault(a => a.id == long.Parse(identifier) && a.active == 1);
+                    ? _context.Account.FirstOrDefault(a => a.email == identifier )
+                    : _context.Account.FirstOrDefault(a => a.id == long.Parse(identifier) );
 
                 if (account == null)
                 {
