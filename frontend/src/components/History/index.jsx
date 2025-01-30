@@ -10,7 +10,7 @@ const MoveHistory =()=>{
 	const [accountId, setAccountId] = useState(null); 
 	const [isLoading, setIsLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
-
+	const [totalPages, setTotalPages]= useState(1)
 	const storedCredentials = localStorage.getItem('credentials');
 	
 		useEffect(() => {
@@ -48,15 +48,15 @@ const getUser = async (email) => {
 
 	const getHistory = async (accountId, page = 1) => {	
 
-		if (accountId === null) {
-				toast.error("La cuenta no está disponible!");
-			return;
-		  }
+		if (!accountId) {
+            toast.error("La cuenta no está disponible!");
+            return;
+        }
 		try {
 			const limit = 15;
         	const offset = (page - 1) * limit;
 
-			const response = await fetch(`http://localhost:5101/Balance/GetHistory?Id=${accountId}&limit=${limit}&offset=${offset}`,{
+			const response = await fetch( `http://localhost:5101/Balance/GetHistory?Id=${accountId}&limit=${limit}&offset=${offset}`,{
 				method: 'GET',
 				headers: {
 				  'Content-Type': 'application/json',
@@ -70,11 +70,30 @@ const getUser = async (email) => {
 			const datosHistory = await response.json();
 			 if (!datosHistory || datosHistory.length === 0) {
 				setHistory([]); // Guarda un array vacío si no hay movimientos
-	 
+                setTotalPages(1)
 				return;
 			}
 
 			setHistory(datosHistory);
+			let totalResults = response.headers.get('X-Total-Count');
+
+			if (!totalResults) {
+				console.warn("X-Total-Count no está disponible en los headers.");
+				
+				// Alternativa: Verificar si el JSON incluye el total de registros
+				if (datosHistory.total) {
+					totalResults = datosHistory.total;
+				} else if (Array.isArray(datosHistory) && datosHistory.length > 0 && datosHistory[0].total) {
+					totalResults = datosHistory[0].total;
+				}
+			}
+	
+			console.log("Total de registros:", totalResults);
+	
+			if (totalResults) {
+				const totalPagesCalc = Math.ceil(totalResults / limit);
+				setTotalPages(totalPagesCalc);
+			}
 			  setIsLoading(false); 
 		} catch (err) {
 			console.error(err.message);
@@ -83,8 +102,10 @@ const getUser = async (email) => {
 	} 
 
 	const changePage = (newPage) => {
-		setCurrentPage(newPage);
-		getHistory(accountId, newPage); // Vuelve a cargar los movimientos con la nueva página
+		if (newPage >= 1 && newPage <= totalPages) {
+            console.log("Cambiando a página:", newPage);
+            setCurrentPage(newPage);
+        }
 	};
 	
 	return (
@@ -138,11 +159,15 @@ const getUser = async (email) => {
 				</div>
 				<div className="flex flex-row justify-around font-mono px-32 py-5 text-start bg-gray-500 text-black">
         			<div>
-        			    <button onClick={() => changePage(currentPage - 1)} disabled={currentPage === 1}>
+        			    <button onClick={() => changePage(currentPage - 1)} disabled={currentPage === 1}
+							className="text-white no-underline hover:underline "
+							>
         			        Anterior
         			    </button>
-        			    <span className="text-blue-600"> Página {currentPage} </span>
-        			    <button onClick={() => changePage(currentPage + 1)} disabled={history.length < 15}>
+        			    <span className="text-blue-200"> Página {currentPage} de {totalPages} </span>
+        			    <button onClick={() => changePage(currentPage + 1)}disabled={currentPage === totalPages} 
+							className="text-white no-underline hover:underline "
+							>
         			        Siguiente
         			    </button>
         			</div>

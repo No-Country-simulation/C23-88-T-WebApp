@@ -65,24 +65,25 @@ const Home = ()=> {
 	
 	  const fetchBalance = async () => {
 		console.log('pasamos la cuenta', accountId);  // Verificamos que accountId sea el correcto
-		if (accountId === null) {
+		if (!accountId) { // Validar que no sea null, undefined o vacío
 			toast.error("La cuenta no está disponible!");
-
-		  return;
-		}
+			return;
+		  }
 		
 		try {
 		  const response = await fetch(`http://localhost:5101/Balance/GetBalancebyAccountId?Id=${accountId}`);
-		  
+		  console.log('viendo la url',response)
 		  if (!response.ok) {
 			throw new Error("Error al obtener el saldo. Cuenta no encontrada.");
 		  }
 	
 		  const data = await response.json();
-		  setBalance(data.balance);  // Asumimos que 'data.balance' es el saldo
+		  setBalance(data.balance); 
 		  setIsLoading(false); 
 		} catch (error) {
-			throw new Error("Error al obtener los movimientos");
+			console.error("Error en fetchBalance:", error);
+			toast.error(error.message || "Error al obtener el saldo.");
+			setIsLoading(false);
 		  
 		}
 	  };

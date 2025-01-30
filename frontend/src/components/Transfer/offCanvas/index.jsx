@@ -1,90 +1,70 @@
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
+import { data } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 
-	const [newUserAccount,setNewUserAccount]=useState('');
 	const [isAmount,setIsAmount]=useState(0);
 	const [accountId, setAccountId] = useState(null);
-		const [userData, setUserData] = useState(null);
 
-
-	const storedCredentials = localStorage.getItem('credentials');
-			
-				useEffect(() => {
-					// Si las credenciales existen, obtenemos el email
-					if (storedCredentials) {
-					  const credentials = JSON.parse(storedCredentials);
-					//  setAccountId(credentials.account_id);	  
-					  const { email } = credentials; // Extraemos el email			
-					  // función que obtiene los datos del usuario
-					  getUser(email);
-			
-					}
-				  }, [storedCredentials]);
-		
-
-	const getUser= async (email)=>{
-		try {
-			const response = await fetch(`http://localhost:5101/Account/GetByEmail?email=${email}`);
-			if (!response.ok) {
-				throw new Error("Error al obtener los datos del usuario. Cuenta no encontrada.");
-			}
-			const data = await response.json();
-			setUserData(data);
-			setAccountId(data.account_id);
-			console.log('datos', data.email)
-
-		
-		} catch (err) {
-			console.error(err.message);
-		}
-	
-	}
 	const handleData =(e)=>{
 		e.preventDefault();
 		const value = Number(e.target.value);
 		console.log('tomando el CBU',value)
-		setNewUserAccount();
+		setAccountId(value);
 	};
 
 	const handleinputAmount = (e)=>{
 		e.preventDefault();
 		const value =e.target.value
 		console.log("tomando el monto",value)
-		setIsAmount();
+		setIsAmount(value);
 
 	}
 
+	useEffect(()=>{
+		console.log("datos enviados",accountId)
+	},[accountId])
 	
 	const AddnNewUserAccount= async(e)=>{
 		e.preventDefault()
-				// Validar que el monto sea mayor a 0
-				
+		try {
+					// Validar que el monto sea mayor a 0
+			if (isAmount <= 0) {
+				toast.error('El monto debe ser mayor a 0');
+				return;
+
+			}
 				const response = await fetch(`http://localhost:5101/Balance/AddBalance`, {
 					method: 'PUT',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					mode: 'cors',
-					body: JSON.stringify({
-						account_id: accountId,
-						value: isAmount,
-					}),
-				
-				})
-		
-				if (response.ok) {
-					const data = await response.json();
-				toast.success("Tranferencia exitosa!");
-		
-					// Limpia el monto después de una recarga exitosa
-					setIsAmount(0);
-				} else {
-					// Mostrar mensaje de error
-					toast.error('error en la transferencia', response);
-				}
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						mode: 'cors',
+						body: JSON.stringify({
+							account_id: accountId,
+							value: isAmount,
+						}),
+					
+					})
+					console.log('datos enviados',response)
+					if (response.ok) {
+						const data = await response.json();
+					toast.success("Tranferencia exitosa!");
+			
+						// Limpia el monto después de una recarga exitosa
+						setIsAmount(0);
+						setAccountId(null);
+					} else {
+						// Mostrar mensaje de error
+						toast.error('error en la transferencia', response);
+					}
+			
+		} catch (error) {
+			console.error(error.message);		
+		}	
+			
 	}
 
 	return(
@@ -127,7 +107,7 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 					type="number"
 					id="accountUser"
 					name="accountUser"
-					value={newUserAccount}
+					value={accountId || ''}
 					onChange={handleData}
 					/>
 				</div>
@@ -140,6 +120,26 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 					name="amount"
 					value={isAmount}
 					onChange={handleinputAmount}
+					/>
+				</div>
+				<div className="flex flex-col justify-center items-center m-5">
+					<p>Nombre(s):</p>
+					<input  
+					className="w-full p-2 mr-4 border border-gray-300 rounded mt-1 pl-30"
+					type="text"
+					id="name"
+					name="name"
+					disabled={true}
+					/>
+				</div>
+				<div className="flex flex-col justify-center items-center m-5">
+					<p>Apellido(s):</p>
+					<input  
+					className="w-full p-2 mr-4 border border-gray-300 rounded mt-1 pl-30"
+					type="text"
+					id="surname"
+					name="surname"
+					disabled={true}
 					/>
 				</div>
 				<div className="flex flex-col flex-1 justify-center items-center">
