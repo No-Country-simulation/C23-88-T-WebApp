@@ -28,12 +28,13 @@ const [successMessage, setSuccessMessage] = useState("");
 
 const navigate = useNavigate();
 const routes = routess();
-  //Toma los valores de los inputs
+
+
   const handleChangeData = (e) => {
 	e.preventDefault();
 	const {name, value}=e.target;
     setDatos({
-      ...datos, //se mantiene el estado anterior
+      ...datos, 
       [name]: value,
     });
   };
@@ -77,9 +78,9 @@ const routes = routess();
 			const errorData = await response.json();
 			  // Verifica si el error tiene un campo de validación
 			  if (errorData.error) {
-				setErrorMessages([errorData.error]); // Si es un mensaje único
+				setErrorMessages([errorData.error]); 
 			  } else if (errorData.errors) {
-				const errorList = Object.values(errorData.errors).flat(); // Junta todos los errores en un array
+				const errorList = Object.values(errorData.errors).flat(); 
 				setErrorMessages(errorList);
 			  } else {
 				setErrorMessages(["Ocurrió un error inesperado."]);
@@ -88,7 +89,7 @@ const routes = routess();
 
 	} catch (error) {
 		console.error('Error en la solicitud:', error.message);
-      setErrorMessage(error.message);  // Aquí actualizamos el estado de error
+      	setErrorMessages(error.message); 
 	}
 
   };

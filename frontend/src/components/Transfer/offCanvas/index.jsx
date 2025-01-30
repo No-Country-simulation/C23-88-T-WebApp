@@ -142,10 +142,22 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 					disabled={true}
 					/>
 				</div>
+				<div className="flex items-center mx-2">
+              <input
+	      		//  onChange={handleRememberCredentials}
+                id="remember"
+                type="checkbox"
+                //checked={rememberMe}
+                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label htmlFor="remember" className="ml-2 text-sm text-blue-500">
+                Guardar contactos frecuentes
+              </label>
+            </div>
 				<div className="flex flex-col flex-1 justify-center items-center">
 					<button type="button"
 					 className="bg-blue-600 border rounded-xl p-4 m-4 text-white font-semibold items-end"
-					 onClick={AddnNewUserAccount}>Guardar</button>
+					 onClick={AddnNewUserAccount}>Enviar</button>
 				</div>
         	</div>
 			)}					
