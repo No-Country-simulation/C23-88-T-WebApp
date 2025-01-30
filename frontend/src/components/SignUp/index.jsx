@@ -59,7 +59,7 @@ const routes = routess();
 			setDatos({
 				email: "",
 				password: "",
-				names: "",
+				name: "",
 				surname: "",
 				phone: "",
 				role: "",

@@ -1,19 +1,28 @@
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import { data } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 
+	const [newUser, setNewUser] = useState(null);
 	const [isAmount,setIsAmount]=useState(0);
-	const [accountId, setAccountId] = useState(null);
+	const [rememberMe, setRememberMe] = useState(false); 
+	const [name,setName]=useState('');
+	const[surname,setSurname]=useState('');
+	const[userData,setUserData]=useState('');
 
-	const handleData =(e)=>{
+	const handleData = (e) => {
 		e.preventDefault();
-		const value = Number(e.target.value);
-		console.log('tomando el CBU',value)
-		setAccountId(value);
+		const value = Number(e.target.value.trim());
+		if (isNaN(value) || value === 0) {
+			console.warn("CBU no válido");
+			return;
+		}
+		console.log('Tomando el CBU', value);
+		setNewUser(value);
 	};
+	
 
 	const handleinputAmount = (e)=>{
 		e.preventDefault();
@@ -23,11 +32,93 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 
 	}
 
-	useEffect(()=>{
-		console.log("datos enviados",accountId)
-	},[accountId])
+	const handleSearchUser =async (e)=>{
+		try {
+			e.preventDefault();
+			const userId = newUser || ""; 
+
+			if (!userId) {
+				console.warn("No hay ID de usuario para buscar");
+				return;
+			}
+			console.log("Buscando usuario con ID:", userId);
+			const response = await fetch(`http://localhost:5101/api/Contacts/GetContactList?id=${userId}`,{
+				method:'GET',
+				headers:{
+				'Content-Type':'application/json'		
+				},
+				mode:'cors',
+			});
+
+			if (!response.ok) {
+				throw new Error(`Error en la solicitud: ${response.statusText}`);
+			}
 	
-	const AddnNewUserAccount= async(e)=>{
+			const data = await response.json();
+			if (data.success && data.data.length > 0) {
+				console.log("Usuario encontrado:", data.data[0]);
+				const user = data.data[0];
+				setUserData(user); 
+				setName(user.name);
+				setSurname(user.surname)
+			} else {
+				toast.error("No se encontraron datos para este usuario.");
+				setUserData(null);
+			}
+		} catch (error) {
+			console.error('error al traer la info del usuario',error)
+		}
+	
+	}
+	 const  handleRememberCredentials =(e)=>{
+		  e.preventDefault();
+		  setRememberMe(e.target.checked);
+		  if (!e.target.checked) {
+			setNewUser({ id: "" });
+		  }
+		};
+	
+/* 		useEffect(()=>{
+			console.log("datos enviados",newUser)
+			AddnNewUserAccount();
+		},[newUser]);
+ */
+
+	//Agregando usuario a la lista de favoritas
+/* 	const AddnNewUserAccount = async ()=>{
+
+		try{
+		if(newUser){
+			console.log("usuario a mostrar",newUser)
+			toast.error("usuario ya existe en la lista");
+		}
+
+		const response =await fetch(`http://localhost:5101/api/Contacts/AddContact`,{
+			method:'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			mode: 'cors',
+			body: JSON.stringify({
+				currentUserId: accountId,
+				identifier: newUser,
+			}),
+		})
+
+		if (!response.ok) {
+            throw new Error(`Error en la solicitud: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log("Respuesta del servidor:", data);
+        toast.success("Usuario agregado correctamente");
+    } catch (error) {
+        console.error("Error al agregar usuario:", error);
+        toast.error("Error al agregar usuario");
+    }
+	}
+ */
+	const SendTranfer= async(e)=>{
 		e.preventDefault()
 		try {
 					// Validar que el monto sea mayor a 0
@@ -43,7 +134,7 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 						},
 						mode: 'cors',
 						body: JSON.stringify({
-							account_id: accountId,
+							account_id: newUser,
 							value: isAmount,
 						}),
 					
@@ -52,12 +143,9 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 					if (response.ok) {
 						const data = await response.json();
 					toast.success("Tranferencia exitosa!");
-			
-						// Limpia el monto después de una recarga exitosa
 						setIsAmount(0);
-						setAccountId(null);
+						setNewUser(null);
 					} else {
-						// Mostrar mensaje de error
 						toast.error('error en la transferencia', response);
 					}
 			
@@ -107,8 +195,28 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 					type="number"
 					id="accountUser"
 					name="accountUser"
-					value={accountId || ''}
+					value={newUser || ''}
 					onChange={handleData}
+					/>
+				</div>
+				<div className="mb-4 relative inline-block">
+					<button 
+					className="w-full p-2 mr-4 border border-gray-300 rounded mt-1 pl-30 hover:bg-gray-500 hover:text-black"
+					type="button"
+					id="searchUser"
+					name="searchUser"
+					value={newUser || ''}
+					onClick={handleSearchUser}
+					>Buscar
+					</button>
+					<FontAwesomeIcon icon={faMagnifyingGlass}
+					style={{
+						position: 'absolute',
+						left: '10px',
+						top: '50%',
+						transform: 'translateY(-50%)',
+						color: '#999'
+					  }}
 					/>
 				</div>
 				<div className="flex flex-col justify-center items-center m-5">
@@ -122,6 +230,7 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 					onChange={handleinputAmount}
 					/>
 				</div>
+				<div>
 				<div className="flex flex-col justify-center items-center m-5">
 					<p>Nombre(s):</p>
 					<input  
@@ -129,6 +238,7 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 					type="text"
 					id="name"
 					name="name"
+					value={name}
 					disabled={true}
 					/>
 				</div>
@@ -139,15 +249,17 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 					type="text"
 					id="surname"
 					name="surname"
+					value={surname}
 					disabled={true}
 					/>
 				</div>
+				</div>
 				<div className="flex items-center mx-2">
               <input
-	      		//  onChange={handleRememberCredentials}
+	      		onChange={handleRememberCredentials}
                 id="remember"
                 type="checkbox"
-                //checked={rememberMe}
+                checked={rememberMe}
                 className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
               />
               <label htmlFor="remember" className="ml-2 text-sm text-blue-500">
@@ -157,7 +269,8 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 				<div className="flex flex-col flex-1 justify-center items-center">
 					<button type="button"
 					 className="bg-blue-600 border rounded-xl p-4 m-4 text-white font-semibold items-end"
-					 onClick={AddnNewUserAccount}>Enviar</button>
+					 onClick={SendTranfer}
+					 >Enviar</button>
 				</div>
         	</div>
 			)}					
