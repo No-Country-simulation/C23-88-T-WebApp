@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MySqlX.XDevAPI.Common;
+using Newtonsoft.Json;
 using Service.IService;
 using Service.Servicios;
 
@@ -38,7 +40,8 @@ namespace APIBanca.Controllers
             
 
             var response = _contactService.GetContactList(id);
-            return Ok(response);
+            string json = JsonConvert.SerializeObject(response);
+            return Ok(json);
         }
 
         private long GetCurrentUserId()

@@ -22,8 +22,14 @@ namespace Service.Services
 
         public Account GetAccountbyEmail(string email)
         {
-            return _context.Account.FirstOrDefault(p => p.email == email);
+            var account = _context.Account.FirstOrDefault(p => p.email == email);
+
+            // Log the account ID to see if it's correct
+            Console.WriteLine($"Account ID: {account?.id}");
+
+            return account;
         }
+
 
         public Account GetAccountbyId(long id)
         {

@@ -5,6 +5,7 @@ using Model.DTO;
 using Servicio.IServices;
 using Model.ViewModel.account;
 using Model.Modelos;
+using Newtonsoft.Json;
 namespace APIBanca.Controllers
 {
     [ApiController]
@@ -28,7 +29,8 @@ namespace APIBanca.Controllers
             var balance = _repository.GetBalancebyAccountId(Id);
             if (balance == null) return NotFound("Account missing");
             var result = _mapper.Map<Balance_Get_DTO>(balance);
-            return Ok(result);
+            string json = JsonConvert.SerializeObject(result);
+            return Ok(json);
         }
 
         [HttpPut("Transaction")]
@@ -41,7 +43,8 @@ namespace APIBanca.Controllers
                 return BadRequest(result);
             }
 
-            return Ok(result);
+            string json = JsonConvert.SerializeObject(result);
+            return Ok(json);
         }
 
 
@@ -55,8 +58,8 @@ namespace APIBanca.Controllers
             {
                 return BadRequest(result);
             }
-
-            return Ok(result);
+            string json = JsonConvert.SerializeObject(result);
+            return Ok(json);
         }
 
 
@@ -74,7 +77,8 @@ namespace APIBanca.Controllers
 
             Response.Headers.Add("X-Total-Count", totalRecords.ToString()); // Agregar total de registros en el header
 
-            return Ok(result);
+            string json = JsonConvert.SerializeObject(result);
+            return Ok(json);
         }
 
         [HttpGet("GetById")]
@@ -84,7 +88,8 @@ namespace APIBanca.Controllers
             if (result == null)
                 return NotFound("User or Company not found");
 
-            return Ok(result);
+            string json = JsonConvert.SerializeObject(result);
+            return Ok(json);
         }
 
 
