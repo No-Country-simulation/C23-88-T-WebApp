@@ -18,10 +18,10 @@ const Home = ()=> {
 		// Si las credenciales existen, obtenemos el email
 		if (storedCredentials) {
 		  const credentials = JSON.parse(storedCredentials);
-		//  setAccountId(credentials.account_id);	  
-		  const { email } = credentials; // Extraemos el email
+ 
+		  const { email } = credentials; 
 		  setIsLoading(true);
-			fetchUser(email); 	  // función que obtiene los datos del usuario
+			fetchUser(email); 	  
 
 
 		}
@@ -53,8 +53,8 @@ const Home = ()=> {
 			useEffect(() => {
 
 				if (accountId !== null) {
-					setIsLoading(true); // Activamos el estado de carga
-					fetchBalance(); // Llamamos a la función que obtiene el balance
+					setIsLoading(true);
+					fetchBalance();
 				} else {
 				
 				  setIsLoading(false);  
@@ -64,8 +64,8 @@ const Home = ()=> {
 	
 	
 	  const fetchBalance = async () => {
-		console.log('pasamos la cuenta', accountId);  // Verificamos que accountId sea el correcto
-		if (!accountId) { // Validar que no sea null, undefined o vacío
+		console.log('pasamos la cuenta', accountId);  
+		if (!accountId) { 
 			toast.error("La cuenta no está disponible!");
 			return;
 		  }
@@ -109,7 +109,7 @@ const Home = ()=> {
       		        <div className="flex flex-col justify-center py-10 sm:py-20">
       		          <h3 className="font-mono font-bold mx-4">Mis Cuentas:</h3>
       		          <div className="flex flex-row items-center justify-around border-4 rounded-lg shadow-xl bg-white border-gray-200 py-4 px-2 mx-2 mt-4 md:px-32 md:mx-5 md:justify-between">
-      		            <div>Cuenta xxxx {accountId}</div>
+      		            <div>Cuenta{accountId}</div>
       		            <p className="font-bold">
       		              {balance ? `$${balance.toFixed(2)}` : 'No disponible'}
       		            </p>

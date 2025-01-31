@@ -1,20 +1,23 @@
 import { faCheck, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useEffect } from "react";
-import { data } from "react-router-dom";
+import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
+
+
+
 const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 
-	const [newUser, setNewUser] = useState(null);
+	const [newUser, setNewUser] = useState('');
 	const [isAmount,setIsAmount]=useState(0);
 	const [rememberMe, setRememberMe] = useState(false); 
 	const [name,setName]=useState('');
 	const[surname,setSurname]=useState('');
 	const[userData,setUserData]=useState('');
+	const [erromessages, setErrorMessages] =([]);
 
 	const handleData = (e) => {
 		e.preventDefault();
-		const value = Number(e.target.value.trim());
+		const value = (e.target.value.trim());
 		if (isNaN(value) || value === 0) {
 			console.warn("CBU no válido");
 			return;
@@ -62,11 +65,20 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 				setName(user.name);
 				setSurname(user.surname)
 			} else {
-				toast.error("No se encontraron datos para este usuario.");
+				const errorData = await response.json();
+					if (errorData.error) {
+						toast.error(errorData.error);
+						} else if (errorData.errors) {
+							Object.values(errorData.errors).flat().forEach(err => {
+							toast.error(err); 
+						});
+					} else {
+						setErrorMessages(["Ocurrió un error inesperado."]);
+					}
 				setUserData(null);
 			}
 		} catch (error) {
-			console.error('error al traer la info del usuario',error)
+			toast.error('error al traer la info del usuario',error)
 		}
 	
 	}
@@ -78,46 +90,6 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 		  }
 		};
 	
-/* 		useEffect(()=>{
-			console.log("datos enviados",newUser)
-			AddnNewUserAccount();
-		},[newUser]);
- */
-
-	//Agregando usuario a la lista de favoritas
-/* 	const AddnNewUserAccount = async ()=>{
-
-		try{
-		if(newUser){
-			console.log("usuario a mostrar",newUser)
-			toast.error("usuario ya existe en la lista");
-		}
-
-		const response =await fetch(`http://localhost:5101/api/Contacts/AddContact`,{
-			method:'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			mode: 'cors',
-			body: JSON.stringify({
-				currentUserId: accountId,
-				identifier: newUser,
-			}),
-		})
-
-		if (!response.ok) {
-            throw new Error(`Error en la solicitud: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        console.log("Respuesta del servidor:", data);
-        toast.success("Usuario agregado correctamente");
-    } catch (error) {
-        console.error("Error al agregar usuario:", error);
-        toast.error("Error al agregar usuario");
-    }
-	}
- */
 	const SendTranfer= async(e)=>{
 		e.preventDefault()
 		try {

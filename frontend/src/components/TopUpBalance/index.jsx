@@ -12,6 +12,7 @@ const TopUpBalance = () => {
 	const [amount, setAmount] = useState(0);
 	const [userData, setUserData] = useState(null);
 	const [accountId, setAccountId] = useState(null);
+	cosnt [erromessages, setErrorMessages] =([]);
 
 
 	const storedCredentials = localStorage.getItem('credentials');
@@ -43,12 +44,15 @@ const TopUpBalance = () => {
 
 	const handleChange = (e) => {
 		e.preventDefault();
-		const value = Number(e.target.value);
-    	setAmount(value);
+		const value =(e.target.value);
+		if (/^\d*$/.test(value)) {
+			setAmount(value);
+		  }
 	}
 
 	const handleSubmit = async (e) => {
-		e.preventDefault()	
+		e.preventDefault();
+
 		const response = await fetch(`http://localhost:5101/Balance/AddBalance`, {
 			method: 'PUT',
 			headers: {
@@ -67,7 +71,17 @@ const TopUpBalance = () => {
 		toast.success("Recarga exitosa!");
 			setAmount(0);
 		} else {
-			toast.error('error en la carga', response);
+			
+			const errorData = await response.json();
+			 if (errorData.error) {
+				toast.error(errorData.error);
+				} else if (errorData.errors) {
+					Object.values(errorData.errors).flat().forEach(err => {
+					toast.error(err); 
+				});
+			} else {
+				setErrorMessages(["Ocurrió un error inesperado."]);
+			  }
 		}
 
 
