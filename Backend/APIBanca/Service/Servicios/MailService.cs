@@ -86,7 +86,7 @@ namespace Service.Services
             var apiKey = APIKey;
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("ignacioff56@Gmail.com", "AppBanca");
-            var subject = "Verifica tu cuenta - AppBanca";
+            var subject = "Codigo de cambio de contraseña - AppBanca";
             var to = new EmailAddress(email);
             var plainTextContent = "Estimado,\n" +
                 "Su código para autorizar el cambio de contraseña es: " + code + ".\n";

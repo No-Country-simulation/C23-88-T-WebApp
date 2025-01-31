@@ -35,28 +35,29 @@ namespace Service.Services
 
             if (Id_from == Id_to)
             {
-                return new ResponseModel { success = false, message = "Error: La cuenta remitente y destinataria son iguales" };
+                return new ResponseModel { success = false, message = "La cuenta remitente y destinataria son iguales." };
             }
 
             if (from_account_balance == null)
             {
-                return new ResponseModel { success = false, message = "Error: La cuenta remitente no existe." };
+                return new ResponseModel { success = false, message = "La cuenta remitente no existe." };
             }
 
             if (to_account_balance == null)
             {
-                return new ResponseModel { success = false, message = "Error: La cuenta destinataria no existe." };
+                return new ResponseModel { success = false, message = "La cuenta destinataria no existe." };
             }
 
             if (from_account_balance.balance < Amount)
             {
-                return new ResponseModel {success = false, message = "Error: Fondos insuficientes." };
+                return new ResponseModel { success = false, message = "Fondos insuficientes." };
             }
 
             if (to_account_balance.balance + Amount > to_account_balance.max_balance)
             {
-                return new ResponseModel {success = false, message = "Error: La cuenta destinataria está al máximo." };
+                return new ResponseModel { success = false, message = "La cuenta destinataria está al máximo." };
             }
+
 
             from_account_balance.balance -= Amount;
             to_account_balance.balance += Amount;

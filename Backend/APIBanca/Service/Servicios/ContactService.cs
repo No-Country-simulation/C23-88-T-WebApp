@@ -41,7 +41,7 @@ namespace Service.Servicios
                     return new ResponseModel
                     {
                         success = false,
-                        message = "The account does not exist or is inactive.",
+                        message = "La cuenta no existe.",
                         data = null
                     };
                 }
@@ -53,7 +53,7 @@ namespace Service.Servicios
                     return new ResponseModel
                     {
                         success = false,
-                        message = "The contact already exists.",
+                        message = "El contacto ya existe.",
                         data = null
                     };
                 }
@@ -70,7 +70,7 @@ namespace Service.Servicios
                 return new ResponseModel
                 {
                     success = true,
-                    message = "Contact added successfully.",
+                    message = "Contacto agregado exitosamente.",
                     data = null
                 };
             }
@@ -103,8 +103,8 @@ namespace Service.Servicios
                 {
                     return new
                     {
-                        name = company.cuit,
-                        surname = company.address, // No aplica para empresas
+                        name = company.name,
+                        surname = company.surname, 
                         id = c.ContactAccountId
                     };
                 }
@@ -116,7 +116,7 @@ namespace Service.Servicios
             return new ResponseModel
             {
                 success = true,
-                message = "Contact list retrieved successfully.",
+                message = "Lista de contactos obtenida exitosamente.",
                 data = formattedContacts
             };
         }

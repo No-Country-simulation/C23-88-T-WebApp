@@ -89,7 +89,7 @@ namespace API_TrabajoPractico.Controllers
                 if (string.IsNullOrEmpty(token))
                 {
                     // Login fallido
-                    return NotFound(new { message = "Incorrect email/password" });
+                    return NotFound(new { message = "Email o contraseña incorrectas" });
                 }
 
 

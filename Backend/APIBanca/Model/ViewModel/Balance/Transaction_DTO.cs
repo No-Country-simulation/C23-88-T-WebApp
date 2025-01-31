@@ -11,17 +11,18 @@ namespace Model.ViewModel.account
 {
     public class Transaction_DTO
     {
-        [Required(ErrorMessage = "Balance is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Balance must be a positive number.")]
+        [Required(ErrorMessage = "El saldo es obligatorio.")]
+        [Range(1, int.MaxValue, ErrorMessage = "El saldo debe ser un número positivo.")]
         public int send_balance { get; set; }
 
-        [Required(ErrorMessage = "From ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "From ID must be a positive number.")]
+        [Required(ErrorMessage = "El ID de origen es obligatorio.")]
+        [Range(1, int.MaxValue, ErrorMessage = "El ID de origen debe ser un número positivo.")]
         public int from_id { get; set; }
 
-        [Required(ErrorMessage = "To ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "To ID must be a positive number.")]
+        [Required(ErrorMessage = "El ID de destino es obligatorio.")]
+        [Range(1, int.MaxValue, ErrorMessage = "El ID de destino debe ser un número positivo.")]
         public int to_id { get; set; }
 
-    }   
+
+    }
 }

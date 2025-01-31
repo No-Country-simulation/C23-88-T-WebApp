@@ -27,7 +27,7 @@ namespace APIBanca.Controllers
         public ActionResult<Balance_Get_DTO> GetBalanceByAccountId(int Id)
         {
             var balance = _repository.GetBalancebyAccountId(Id);
-            if (balance == null) return NotFound("Account missing");
+            if (balance == null) return NotFound("Cuenta no encontrada");
             var result = _mapper.Map<Balance_Get_DTO>(balance);
             return Ok(result);
 
@@ -69,7 +69,7 @@ namespace APIBanca.Controllers
             var history = _repository.Get_history_By_Id(Id, limit, offset);
 
             if (history == null || !history.Any())
-                return NotFound("Not Found");
+                return NotFound("Historial no encontrado");
 
             var result = _mapper.Map<IEnumerable<History_object_DTO>>(history);
 
@@ -83,7 +83,7 @@ namespace APIBanca.Controllers
         {
             var result = _repository.GetUserOrCompanyById(id);
             if (result == null)
-                return NotFound("User or Company not found");
+                return NotFound("Cuenta no encontrada");
 
             return Ok(result);
         }
