@@ -16,8 +16,8 @@ namespace Model.ViewModel.account
         public int Value { get; set; }
 
         [Required(ErrorMessage = "ID is required")]
-        [Range(1, long.MaxValue, ErrorMessage = "ID must be a positive number.")]
-        public long Account_id { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "ID must be a positive number.")]
+        public int Account_id { get; set; }
 
 
     }   

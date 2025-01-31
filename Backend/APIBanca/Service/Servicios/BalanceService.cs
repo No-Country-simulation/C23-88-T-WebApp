@@ -23,12 +23,12 @@ namespace Service.Services
             _context = context;
         }
 
-        public Account_Balance GetBalancebyAccountId(long Id)
+        public Account_Balance GetBalancebyAccountId(int Id)
         {
             return _context.Account_Balance.FirstOrDefault(p => p.account_id == Id);
         }
 
-        public ResponseModel Transaction(long Id_from, long Id_to, int Amount)
+        public ResponseModel Transaction(int Id_from, int Id_to, int Amount)
         {
             var from_account_balance = _context.Account_Balance.FirstOrDefault(p => p.account_id == Id_from);
             var to_account_balance = _context.Account_Balance.FirstOrDefault(p => p.account_id == Id_to);
@@ -123,7 +123,7 @@ namespace Service.Services
             return "Created history object";
         }
 
-        private void Create_Recharge_history(long Id_account, int Value) {
+        private void Create_Recharge_history(int Id_account, int Value) {
             var historyObject = new History_object();
             historyObject.account_id = Id_account;
             historyObject.date = DateTime.Now;
@@ -133,7 +133,7 @@ namespace Service.Services
             Add_history_object(historyObject);
         }
 
-        private void Create_Transaction_history(long Id_account, string Type, int Value, long Other_id)
+        private void Create_Transaction_history(int Id_account, string Type, int Value, int Other_id)
         {
             var historyObject = new History_object();
             historyObject.account_id = Id_account;
@@ -145,7 +145,7 @@ namespace Service.Services
             Add_history_object(historyObject);
         }
 
-        public IEnumerable<History_object> Get_history_By_Id(long Id, int limit, int offset)
+        public IEnumerable<History_object> Get_history_By_Id(int Id, int limit, int offset)
         {
             return _context.History_object
              .Where(p => p.account_id == Id)  // Filtrar por account_id
@@ -155,12 +155,12 @@ namespace Service.Services
                            .ToList();
         }
 
-        public int CountHistoryById(long Id)
+        public int CountHistoryById(int Id)
         {
             return _context.History_object.Count(p => p.account_id == Id);
         }
 
-        public object GetUserOrCompanyById(long id)
+        public object GetUserOrCompanyById(int id)
         {
             var user = _context.Set<User>()
                 .Where(u => u.account_id == id)

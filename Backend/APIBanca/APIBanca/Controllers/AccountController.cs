@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Model.DTO;
 using Servicio.IServices;
 using Model.ViewModel.account;
+using Microsoft.Identity.Client;
+using Model.Modelos;
+using Newtonsoft.Json;
 namespace APIBanca.Controllers
 {
     [ApiController]
@@ -37,6 +40,7 @@ namespace APIBanca.Controllers
                 var result = _mapper.Map<account_Usuario_DTO>(acc);
                 _mapper.Map(info, result); // This will map the User data to the result DTO
                 return Ok(result);
+
             }
             else if (acc.role == "empresa")
             {
@@ -45,6 +49,7 @@ namespace APIBanca.Controllers
                 // Map both account and Usuario to User_Account_DTO
                 var result = _mapper.Map<account_Empresa_DTO>(acc);
                 _mapper.Map(info, result); // This will map the User data to the result DTO
+                string json = JsonConvert.SerializeObject(result);
                 return Ok(result);
 
             }

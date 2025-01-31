@@ -13,19 +13,19 @@ namespace Model.Modelos.Configurations
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.HasIndex(e => e.ContactAccountId, "Contact_To_Contact_id_idx");
+            entity.HasIndex(e => e.ContactAccountId, "Contact_Account_idx");
 
-            entity.HasIndex(e => e.UserId, "Contact_To_ID_idx");
+            entity.HasIndex(e => e.UserId, "Contact_user_Account_idx");
 
             entity.HasOne(d => d.ContactAccount).WithMany(p => p.ContactsContactAccount)
                 .HasForeignKey(d => d.ContactAccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Contact_To_Contact_id");
+                .HasConstraintName("Contact_Account");
 
             entity.HasOne(d => d.User).WithMany(p => p.ContactsUser)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Contact_To_ID");
+                .HasConstraintName("Contact_user_Account");
 
             OnConfigurePartial(entity);
         }

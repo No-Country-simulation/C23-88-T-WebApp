@@ -5,6 +5,7 @@ using Model.DTO;
 using Servicio.IServices;
 using Model.ViewModel.account;
 using Model.Modelos;
+using Newtonsoft.Json;
 namespace APIBanca.Controllers
 {
     [ApiController]
@@ -23,12 +24,13 @@ namespace APIBanca.Controllers
         }
         //[Authorize]
         [HttpGet("GetBalancebyAccountId")]
-        public ActionResult<Balance_Get_DTO> GetBalanceByAccountId(long Id)
+        public ActionResult<Balance_Get_DTO> GetBalanceByAccountId(int Id)
         {
             var balance = _repository.GetBalancebyAccountId(Id);
             if (balance == null) return NotFound("Account missing");
             var result = _mapper.Map<Balance_Get_DTO>(balance);
             return Ok(result);
+
         }
 
         [HttpPut("Transaction")]
@@ -40,8 +42,8 @@ namespace APIBanca.Controllers
             {
                 return BadRequest(result);
             }
-
             return Ok(result);
+
         }
 
 
@@ -55,14 +57,13 @@ namespace APIBanca.Controllers
             {
                 return BadRequest(result);
             }
-
             return Ok(result);
         }
 
 
 
         [HttpGet("GetHistory")]
-        public ActionResult<IEnumerable<History_object_DTO>> GetHistory(long Id, int limit = 10, int offset = 0)
+        public ActionResult<IEnumerable<History_object_DTO>> GetHistory(int Id, int limit = 10, int offset = 0)
         {
             var totalRecords = _repository.CountHistoryById(Id); // Nuevo método para contar los registros totales
             var history = _repository.Get_history_By_Id(Id, limit, offset);
@@ -78,7 +79,7 @@ namespace APIBanca.Controllers
         }
 
         [HttpGet("GetById")]
-        public IActionResult GetById(long id)
+        public IActionResult GetById(int id)
         {
             var result = _repository.GetUserOrCompanyById(id);
             if (result == null)

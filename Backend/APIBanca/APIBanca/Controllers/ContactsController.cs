@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MySqlX.XDevAPI.Common;
+using Newtonsoft.Json;
 using Service.IService;
 using Service.Servicios;
 
@@ -17,7 +19,7 @@ namespace APIBanca.Controllers
         }
 
         [HttpPost("AddContact")]
-        public IActionResult AddContact([FromQuery] long currentUserId, string identifier )
+        public IActionResult AddContact([FromQuery] int currentUserId, string identifier )
         {
             // Obtener el usuario actual (supongamos que viene del token JWT)           
 
@@ -32,19 +34,20 @@ namespace APIBanca.Controllers
         }
 
         [HttpGet("GetContactList")]
-        public IActionResult GetContactList(long id)
+        public IActionResult GetContactList(int id)
         {
             // Obtener el usuario actual (supongamos que viene del token JWT)
             
 
             var response = _contactService.GetContactList(id);
             return Ok(response);
+
         }
 
-        private long GetCurrentUserId()
+        private int GetCurrentUserId()
         {
             // Aquí obtendrías el ID del usuario actual, por ejemplo, desde un token JWT
-            return long.Parse(User.Claims.First(c => c.Type == "id").Value);
+            return int.Parse(User.Claims.First(c => c.Type == "id").Value);
         }
     }
 }

@@ -9,9 +9,9 @@ public partial class Contacts
 {
     public int Id { get; set; }
 
-    public long UserId { get; set; }
+    public int UserId { get; set; }
 
-    public long ContactAccountId { get; set; }
+    public int ContactAccountId { get; set; }
 
     public virtual Account ContactAccount { get; set; }
 

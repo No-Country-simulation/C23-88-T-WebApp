@@ -22,20 +22,26 @@ namespace Service.Services
 
         public Account GetAccountbyEmail(string email)
         {
-            return _context.Account.FirstOrDefault(p => p.email == email);
+            var account = _context.Account.FirstOrDefault(p => p.email == email);
+
+            // Log the account ID to see if it's correct
+            Console.WriteLine($"Account ID: {account?.id}");
+
+            return account;
         }
 
-        public Account GetAccountbyId(long id)
+
+        public Account GetAccountbyId(int id)
         {
             return _context.Account.FirstOrDefault(p => p.id == id);
         }
 
-        public User GetUserbyId(long id)
+        public User GetUserbyId(int id)
         {
             return _context.User.FirstOrDefault(p => p.account_id == id);
         }
 
-        public Company GetEmpresabyId(long id)
+        public Company GetEmpresabyId(int id)
         {
             return _context.Company.FirstOrDefault(p => p.account_id == id);
         }

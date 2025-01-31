@@ -7,7 +7,7 @@ namespace Model.Modelos;
 
 public partial class History_object_DTO
 {
-    public long account_id { get; set; }
+    public int account_id { get; set; }
 
     public string type { get; set; }
 
@@ -15,6 +15,6 @@ public partial class History_object_DTO
 
     public DateTime Date { get; set; }
 
-    public long? other_account_id { get; set; }
+    public int? other_account_id { get; set; }
 
 }

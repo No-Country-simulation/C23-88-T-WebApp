@@ -9,7 +9,7 @@ namespace Model.DTO
     public class UsuarioDTO
     {
         public string dni { get; set; }
-        public long id_account { get; set; }
+        public int id_account { get; set; }
         public string name { get; set; }
         public string surname { get; set; }
         public string phone { get; set; }
