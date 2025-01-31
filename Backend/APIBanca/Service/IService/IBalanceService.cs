@@ -13,19 +13,19 @@ namespace Servicio.IServices
 {
     public interface IBalanceService
     {
-        public Account_Balance GetBalancebyAccountId(long Id);
+        public Account_Balance GetBalancebyAccountId(int Id);
 
-        public ResponseModel Transaction(long Id_from, long Id_to, int Amount);
+        public ResponseModel Transaction(int Id_from, int Id_to, int Amount);
 
         public ResponseModel Add_Balance(Recharge_DTO values);
 
         public String Add_history_object(History_object New_history);
 
-        public IEnumerable<History_object> Get_history_By_Id(long Id, int limit, int offset);
+        public IEnumerable<History_object> Get_history_By_Id(int Id, int limit, int offset);
 
-        public int CountHistoryById(long Id);
+        public int CountHistoryById(int Id);
 
-        public object GetUserOrCompanyById(long id);
+        public object GetUserOrCompanyById(int id);
 
         //public void Create_Recharge_history(int Id_account, int Value);
 

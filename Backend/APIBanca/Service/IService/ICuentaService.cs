@@ -13,10 +13,10 @@ namespace Servicio.IServices
     {
         public Account GetAccountbyEmail(string email);
 
-        public Account GetAccountbyId(long id);
+        public Account GetAccountbyId(int id);
 
-        public User GetUserbyId(long id);
-        public Company GetEmpresabyId(long id);
+        public User GetUserbyId(int id);
+        public Company GetEmpresabyId(int id);
 
     }
 }

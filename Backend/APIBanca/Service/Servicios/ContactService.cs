@@ -27,14 +27,14 @@ namespace Service.Servicios
             _service = service;
         }         
 
-            public ResponseModel AddContact(long currentUserId, string identifier)
+            public ResponseModel AddContact(int currentUserId, string identifier)
             {
                 // Verificar si el identificador es un email o un ID
                 bool isEmail = identifier.Contains("@");
 
                 var account = isEmail
                     ? _context.Account.FirstOrDefault(a => a.email == identifier )
-                    : _context.Account.FirstOrDefault(a => a.id == long.Parse(identifier) );
+                    : _context.Account.FirstOrDefault(a => a.id == int.Parse(identifier) );
 
                 if (account == null)
                 {
@@ -75,7 +75,7 @@ namespace Service.Servicios
                 };
             }
 
-        public ResponseModel GetContactList(long currentUserId)
+        public ResponseModel GetContactList(int currentUserId)
         {
             // Obtén los contactos del usuario actual
             var contacts = _context.Contacts

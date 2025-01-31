@@ -31,17 +31,17 @@ namespace Service.Services
         }
 
 
-        public Account GetAccountbyId(long id)
+        public Account GetAccountbyId(int id)
         {
             return _context.Account.FirstOrDefault(p => p.id == id);
         }
 
-        public User GetUserbyId(long id)
+        public User GetUserbyId(int id)
         {
             return _context.User.FirstOrDefault(p => p.account_id == id);
         }
 
-        public Company GetEmpresabyId(long id)
+        public Company GetEmpresabyId(int id)
         {
             return _context.Company.FirstOrDefault(p => p.account_id == id);
         }

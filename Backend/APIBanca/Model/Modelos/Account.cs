@@ -7,7 +7,7 @@ namespace Model.Modelos;
 
 public partial class Account
 {
-    public long id { get; set; }
+    public int id { get; set; }
 
     public string password { get; set; }
 

@@ -9,8 +9,8 @@ namespace Service.IService
 {
     public interface IContactService
     {
-        ResponseModel AddContact(long currentUserId, string identifier);
-        ResponseModel GetContactList(long currentUserId);
+        ResponseModel AddContact(int currentUserId, string identifier);
+        ResponseModel GetContactList(int currentUserId);
 
 
     }

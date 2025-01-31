@@ -19,6 +19,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -77,13 +78,13 @@ namespace Service.Services
                 // Create the account
                 var nuevaaccount = new Account()
                 {
-                    id = Hash_ID(account.email),
+                    id =  Generate_id(),
                     email = account.email,
                     password = account.password.GetSHA256(),
                     role = account.role,
                     ver_code = new Random().Next(100000, 999999).ToString(),
                     active = 0
-                };
+                };;
 
                 _context.Account.Add(nuevaaccount);
                 _context.SaveChanges();
@@ -285,37 +286,27 @@ namespace Service.Services
             public string Country { get; set; }
         }
 
-        private long Hash_ID(string email)
+        private int Generate_id()
         {
-            //var Account = getAccount(email);
+            Random rand = new Random();
+            int randomInt;
+            Account? accountexiste;
 
-            var hash = TransformIdToHashedNumber(email);
-
-            return hash;
-        }
-
-        private long TransformIdToHashedNumber(string email)
-        {
-            // Get the key from the _appSettings object
-            var key = Encoding.ASCII.GetBytes(_appSettings.Key);
-
-            // Concatenate the ID and key to create the input string for hashing
-            string input = email.ToString() + key;
-
-            // Compute the SHA-256 hash of the input string
-            using (SHA256 sha256 = SHA256.Create())
+            do
             {
-                byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(input));
+                // Generate a new random integer
+                randomInt = rand.Next(1000000000, 2147483647);
 
-                // Convert the hash into a numeric value. For simplicity, we'll take the first 8 bytes and convert them to a long.
-                long hashNumber = BitConverter.ToInt64(hashBytes, 0);
+                // Check if an account with that ID already exists
+                accountexiste = _context.Account.FirstOrDefault(x => x.id == randomInt);
 
-                // Make sure the result is positive by taking the absolute value
-                return Math.Abs(hashNumber);
-            }
+            } while (accountexiste != null); // Continue generating until the ID is unique
+
+            return randomInt; // Return the unique ID
         }
+
 
     }
 
-    
+
 }
