@@ -34,8 +34,10 @@ builder.Services.AddCors(options =>
         {
             builder.WithOrigins("http://localhost:5173") // URL del frontend
                    .AllowAnyMethod()
-                   .AllowAnyHeader();
-        });
+                   .AllowAnyHeader()
+                   .WithExposedHeaders("X-Total-Count");
+
+});
 });
 
 // JWT Configuration
