@@ -12,7 +12,7 @@ const TopUpBalance = () => {
 	const [amount, setAmount] = useState(0);
 	const [userData, setUserData] = useState(null);
 	const [accountId, setAccountId] = useState(null);
-	cosnt [erromessages, setErrorMessages] =([]);
+	const [erromessages, setErrorMessages] =([]);
 
 
 	const storedCredentials = localStorage.getItem('credentials');

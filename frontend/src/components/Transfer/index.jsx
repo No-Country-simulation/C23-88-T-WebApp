@@ -6,6 +6,7 @@ import { faAddressBook } from "@fortawesome/free-solid-svg-icons";
 import { faUsers } from "@fortawesome/free-solid-svg-icons";
 import OffCanvas from "./offCanvas";
 import ScheduleUsers from "./According";
+import AppProvider from '../../context';
 
 const Transfer =()=>{
 
@@ -71,6 +72,7 @@ const Transfer =()=>{
 						<div className="flex flex-row">
 							<ScheduleUsers openIndex={openIndex} setIsOpen={setOpenIndex} />
 						</div>
+						
 					</div>
 				</div>
 			</div>
