@@ -29,13 +29,13 @@ namespace APIBanca.Controllers
         public ActionResult<account_Usuario_DTO> GetClientById(string email)
         {
             var acc = _repository.GetAccountbyEmail(email);
-            if (acc == null) return NotFound("Account missing");
+            if (acc == null) return NotFound("Cuenta no encontrada");
 
 
             if (acc.role == "usuario")
             {
                 var info = _repository.GetUserbyId(acc.id);
-                if (info == null) return NotFound();
+                if (info == null) return NotFound("Cuenta no encontrada");
                 // Map both account and Usuario to User_Account_DTO
                 var result = _mapper.Map<account_Usuario_DTO>(acc);
                 _mapper.Map(info, result); // This will map the User data to the result DTO
@@ -45,7 +45,7 @@ namespace APIBanca.Controllers
             else if (acc.role == "empresa")
             {
                 var info = _repository.GetEmpresabyId(acc.id);
-                if (info == null) return NotFound("Info missing");
+                if (info == null) return NotFound("Cuenta no encontrada");
                 // Map both account and Usuario to User_Account_DTO
                 var result = _mapper.Map<account_Empresa_DTO>(acc);
                 _mapper.Map(info, result); // This will map the User data to the result DTO
