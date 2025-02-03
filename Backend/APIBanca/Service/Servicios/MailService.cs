@@ -58,29 +58,6 @@ namespace Service.Services
             }
         }
 
-        public async Task Send_Verification_Email(string email,string name, string surname, string code )
-        {
-            var apiKey = APIKey;
-            var client = new SendGridClient(apiKey);
-            var from = new EmailAddress("ignacioff56@Gmail.com", "AppBanca");
-            var subject = "Verifica tu cuenta - AppBanca";
-            var to = new EmailAddress(email);
-            var plainTextContent = "Estimado " + surname + " " + name + ",\n" +
-                "Su código para activar su cuenta es: " + code + ".\n" +
-                "Lo esperamos"; 
-            var htmlContent = "Estimado " + surname + " " + name + "\n" +
-                "Su código para activar su cuenta es: " + code + ".\n" +
-                "Lo esperamos"; 
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-            var response = await client.SendEmailAsync(msg);
-            // Optional: Check the status of the response (e.g., log the status code)
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-            {
-                // Log or handle unsuccessful email sending
-                throw new Exception($"Failed to send email. Status Code: {response.StatusCode}");
-            }
-        }
-
         public async Task Send_Reset_Pass_Email(string email, string code)
         {
             var apiKey = APIKey;
@@ -94,7 +71,21 @@ namespace Service.Services
                 "Su código para autorizar el cambio de contraseña es: " + code + ".\n";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
-            
+        }
+
+        public async Task Suspicious_Login_Email(string email)
+        {
+            var apiKey = APIKey;
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("ignacioff56@Gmail.com", "AppBanca");
+            var subject = "Ingreso Sospechoso - AppBanca";
+            var to = new EmailAddress(email);
+            var plainTextContent = "Estimado,\n" +
+                "Se ha iniciado sesion en tu cuenta de AppBanca desde un dispositivo nuevo. Si fuiste tu, ignora este mensaje.";
+            var htmlContent = "Estimado,\n" +
+                "Se ha iniciado sesion en tu cuenta de AppBanca desde un dispositivo nuevo. Si fuiste tu, ignora este mensaje.";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
         }
     }
 
