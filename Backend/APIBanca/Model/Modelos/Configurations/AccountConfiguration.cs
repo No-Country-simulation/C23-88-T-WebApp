@@ -17,6 +17,7 @@ namespace Model.Modelos.Configurations
                 .HasCharSet("utf8mb4")
                 .UseCollation("utf8mb4_0900_ai_ci");
 
+            entity.Property(e => e.active).HasDefaultValueSql("'1'");
             entity.Property(e => e.email)
                 .IsRequired()
                 .HasMaxLength(45);
@@ -24,6 +25,9 @@ namespace Model.Modelos.Configurations
                 .IsRequired()
                 .HasMaxLength(255);
             entity.Property(e => e.role)
+                .IsRequired()
+                .HasMaxLength(45);
+            entity.Property(e => e.stored_ip)
                 .IsRequired()
                 .HasMaxLength(45);
             entity.Property(e => e.ver_code).HasMaxLength(45);

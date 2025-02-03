@@ -46,67 +46,67 @@ const getUser = async (email) => {
 	}
 }
 
-	const getHistory = async (accountId, page = 1) => {	
+const getHistory = async (accountId, page = 1) => {    
+    if (!accountId) {
+        toast.error("La cuenta no está disponible!");
+        return;
+    }
+    try {
+        setIsLoading(true);
+        const limit = 10;
+        const offset = (page - 1) * limit;
 
-		if (!accountId) {
-            toast.error("La cuenta no está disponible!");
+        const response = await fetch(
+            `http://localhost:5101/Balance/GetHistory?Id=${accountId}&limit=${limit}&offset=${offset}`, 
+            {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+                mode: 'cors',
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Error al obtener los movimientos");
+        }
+
+        const datosHistory = await response.json();
+        console.log('Datos de la historia:', datosHistory);
+
+        if (!datosHistory || datosHistory.length === 0) {
+            setHistory([]); 
+            setTotalPages(1);
             return;
         }
-		try {
-			const limit = 15;
-        	const offset = (page - 1) * limit;
 
-			const response = await fetch( `http://localhost:5101/Balance/GetHistory?Id=${accountId}&limit=${limit}&offset=${offset}`,{
-				method: 'GET',
-				headers: {
-				  'Content-Type': 'application/json',
-				},
-				mode: 'cors',
-			});
+        let totalResults = response.headers.get('X-Total-Count') || datosHistory.total || (Array.isArray(datosHistory) && datosHistory[0]?.total);
+        
+        if (totalResults) {
+            setTotalPages(Math.ceil(totalResults / limit));
+        }
 
-			if (!response.ok) {
-				throw new Error("Error al obtener los movimientos");
-			}
-			const datosHistory = await response.json();
-			 if (!datosHistory || datosHistory.length === 0) {
-				setHistory([]); 
-                setTotalPages(1)
-				return;
-			}
+        setHistory(datosHistory); 
 
-			setHistory(datosHistory);
-			let totalResults = response.headers.get('X-Total-Count');
+    } catch (err) {
+        console.error(err.message);
+    } finally {
+        setIsLoading(false); 
+    }
+};
 
-			if (!totalResults) {
-				console.warn("X-Total-Count no está disponible en los headers.");
-				
-				// Alternativa: Verificar si el JSON incluye el total de registros
-				if (datosHistory.total) {
-					totalResults = datosHistory.total;
-				} else if (Array.isArray(datosHistory) && datosHistory.length > 0 && datosHistory[0].total) {
-					totalResults = datosHistory[0].total;
-				}
-			}
-	
-			console.log("Total de registros:", totalResults);
-	
-			if (totalResults) {
-				const totalPagesCalc = Math.ceil(totalResults / limit);
-				setTotalPages(totalPagesCalc);
-			}
-			  setIsLoading(false); 
-		} catch (err) {
-			console.error(err.message);
-			setIsLoading(false); 
-		}
-	} 
 
 	const changePage = (newPage) => {
 		if (newPage >= 1 && newPage <= totalPages) {
             console.log("Cambiando a página:", newPage);
             setCurrentPage(newPage);
+			getHistory(accountId, newPage);
         }
 	};
+
+	useEffect(() => {
+		if (accountId) {
+			getHistory(accountId, currentPage);
+		}
+	}, [currentPage, accountId]); 
 	
 	return (
 		<>

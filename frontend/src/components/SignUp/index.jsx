@@ -69,27 +69,28 @@ const routes = routess();
 			console.log("Respuesta recibida:", data);
 			if (data.message) {
 				console.log("Mensaje:", data.message);
-				setSuccessMessage(data.message); // Muestra el mensaje de éxito
+				toast.success(data.message || "Registro completado!"); // Muestra el mensaje de éxito
 			  }
 			return data;
 			
 		}else {
 			
 			const errorData = await response.json();
-			  // Verifica si el error tiene un campo de validación
+
 			  if (errorData.error) {
-				setErrorMessages([errorData.error]); 
+				toast.error(errorData.error);
 			  } else if (errorData.errors) {
-				const errorList = Object.values(errorData.errors).flat(); 
-				setErrorMessages(errorList);
+				Object.values(errorData.errors).flat().forEach(err => {
+					toast.error(err); 
+				});
 			  } else {
 				setErrorMessages(["Ocurrió un error inesperado."]);
 			  }
 			}
 
 	} catch (error) {
-		console.error('Error en la solicitud:', error.message);
-      	setErrorMessages(error.message); 
+		console.error('Error en la solicitud:', error);
+		toast.error("Error de conexión con el servidor");
 	}
 
   };
@@ -97,7 +98,6 @@ const routes = routess();
   const closed = () => {
     navigate(routes.LOGIN);
   };
-
 
 	return(
 		<>
@@ -250,6 +250,13 @@ const routes = routess();
 						   <ToastContainer />
             			</div>
 					</form>
+					{errorMessages.length > 0 && (
+                <div style={{ color: "red" }}>
+                    {errorMessages.map((error, index) => (
+                        <p key={index}>{error}</p>
+                    ))}
+                </div>
+            )}
 				</div>
 			</div>
 			{/* Columna Derecha: Imagen */}
