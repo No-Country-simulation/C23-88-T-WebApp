@@ -119,7 +119,7 @@ const ScheduleUsers = ({ openIndex }) => {
               onChange={(e) => setAccountId(e.target.value)}
               value={accountId}
             >
-              <option>Selecciona una cuenta</option>
+              <option value={""}>Selecciona una cuenta</option>
               <option value={userData?.account_id}>
                 Caja de Ahorros: {userData?.account_id}
               </option>
@@ -130,7 +130,8 @@ const ScheduleUsers = ({ openIndex }) => {
             <label className="block text-gray-700">Hacia:</label>
             <select className="w-full p-2 mr-4 border border-gray-300 rounded mt-1 px-2"
             value={selectedUser}
-            onChange={(e) => setSelectedUser(e.target.value)}>
+            onChange={(e) => setSelectedUser(e.target.value)}
+            disabled={!accountId} >
             <option>Selecciona un beneficiario</option>
               {userExist.length > 0 ? (
                 userExist.map((user) => (
