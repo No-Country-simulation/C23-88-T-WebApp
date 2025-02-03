@@ -182,15 +182,16 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 				return;
 
 			}
-				const response = await fetch(`http://localhost:5101/Balance/AddBalance`, {
+				const response = await fetch(`http://localhost:5101/Balance/Transaction`, {
 					method: 'PUT',
 						headers: {
 							'Content-Type': 'application/json',
 						},
 						mode: 'cors',
 						body: JSON.stringify({
-							account_id: newUser,
-							value: isAmount,
+							from_id: accountId,
+							send_balance: isAmount,
+							to_id: newUser,
 						}),
 					
 					})

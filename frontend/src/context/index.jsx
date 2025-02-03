@@ -6,8 +6,9 @@ const AppTransferContext = createContext();
 const AppProvider =({children})=>{
 
 	const [isAmount, setIsAmount] = useState(0);
-		const SendTransfer= async(isAmount,selectedUser)=>{
-
+	const [accountId, setAccountId] = useState(null);
+		const SendTransfer= async(isAmount,selectedUser,accountId)=>{
+			console.log('accountId desde el context',accountId)
 			try {
 
 				if (isAmount <= 0) {
@@ -21,15 +22,16 @@ const AppProvider =({children})=>{
 					return;
 				  }
 			  
-					const response = await fetch(`http://localhost:5101/Balance/AddBalance`, {
+					const response = await fetch(`http://localhost:5101/Balance/Transaction`, {
 						method: 'PUT',
 							headers: {
 								'Content-Type': 'application/json',
 							},
 							mode: 'cors',
 							body: JSON.stringify({
-								account_id: selectedUser,
-								value: isAmount,
+								from_id: accountId,
+								send_balance: isAmount,
+								to_id: selectedUser,
 							}),
 						
 						})
@@ -38,7 +40,7 @@ const AppProvider =({children})=>{
 							const data = await response.json();
 						toast.success("Tranferencia exitosa!");
 						setIsAmount(0);
-						selectedUser('');
+						selectedUser(null);
 
 						} else {
 							toast.error('error en la transferencia', response);
@@ -52,7 +54,7 @@ const AppProvider =({children})=>{
 	
 
 	return(
-		<AppTransferContext.Provider value={{SendTransfer,resetIsAmount,isAmount,}}>
+		<AppTransferContext.Provider value={{SendTransfer,resetIsAmount,isAmount,accountId}}>
 			<ToastContainer/>
 			{children}
 		</AppTransferContext.Provider>

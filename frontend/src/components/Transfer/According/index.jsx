@@ -3,10 +3,11 @@ import { Disclosure } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCoins } from "@fortawesome/free-solid-svg-icons";
 import { useAppContext } from "../../../context";
+import{ toast, ToastContainer } from "react-toastify";
 
 const ScheduleUsers = ({ openIndex }) => {
   const [userExist, setUserExist] = useState([]);
-  const [selectedUser, setSelectedUser] = useState("");
+  const [selectedUser, setSelectedUser] = useState(null);
   const [accountId, setAccountId] = useState("");
   const [userData, setUserData] = useState(null);
   const [isAmount,setIsAmount]=useState(0);
@@ -100,9 +101,18 @@ const ScheduleUsers = ({ openIndex }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    SendTransfer(isAmount, selectedUser);
-  };
+    console.log("selectedUser.id:", selectedUser?.id);
+console.log("e.target.value:", e.target.value);
+console.log("userExist:", userExist);
   
+    console.log("selectedUser:", selectedUser);
+    if (!selectedUser) {
+      toast.error('Debes seleccionar un usuario');
+      return;
+    }
+  
+    SendTransfer(isAmount, selectedUser.id, accountId);
+  };
 
   return (
     <>
@@ -111,6 +121,7 @@ const ScheduleUsers = ({ openIndex }) => {
           openIndex ? "max-h-screen opacity-100 py-4" : "max-h-0 opacity-0"
         }`}
       >
+        <ToastContainer/>
         <div className="flex flex-col p-4 m-4 rounded-lg shadow-lg justify-around bg-gray-100 sm:flex-row md:justify-between sm:bg-gray-100">
           <div className="mb-4">
             <label className="block text-gray-700">Desde:</label>
@@ -129,8 +140,14 @@ const ScheduleUsers = ({ openIndex }) => {
           <div className="mb-4">
             <label className="block text-gray-700">Hacia:</label>
             <select className="w-full p-2 mr-4 border border-gray-300 rounded mt-1 px-2"
-            value={selectedUser}
-            onChange={(e) => setSelectedUser(e.target.value)}
+           value={selectedUser ? String(selectedUser.id) : ''}
+           onChange={(e) => {
+            const user = userExist.find(user => String(user.id) === e.target.value);
+            if (user) {
+              console.log("Usuario seleccionado:", user);
+              setSelectedUser(user);
+            }
+          }}
             disabled={!accountId} >
             <option>Selecciona un beneficiario</option>
               {userExist.length > 0 ? (
