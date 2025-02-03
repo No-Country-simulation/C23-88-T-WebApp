@@ -26,7 +26,8 @@ namespace API_TrabajoPractico.Controllers
         {
             try
             {
-                string response = _service.Registro(account);
+                var remoteIpAddress = HttpContext.Connection.RemoteIpAddress;
+                string response = _service.Registro(account, remoteIpAddress);
 
                 // Lista de errores conocidos
                 var erroresConocidos = new List<string>
@@ -84,7 +85,8 @@ namespace API_TrabajoPractico.Controllers
         {
             try
             {
-                string token = _service.Login(account);
+                var remoteIpAddress = HttpContext.Connection.RemoteIpAddress;
+                string token = _service.Login(account, remoteIpAddress);
 
                 if (string.IsNullOrEmpty(token))
                 {

@@ -19,6 +19,8 @@ public partial class Account
 
     public string ver_code { get; set; }
 
+    public string stored_ip { get; set; }
+
     public virtual ICollection<Account_Balance> Account_Balance { get; set; } = new List<Account_Balance>();
 
     public virtual ICollection<Company> Company { get; set; } = new List<Company>();

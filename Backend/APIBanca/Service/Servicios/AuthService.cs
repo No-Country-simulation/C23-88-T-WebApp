@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Security.Principal;
@@ -38,7 +40,7 @@ namespace Service.Services
             _service = service;
         }
 
-        public string Registro(RegistroViewModel account)
+        public string Registro(RegistroViewModel account, IPAddress remoteIpAddress)
         {
             // valida email
             if (string.IsNullOrEmpty(account.email))
@@ -72,6 +74,14 @@ namespace Service.Services
                 return "El cuit ya se encuentra registrado";
             }
 
+            // Trae la Ip y revisa su valides
+            var ip = Get_Ip(remoteIpAddress);
+
+            if (ip == "IP address not found") {
+                return "Error al confirmar la IP";
+            }
+
+
             // asigna datos a usuario o empresa
             if (account.role == "usuario" || account.role == "empresa")
             {
@@ -83,7 +93,9 @@ namespace Service.Services
                     password = account.password.GetSHA256(),
                     role = account.role,
                     ver_code = new Random().Next(100000, 999999).ToString(),
-                    active = 0
+                    active = 1,
+                    stored_ip = ip
+
                 };;
 
                 _context.Account.Add(nuevaaccount);
@@ -114,7 +126,6 @@ namespace Service.Services
 
                     _context.Account_Balance.Add(nuevoBanco);
                     _context.SaveChanges();
-                    _service.Send_Verification_Email(account.email, account.name, account.surname, nuevaaccount.ver_code);
 
                     return "Registro completado";
                 }
@@ -142,10 +153,6 @@ namespace Service.Services
 
                     _context.Account_Balance.Add(nuevoBanco);
                     _context.SaveChanges();
-
-                    //Hash_ID(account.email); Not working
-
-                    _service.Send_Verification_Email(account.email, account.name, account.surname, nuevaaccount.ver_code);
 
                     return "Registro completado";
                 }
@@ -183,9 +190,25 @@ namespace Service.Services
         }
 
 
-        public string Login(LoginViewModel account)
+        public string Login(LoginViewModel account, IPAddress remoteIpAddress)
         {
             Account? vaccount = _context.Account.FirstOrDefault(x => x.email == account.email && x.password == account.password.GetSHA256());
+
+            var ip = Get_Ip(remoteIpAddress);
+
+            if (ip == "IP address not found")
+            {
+                return "Error al confirmar la IP";
+            }
+
+            if (ip != vaccount.stored_ip)
+            {
+                _service.Suspicious_Login_Email(vaccount.email);
+                vaccount.stored_ip = ip;
+                _context.Account.Update(vaccount);
+                _context.SaveChanges();
+
+            }
 
             if (vaccount == null)
             {
@@ -269,40 +292,38 @@ namespace Service.Services
 
         }
 
-        public async Task<string> CheckLocation(string ipAddress)
+        private string Get_Ip(IPAddress remoteIpAddress)
         {
-            using (var httpClient = new HttpClient())
+            // Confirma si la ip que se tomo en el controller es valida
+            if (remoteIpAddress != null)
             {
-                var response = await httpClient.GetStringAsync($"http://ip-api.com/json/{ipAddress}");
-                var locationInfo = JsonConvert.DeserializeObject<LocationResponse>(response);
+                if (remoteIpAddress.IsIPv4MappedToIPv6)
+                {
+                    remoteIpAddress = remoteIpAddress.MapToIPv4();
+                }
 
-                return $"{locationInfo.City}, {locationInfo.Country}";
+                return remoteIpAddress.ToString();
             }
-        }
 
-        public class LocationResponse
-        {
-            public string City { get; set; }
-            public string Country { get; set; }
+            return ("IP address not found");
         }
 
         private int Generate_id()
         {
+            // Genera un id aleatorio, valida si ya existe una cuenta con el mismo.
             Random rand = new Random();
             int randomInt;
             Account? accountexiste;
 
             do
             {
-                // Generate a new random integer
                 randomInt = rand.Next(1000000000, 2147483647);
 
-                // Check if an account with that ID already exists
                 accountexiste = _context.Account.FirstOrDefault(x => x.id == randomInt);
 
-            } while (accountexiste != null); // Continue generating until the ID is unique
+            } while (accountexiste != null); 
 
-            return randomInt; // Return the unique ID
+            return randomInt;
         }
 
 
