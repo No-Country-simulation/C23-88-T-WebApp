@@ -24,7 +24,8 @@ const [datos,setDatos]=useState(
 const [roles] = useState(["empresa", "usuario"]); // Opciones disponibles
 const [selectedRole, setSelectedRole] = useState(""); // Rol seleccionado
 const [errorMessages, setErrorMessages] = useState([]);
-const [successMessage, setSuccessMessage] = useState("");
+const [successMessage, setSuccessMessage] = useState([]);
+
 const API_URL = import.meta.VITE_API_URL;
 
 const navigate = useNavigate();
@@ -54,8 +55,11 @@ const routes = routess();
 			mode: 'cors',
 			body: JSON.stringify(datos),
 		});
+
+		const textResponse = await response.text();
+		const data = textResponse ? JSON.parse(textResponse) : null; 
 		if(response.ok){
-			const data = await response.json();
+			
 			toast.success("Registro completado!");
 			setDatos({
 				email: "",
@@ -90,8 +94,8 @@ const routes = routess();
 			}
 
 	} catch (error) {
-		console.error('Error en la solicitud:', error);
-		toast.error("Error de conexión con el servidor");
+		console.error('Error:', error.message);
+		setErrorMessages(error.message);
 	}
 
   };
@@ -251,6 +255,7 @@ const routes = routess();
 						   <ToastContainer />
             			</div>
 					</form>
+					<div>
 					{errorMessages.length > 0 && (
                 <div style={{ color: "red" }}>
                     {errorMessages.map((error, index) => (
@@ -258,6 +263,7 @@ const routes = routess();
                     ))}
                 </div>
             )}
+			</div>
 				</div>
 			</div>
 			{/* Columna Derecha: Imagen */}
