@@ -26,7 +26,7 @@ const [selectedRole, setSelectedRole] = useState(""); // Rol seleccionado
 const [errorMessages, setErrorMessages] = useState([]);
 const [successMessage, setSuccessMessage] = useState([]);
 
-const API_URL = import.meta.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 
 const navigate = useNavigate();
 const routes = routess();
@@ -56,7 +56,7 @@ const routes = routess();
 	  });
   
 
-	  const textResponse = await response.json();
+	  const textResponse = await response.text();
 	  console.log("Respuesta del servidor:", textResponse);
   
 	  if (response.ok) {
