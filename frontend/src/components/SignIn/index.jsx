@@ -16,7 +16,9 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [rememberMe, setRememberMe] = useState(false); 
   const [showPassword, setShowPassword] = useState(false);
-  const API_URL = import.meta.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL || import.meta.env.REACT_APP_LOCAL_API_URL;
+  console.log('IMPORTANTO VARIABLE DE ENTORNO',API_URL);  // Esto debería mostrar la URL correcta en la consola
+
 
   const navigate = useNavigate();
   const routes = routess();
@@ -50,7 +52,7 @@ const Login = () => {
 
   const checkUserExists = async (email) => {
     try {
-      const response  = await fetch(`${API_URL}/api/Auth/password-reset/complete}/Account/GetByEmail?email=${encodeURIComponent(email)}`,{
+      const response  = await fetch(`${ API_URL}/Account/GetByEmail?email=${encodeURIComponent(email)}`,{
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -88,7 +90,10 @@ const Login = () => {
       mode: 'cors',
       body: JSON.stringify(credentials),
     })
+
+  
     .then((response) => {
+      console.log('response del auth',response)
       if (!response.ok) {
           return response.json().then((errorData) => {
               throw new Error(errorData.errors?.password?.[0] || 'Error desconocido');
