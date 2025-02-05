@@ -56,5 +56,27 @@ namespace APIBanca.Controllers
             }
             return Ok(acc.role);
         }
+
+        
+        [HttpGet("TestIp")]
+        public ActionResult<string> GetIp()
+        {
+            // Get the remote IP address from the HttpContext
+            var remoteIpAddress = HttpContext.Connection.RemoteIpAddress;
+
+            // Handle IPv4 and IPv6 addresses
+            if (remoteIpAddress != null)
+            {
+                // If the address is IPv6 and it's a loopback address, convert it to IPv4
+                if (remoteIpAddress.IsIPv4MappedToIPv6)
+                {
+                    remoteIpAddress = remoteIpAddress.MapToIPv4();
+                }
+
+                return Ok(remoteIpAddress.ToString());
+            }
+
+            return NotFound("IP address not found");
+        }
     }
 }
