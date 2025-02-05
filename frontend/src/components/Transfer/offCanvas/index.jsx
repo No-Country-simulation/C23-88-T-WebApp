@@ -165,8 +165,10 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 			if (data.message) {
 				console.log("Mensaje:", data.message);
 				toast.success(data.message || "Registro completado!"); // Muestra el mensaje de éxito
+				ClosedModal();
 			}
 			return data;
+
 		} catch (error) {
 			console.log('error de datos')
 		}
@@ -201,6 +203,8 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 					toast.success("Tranferencia exitosa!");
 						setIsAmount(0);
 						setNewUser(null);
+						setName('');
+						setSurname('');
 					} else {
 						toast.error('error en la transferencia', response);
 					}

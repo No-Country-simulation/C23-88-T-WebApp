@@ -7,6 +7,7 @@ const AppProvider =({children})=>{
 
 	const [isAmount, setIsAmount] = useState(0);
 	const [accountId, setAccountId] = useState(null);
+	const [selectedUser, setSelectedUser] = useState(null);
 		const SendTransfer= async(isAmount,selectedUser,accountId)=>{
 			console.log('accountId desde el context',accountId)
 			try {
@@ -39,8 +40,9 @@ const AppProvider =({children})=>{
 						if (response.ok) {
 							const data = await response.json();
 						toast.success("Tranferencia exitosa!");
-						setIsAmount(0);
-						selectedUser(null);
+           				// Limpia los valores
+		   				setIsAmount(0);
+		   				setSelectedUser(null);
 
 						} else {
 							toast.error('error en la transferencia', response);
@@ -53,17 +55,19 @@ const AppProvider =({children})=>{
 		const resetIsAmount = () => setIsAmount(0);
 	
 
-	return(
-		<AppTransferContext.Provider value={{SendTransfer,resetIsAmount,isAmount,accountId}}>
-			<ToastContainer/>
-			{children}
-		</AppTransferContext.Provider>
-	)
-
+		return (
+			<AppTransferContext.Provider value={{ selectedUser, setSelectedUser, isAmount, setIsAmount, accountId, setAccountId, SendTransfer }}>
+				{children}
+			</AppTransferContext.Provider>
+		);
+	};
 	
-}
 export default AppProvider;
 
-export const useAppContext =()=>{
-	return useContext(AppTransferContext)
-}
+export const useAppContext = () => {
+    const context = useContext(AppTransferContext);
+    if (!context) {
+        throw new Error("useAppContext debe usarse dentro de un AppProvider");
+    }
+    return context;
+};
