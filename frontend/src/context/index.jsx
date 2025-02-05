@@ -8,7 +8,7 @@ const AppProvider =({children})=>{
 	const [isAmount, setIsAmount] = useState(0);
 	const [accountId, setAccountId] = useState(null);
 	const [selectedUser, setSelectedUser] = useState(null);
-	const API_URL = import.meta.VITE_API_URL;
+	const API_URL = import.meta.env.VITE_API_URL || import.meta.env.REACT_APP_LOCAL_API_URL;
 
 
 		const SendTransfer= async(isAmount,selectedUser,accountId)=>{

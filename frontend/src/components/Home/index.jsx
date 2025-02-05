@@ -11,7 +11,7 @@ const Home = ()=> {
 	const [errorMessage, setErrorMessage] = useState(null);
 	const [loading, setIsLoading] = useState(true);
 	const [accountId, setAccountId] = useState(null); 
-	const API_URL = import.meta.VITE_API_URL;
+	const API_URL = import.meta.env.VITE_API_URL || import.meta.env.REACT_APP_LOCAL_API_URL;
 
 
 	const storedCredentials = localStorage.getItem('credentials');

@@ -8,7 +8,7 @@ const ForgotMyPassword = () => {
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
   const [redirect, setRedirect] = useState(false);
-  const API_ULR = import.meta.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL || import.meta.env.REACT_APP_LOCAL_API_URL;
 
   const navigate =useNavigate();
   const routes = routess();

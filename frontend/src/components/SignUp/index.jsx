@@ -41,63 +41,61 @@ const routes = routess();
     });
   };
 
-
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("Datos enviados:", datos);
+	e.preventDefault();
+	console.log("Datos enviados:", datos);
+	
 	try {
-		const response = await fetch(`${API_URL}/api/Auth/Registro`,{
-			method: 'POST',
-			headers: {
-			  'Content-Type': 'application/json',
-	  
-			},
-			mode: 'cors',
-			body: JSON.stringify(datos),
+	  const response = await fetch(`${API_URL}/api/Auth/Registro`, {
+		method: 'POST',
+		headers: {
+		  'Content-Type': 'application/json',
+		},
+		mode: 'cors',
+		body: JSON.stringify(datos),
+	  });
+  
+
+	  const textResponse = await response.json();
+	  console.log("Respuesta del servidor:", textResponse);
+  
+	  if (response.ok) {
+		toast.success("Registro completado!");
+		setDatos({
+		  email: "",
+		  password: "",
+		  name: "",
+		  surname: "",
+		  phone: "",
+		  role: "",
+		  address: "",
+		  iden: ""
 		});
 
-		const textResponse = await response.text();
-		const data = textResponse ? JSON.parse(textResponse) : null; 
-		if(response.ok){
-			
-			toast.success("Registro completado!");
-			setDatos({
-				email: "",
-				password: "",
-				name: "",
-				surname: "",
-				phone: "",
-				role: "",
-				address: "",
-				iden: ""
-			  });
-			console.log("Respuesta recibida:", data);
-			if (data.message) {
-				console.log("Mensaje:", data.message);
-				toast.success(data.message || "Registro completado!"); // Muestra el mensaje de éxito
-			  }
-			return data;
-			
-		}else {
-			
-			const errorData = await response.json();
-
-			  if (errorData.error) {
-				toast.error(errorData.error);
-			  } else if (errorData.errors) {
-				Object.values(errorData.errors).flat().forEach(err => {
-					toast.error(err); 
-				});
-			  } else {
-				setErrorMessages(["Ocurrió un error inesperado."]);
-			  }
-			}
-
+		if (textResponse.message) {
+		  console.log("Mensaje:", textResponse.message);
+		  toast.success(textResponse.message || "Registro completado!"); 
+		}
+  
+	  } else {
+	
+		if (textResponse.error) {
+		  toast.error(textResponse.error);
+		} else if (textResponse.errors) {
+		 
+		  Object.values(textResponse.errors).flat().forEach(err => {
+			toast.error(err); 
+		  });
+		} else {
+		  toast.error("Ocurrió un error inesperado.");
+		}
+	  }
+  
 	} catch (error) {
-		console.error('Error:', error.message);
-		setErrorMessages(error.message);
+	  console.error('Error:', error.message);
+	  setErrorMessages([error.message]); 
+	  toast.error("Error en la conexión o en el envío de los datos.");
 	}
-
   };
   
   const closed = () => {

@@ -12,7 +12,7 @@ const MoveHistory =()=>{
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages]= useState(1)
 	const storedCredentials = localStorage.getItem('credentials');
-	const API_URL = import.meta.VITE_API_URL;
+	const API_URL = import.meta.env.VITE_API_URL || import.meta.env.REACT_APP_LOCAL_API_URL;
 	
 		useEffect(() => {
 			// Si las credenciales existen, obtenemos el email
