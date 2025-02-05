@@ -239,14 +239,18 @@ const routes = routess();
 						 <div className="flex flex-col lg:flex-row items-center text-sm lg:my-3">
 						 <button
               				type="submit"
-              				className="bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500  sm:w-ful mx-50 sm:px-20"
-            			>
+							  className={`py-2 rounded-lg sm:w-ful mx-50 sm:px-20 ${
+								datos.role
+									? "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500"
+									: "bg-gray-400 text-gray-100 cursor-not-allowed"
+							}`}
+							disabled={!datos.role}>
               				Registrase
            				</button>
 						   <button
               				type="button"
 							onClick={closed}
-              				className="bg-gray-400 text-white mx-3 py-2 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500  sm:w-ful mx-50 sm:px-20"
+              				className="bg-gray-700 text-white mx-3 py-2 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500  sm:w-ful mx-50 sm:px-20"
             			>
               				Volver
            				</button>
