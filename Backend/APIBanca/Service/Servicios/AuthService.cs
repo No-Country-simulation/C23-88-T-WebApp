@@ -77,8 +77,9 @@ namespace Service.Services
             // Trae la Ip y revisa su valides
             var ip = Get_Ip(remoteIpAddress);
 
-            if (ip == "IP address not found") {
-                return "Error al confirmar la IP";
+            if (ip == "Error al validar IP")
+            {
+                return ip;
             }
 
 
@@ -196,9 +197,9 @@ namespace Service.Services
 
             var ip = Get_Ip(remoteIpAddress);
 
-            if (ip == "IP address not found")
+            if (ip == "Error al validar IP")
             {
-                return "Error al confirmar la IP";
+                return ip;
             }
 
             if (ip != vaccount.stored_ip)
@@ -305,7 +306,7 @@ namespace Service.Services
                 return remoteIpAddress.ToString();
             }
 
-            return ("IP address not found");
+            return ("Error al validar IP");
         }
 
         private int Generate_id()
