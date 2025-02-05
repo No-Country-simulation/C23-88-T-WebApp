@@ -16,7 +16,7 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [rememberMe, setRememberMe] = useState(false); 
   const [showPassword, setShowPassword] = useState(false);
-  const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = import.meta.VITE_API_URL;
 
   const navigate = useNavigate();
   const routes = routess();

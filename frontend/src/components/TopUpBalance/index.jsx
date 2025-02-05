@@ -13,8 +13,7 @@ const TopUpBalance = () => {
 	const [userData, setUserData] = useState(null);
 	const [accountId, setAccountId] = useState(null);
 	const [erromessages, setErrorMessages] =([]);
-	const API_URL = process.env.REACT_APP_API_URL;
-
+	const API_URL = import.meta.VITE_API_URL;
 
 	const storedCredentials = localStorage.getItem('credentials');
 		
