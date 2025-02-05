@@ -14,7 +14,7 @@ const ScheduleUsers = ({ openIndex }) => {
   const [errorMessages, setErrorMessages] = useState("");
   const storedCredentials = localStorage.getItem("credentials");
   const {SendTransfer} = useAppContext();
-  const API_URL = import.meta.env.VITE_API_URL || import.meta.env.REACT_APP_LOCAL_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL_DEV;
 
 
 	const handleinputAmount = (e)=>{
@@ -37,7 +37,7 @@ const ScheduleUsers = ({ openIndex }) => {
   const getUser = async (email) => {
     try {
       const response = await fetch(
-        `${API_URL}Account/GetByEmail?email=${email}`
+        `${API_URL}/Account/GetByEmail?email=${email}`
       );
       if (!response.ok) {
         throw new Error(
