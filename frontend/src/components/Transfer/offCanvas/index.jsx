@@ -18,6 +18,7 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 	const [isOpen, setIsOpen] = useState(false); 
 	const [errorMessages, setErrorMessages] = useState([]);
 	const [successMessage, setSuccessMessage] = useState("");
+	const API_URL = process.env.REACT_APP_API_URL;
 
 	const handleData = (e) => {
 		e.preventDefault();
@@ -52,7 +53,7 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 	  
 		  console.log("Buscando usuario con ID:", userId);
 	  
-		  const response = await fetch(`http://localhost:5101/Balance/GetById?id=${userId}`, {
+		  const response = await fetch(`${API_URL}/Balance/GetById?id=${userId}`, {
 			method: 'GET',
 			headers: {
 			  'Content-Type': 'application/json',
@@ -123,7 +124,7 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 		
 		const getUser = async (email) => {
 			try {
-				const response = await fetch(`http://localhost:5101/Account/GetByEmail?email=${email}`);
+				const response = await fetch(`${API_URL}/Account/GetByEmail?email=${email}`);
 				if (!response.ok) {
 					throw new Error("Error al obtener los datos del usuario. Cuenta no encontrada.");
 				}
@@ -145,7 +146,7 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 		const userId = newUser.trim();
 		console.log('click para guardar')
 		try {
-			const response = await fetch(`http://localhost:5101/api/Contacts/AddContact?currentUserId=${accountId}&identifier=${userId}`,{
+			const response = await fetch(`${API_URL}/api/Contacts/AddContact?currentUserId=${accountId}&identifier=${userId}`,{
 				method:'POST',
 				headers:{
 				'Content-Type': 'application/json',
@@ -184,7 +185,7 @@ const OffCanvas =({isOffCanvas, ClosedOffCanvas })=>{
 				return;
 
 			}
-				const response = await fetch(`http://localhost:5101/Balance/Transaction`, {
+				const response = await fetch(`${API_URL}/Balance/Transaction`, {
 					method: 'PUT',
 						headers: {
 							'Content-Type': 'application/json',

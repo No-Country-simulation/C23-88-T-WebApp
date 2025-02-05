@@ -25,6 +25,7 @@ const [roles] = useState(["empresa", "usuario"]); // Opciones disponibles
 const [selectedRole, setSelectedRole] = useState(""); // Rol seleccionado
 const [errorMessages, setErrorMessages] = useState([]);
 const [successMessage, setSuccessMessage] = useState("");
+const API_URL = process.env.REACT_APP_API_URL;
 
 const navigate = useNavigate();
 const routes = routess();
@@ -44,7 +45,7 @@ const routes = routess();
     e.preventDefault();
     console.log("Datos enviados:", datos);
 	try {
-		const response = await fetch(`http://localhost:5101/api/Auth/Registro`,{
+		const response = await fetch(`${API_URL}/api/Auth/Registro`,{
 			method: 'POST',
 			headers: {
 			  'Content-Type': 'application/json',

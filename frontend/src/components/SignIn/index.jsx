@@ -16,6 +16,7 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [rememberMe, setRememberMe] = useState(false); 
   const [showPassword, setShowPassword] = useState(false);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   const navigate = useNavigate();
   const routes = routess();
@@ -49,7 +50,7 @@ const Login = () => {
 
   const checkUserExists = async (email) => {
     try {
-      const response  = await fetch(`http://localhost:5101/Account/GetByEmail?email=${encodeURIComponent(email)}`,{
+      const response  = await fetch(`${API_URL}/api/Auth/password-reset/complete}/Account/GetByEmail?email=${encodeURIComponent(email)}`,{
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -78,7 +79,7 @@ const Login = () => {
       saveCredentials(); 
     }
 	  if (validateForm()) {
-    fetch('http://localhost:5101/api/Auth/login', {
+    fetch(`${API_URL}/api/Auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

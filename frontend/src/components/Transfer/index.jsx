@@ -4,7 +4,7 @@ import SideBar from "../SideBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAddressBook } from "@fortawesome/free-solid-svg-icons";
 import { faUsers } from "@fortawesome/free-solid-svg-icons";
-import OffCanvas from "./offCanvas";
+import OffCanvas from "./OffCanvas";
 import ScheduleUsers from "./According";
 import AppProvider from '../../context';
 

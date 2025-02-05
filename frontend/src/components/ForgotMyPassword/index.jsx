@@ -8,6 +8,7 @@ const ForgotMyPassword = () => {
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
   const [redirect, setRedirect] = useState(false);
+  const API_ULR = Process.env.REACT_APP_API_URL;
 
   const navigate =useNavigate();
   const routes = routess();
@@ -50,7 +51,7 @@ const ForgotMyPassword = () => {
 
     try {
       
-      const response = await fetch('http://localhost:5101/api/Auth/reset-password',{
+      const response = await fetch(`${API_ULR}/api/Auth/reset-password`,{
         method:'POST',
         headers:{
           'Content-Type':'application/json',

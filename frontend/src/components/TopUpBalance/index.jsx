@@ -13,6 +13,7 @@ const TopUpBalance = () => {
 	const [userData, setUserData] = useState(null);
 	const [accountId, setAccountId] = useState(null);
 	const [erromessages, setErrorMessages] =([]);
+	const API_URL = process.env.REACT_APP_API_URL;
 
 
 	const storedCredentials = localStorage.getItem('credentials');
@@ -28,7 +29,7 @@ const TopUpBalance = () => {
 	
 	const getUser = async (email) => {
 		try {
-			const response = await fetch(`http://localhost:5101/Account/GetByEmail?email=${email}`);
+			const response = await fetch(`${API_URL}/Account/GetByEmail?email=${email}`);
 			if (!response.ok) {
 				throw new Error("Error al obtener los datos del usuario. Cuenta no encontrada.");
 			}
@@ -53,7 +54,7 @@ const TopUpBalance = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		const response = await fetch(`http://localhost:5101/Balance/AddBalance`, {
+		const response = await fetch(`${API_URL}/Balance/AddBalance`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',

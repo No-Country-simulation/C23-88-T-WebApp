@@ -12,6 +12,7 @@ const MoveHistory =()=>{
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages]= useState(1)
 	const storedCredentials = localStorage.getItem('credentials');
+	const API_URL = process.env.REACT_APP_API_URL;
 	
 		useEffect(() => {
 			// Si las credenciales existen, obtenemos el email
@@ -30,7 +31,7 @@ const MoveHistory =()=>{
 
 const getUser = async (email) => {
 	try {
-		const response = await fetch(`http://localhost:5101/Account/GetByEmail?email=${email}`);
+		const response = await fetch(`${API_URL}/Account/GetByEmail?email=${email}`);
 		if (!response.ok) {
 			throw new Error("Error al obtener los datos del usuario. Cuenta no encontrada.");
 		}
@@ -57,7 +58,7 @@ const getHistory = async (accountId, page = 1) => {
         const offset = (page - 1) * limit;
 
         const response = await fetch(
-            `http://localhost:5101/Balance/GetHistory?Id=${accountId}&limit=${limit}&offset=${offset}`, 
+            `${API_URL}/Balance/GetHistory?Id=${accountId}&limit=${limit}&offset=${offset}`, 
             {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },

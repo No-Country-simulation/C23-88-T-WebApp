@@ -8,6 +8,9 @@ const AppProvider =({children})=>{
 	const [isAmount, setIsAmount] = useState(0);
 	const [accountId, setAccountId] = useState(null);
 	const [selectedUser, setSelectedUser] = useState(null);
+	const API_URL = process.env.REACT_APP_API_URL;
+
+
 		const SendTransfer= async(isAmount,selectedUser,accountId)=>{
 			console.log('accountId desde el context',accountId)
 			try {
@@ -23,7 +26,7 @@ const AppProvider =({children})=>{
 					return;
 				  }
 			  
-					const response = await fetch(`http://localhost:5101/Balance/Transaction`, {
+					const response = await fetch(`${API_URL}/Balance/Transaction`, {
 						method: 'PUT',
 							headers: {
 								'Content-Type': 'application/json',
@@ -56,7 +59,7 @@ const AppProvider =({children})=>{
 	
 
 		return (
-			<AppTransferContext.Provider value={{ selectedUser, setSelectedUser, isAmount, setIsAmount, accountId, setAccountId, SendTransfer }}>
+			<AppTransferContext.Provider value={{ selectedUser, setSelectedUser,resetIsAmount, isAmount, setIsAmount, accountId, setAccountId, SendTransfer }}>
 				{children}
 			</AppTransferContext.Provider>
 		);

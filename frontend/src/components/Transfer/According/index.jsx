@@ -14,7 +14,7 @@ const ScheduleUsers = ({ openIndex }) => {
   const [errorMessages, setErrorMessages] = useState("");
   const storedCredentials = localStorage.getItem("credentials");
   const {SendTransfer} = useAppContext();
-
+ const API_URL = process.env.REACT_APP_API_URL;
 
 
 	const handleinputAmount = (e)=>{
@@ -37,7 +37,7 @@ const ScheduleUsers = ({ openIndex }) => {
   const getUser = async (email) => {
     try {
       const response = await fetch(
-        `http://localhost:5101/Account/GetByEmail?email=${email}`
+        `${API_URL}Account/GetByEmail?email=${email}`
       );
       if (!response.ok) {
         throw new Error(
@@ -57,7 +57,7 @@ const ScheduleUsers = ({ openIndex }) => {
       if (!accountId) return;
 
       const response = await fetch(
-        `http://localhost:5101/api/Contacts/GetContactList?id=${accountId}`,
+        `${API_URL}/api/Contacts/GetContactList?id=${accountId}`,
         {
           method: "GET",
           headers: {

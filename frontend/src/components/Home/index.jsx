@@ -11,7 +11,7 @@ const Home = ()=> {
 	const [errorMessage, setErrorMessage] = useState(null);
 	const [loading, setIsLoading] = useState(true);
 	const [accountId, setAccountId] = useState(null); 
-
+	const API_URL = process.env.REACT_APP_API_URL;
 	const storedCredentials = localStorage.getItem('credentials');
 	
 	useEffect(() => {
@@ -30,7 +30,7 @@ const Home = ()=> {
 	  // Función para obtener el nombre del usuario desde la API
 	  const fetchUser = async (email) => {
 		try {
-		  const response = await fetch(`http://localhost:5101/Account/GetByEmail?email=${email}`);
+		  const response = await fetch(`${API_URL}/Account/GetByEmail?email=${email}`);
 			
 		  if (!response.ok) {
 			throw new Error("Error al obtener los datos del usuario. Cuenta no encontrada.");
@@ -71,7 +71,7 @@ const Home = ()=> {
 		  }
 		
 		try {
-		  const response = await fetch(`http://localhost:5101/Balance/GetBalancebyAccountId?Id=${accountId}`);
+		  const response = await fetch(`${API_URL}/Balance/GetBalancebyAccountId?Id=${accountId}`);
 		  console.log('viendo la url',response)
 		  if (!response.ok) {
 			throw new Error("Error al obtener el saldo. Cuenta no encontrada.");

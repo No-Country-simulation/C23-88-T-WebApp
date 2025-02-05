@@ -18,6 +18,7 @@ const ResetPassword =()=>{
     const [errorMessage, setErrorMessage] = useState(null);
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
+	const API_URL = process.env.REACT_APP_API_URL;
 
 	const navigate = useNavigate;
 	const routes =routess();
@@ -68,7 +69,7 @@ const ResetPassword =()=>{
 			return;
 		}
 		try {
-			const response = await fetch("http://localhost:5101/api/Auth/password-reset/complete", {
+			const response = await fetch(`${API_URL}/api/Auth/password-reset/complete`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
