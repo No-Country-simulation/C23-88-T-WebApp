@@ -56,7 +56,7 @@ const routes = routess();
 	  });
   
 
-	  const textResponse = await response.text();
+	  const textResponse = await response.json();
 	  console.log("Respuesta del servidor:", textResponse);
   
 	  if (response.ok) {
@@ -72,22 +72,18 @@ const routes = routess();
 		  iden: ""
 		});
 
-		if (textResponse.message) {
-		  console.log("Mensaje:", textResponse.message);
-		  toast.success(textResponse.message || "Registro completado!"); 
-		}
   
 	  } else {
 	
-		if (textResponse.error) {
-		  toast.error(textResponse.error);
-		} else if (textResponse.errors) {
-		 
-		  Object.values(textResponse.errors).flat().forEach(err => {
-			toast.error(err); 
-		  });
+		const errorData = await response.json();
+			if (errorData.error) {
+				toast.error(errorData.error);
+				} else if (errorData.errors) {
+					Object.values(errorData.errors).flat().forEach(err => {
+					toast.error(err); 
+				});
 		} else {
-		  toast.error("Ocurrió un error inesperado.");
+			setErrorMessages(["Ocurrió un error inesperado."]);
 		}
 	  }
   

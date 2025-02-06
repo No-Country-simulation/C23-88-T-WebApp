@@ -82,10 +82,13 @@ const ResetPassword =()=>{
 				const result = await response.json();
 				console.log("Resultado:", result);
 				toast.success("Contraseña restablecida exitosamente");
+				setNePassword('');
+				setConfirmPassword('')
 				setTimeout(() => {
 
 					navigate(routes.LOGIN);
 				}, 2000);
+
 			} else {
 				const errorData = await response.json();
 				console.warn("Error:", errorData);
