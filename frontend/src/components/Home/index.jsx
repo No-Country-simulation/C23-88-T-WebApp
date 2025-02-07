@@ -24,8 +24,6 @@ const Home = ()=> {
 		  const { email } = credentials; 
 		  setIsLoading(true);
 			fetchUser(email); 	  
-
-
 		}
 	  }, [storedCredentials]);
 	

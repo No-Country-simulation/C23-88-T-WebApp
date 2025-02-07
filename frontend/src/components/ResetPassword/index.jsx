@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import logo from "../../assets/logobanco.webp";
@@ -12,16 +12,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ResetPassword =()=>{
 
-  const [email, setEmail] = useState("");
-  const [code,setCode] =useState("");
-  const [newPassword,setNePassword]=useState("");
-    const [errorMessage, setErrorMessage] = useState(null);
+  	const [email, setEmail] = useState("");
+  	const [code,setCode] =useState("");
+  	const [newPassword,setNePassword]=useState("");
+  	const [errorMessage, setErrorMessage] = useState(null);
+  	const [loading, setIsLoading] = useState(true);
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
+	const [redirect, setRedirect] = useState(false);
 	const API_URL = import.meta.env.VITE_API_URL;
 
 	
-	const navigate = useNavigate;
+	const navigate = useNavigate();
 	const routes =routess();
 
   const handleInputEmail =(e)=>{
@@ -84,10 +86,9 @@ const ResetPassword =()=>{
 				toast.success("Contraseña restablecida exitosamente");
 				setNePassword('');
 				setConfirmPassword('')
-				setTimeout(() => {
-
-					navigate(routes.LOGIN);
-				}, 2000);
+				setCode('');
+				setRedirect(true);
+				setIsLoading(true)
 
 			} else {
 				const errorData = await response.json();
@@ -97,8 +98,19 @@ const ResetPassword =()=>{
 		} catch (error) {
 			console.error("Error en la solicitud:", error.message);
 			toast.error("No se pudo conectar al servidor");
+			setIsLoading(false);
 		}
 	};
+
+	  useEffect(() => {
+		if (redirect) {
+		  const timer = setTimeout(() => {
+			navigate(routes.LOGIN); 
+		  }, 2000);
+		  return () => clearTimeout(timer); 
+		}
+	  }, [redirect, navigate, routes.LOGIN]);
+	
 	
 
 	return(

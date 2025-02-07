@@ -38,7 +38,7 @@ const ForgotMyPassword = () => {
 
       return () => clearTimeout(timer); 
     }
-  }, [redirect, navigate]);
+  }, [redirect, navigate, routes.RESETMYPASSWORD]);
 
     
 
