@@ -16,8 +16,14 @@ Este proyecto tiene como objetivo desarrollar una aplicación de banca digital, 
 1. `npm install` para instalar las dependencias.
 2. `npm run dev` para iniciar el servidor en localhost:5173.
 
+## Integrantes: 
+
+ TL: Judith Álvarez Rubio
+ QA: Carolina Moreno
+ Frontend: Mayerlin Becerra Dos Santos
+ Backend: Matias Ruiz
+ Backend: Ignacio Fernandez
 
 # C23-88-T-WebApp
 Banca digital con React y .Net C# Test
 
-### 89fe952bee40a5e815f9e47b5ae6c486a0ca9297
