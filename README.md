@@ -18,11 +18,11 @@ Este proyecto tiene como objetivo desarrollar una aplicación de banca digital, 
 
 ## Integrantes: 
 
- TL: Judith Álvarez Rubio
- QA: Carolina Moreno
- Frontend: Mayerlin Becerra Dos Santos
- Backend: Matias Ruiz
- Backend: Ignacio Fernandez
+ - TL: Judith Álvarez Rubio
+ - QA: Carolina Moreno
+ - Frontend: Mayerlin Becerra Dos Santos
+ - Backend: Matias Ruiz
+ - Backend: Ignacio Fernandez
 
 # C23-88-T-WebApp
 Banca digital con React y .Net C# Test
